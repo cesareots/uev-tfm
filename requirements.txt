@@ -1,0 +1,15 @@
+#Python 3.12.9
+#python -m pip install --upgrade pip
+#python -m pip install --upgrade setuptools
+#python -m pip install --upgrade wheel
+#pip install -r requirements.txt
+
+ipykernel==6.29.5
+ipywidgets==8.1.7
+ipython==9.0.2
+IProgress==0.4
+python-dotenv==1.1.0
+ultralytics==8.3.129
+SoccerNet==0.1.62
+opencv-python==4.11.0.86
+moviepy==2.1.2
