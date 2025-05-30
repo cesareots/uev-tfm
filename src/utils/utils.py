@@ -1,4 +1,5 @@
 import argparse
+import csv
 import json
 import logging
 import sys
@@ -227,3 +228,44 @@ def extraer_claves_ordenadas(diccionario: dict) -> list:
         list: Lista de claves ordenadas según sus valores.
     """
     return [clave for clave, _ in sorted(diccionario.items(), key=lambda item: item[1])]
+
+
+def obtener_numeros(rango):
+    """Devuelve una lista con todos los números enteros entre los dos valores"""
+    inicio, fin = rango
+
+    return list(range(inicio, fin + 1))
+
+
+def escribir_csv(
+        nombre_archivo: str,
+        index,
+        game,
+) -> None:
+    """
+    Escribe un registro (index, game) en un archivo CSV.
+
+    Si el archivo no existe, lo crea con la cabecera 'index,game'.
+    Si el archivo existe, agrega el registro en una nueva línea.
+
+    Args:
+        nombre_archivo (str): La ruta y nombre del archivo CSV.
+        index (str o int): El valor para la columna 'index'.
+        game (str): El valor para la columna 'game'.
+    """
+    cabecera = ['index', 'game']
+
+    # Comprueba si el archivo existe
+    archivo_existe = os.path.exists(nombre_archivo)
+
+    # modo append ('a') para añadir.
+    # newline='' para evitar líneas en blanco extra en CSV.
+    with open(nombre_archivo, mode='a', newline='', encoding='utf-8') as archivo_csv:
+        escritor_csv = csv.writer(archivo_csv)
+
+        # Si el archivo no existe, escribe la cabecera
+        if not archivo_existe:
+            escritor_csv.writerow(cabecera)
+
+        # Escribe el registro actual
+        escritor_csv.writerow([index, game])

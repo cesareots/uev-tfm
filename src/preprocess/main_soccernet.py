@@ -1,9 +1,9 @@
-import time
 import argparse
 import glob
 import json
 import logging
 import sys
+import time
 
 from SoccerNet.Downloader import SoccerNetDownloader
 from SoccerNet.utils import getListGames
@@ -15,46 +15,64 @@ from src.utils.constants import *
 logger = logging.getLogger(__name__)
 downloader = SoccerNetDownloader(LocalDirectory=DS_SOCCERNET_RAW)
 downloader.password = SOCCERNET_PASSWORD
-
-FILE_VIDEO_224p = ["1_224p.mkv", "2_224p.mkv"]
-FILE_VIDEO_720p = ["1_720p.mkv", "2_720p.mkv"]
-file_labels = ["Labels.json", "Labels-v2.json", "Labels-cameras.json", "Labels-v3.json"]
-
 ACCIONES_RECORTAR = ut.extraer_claves_ordenadas(SOCCERNET_LABELS)
 
-FILES = [
-    # acciones detectadas
-    file_labels[0],
-    file_labels[1],
-    file_labels[2],
+PARTIDOS_INDICE_LOTE_old = [
+    [0, 9],
+    [10, 19],
+    [20, 29],
+    [30, 39],
+    [40, 49],
+    [50, 59],
+    [60, 69],
+    [70, 78],
+    [79, 79],  # da error por el codec del audio
+    [80, 89],
+    [90, 99],
 
-    # video 224 pixeles de alto, primer y segundo tiempo de cada partido
-    FILE_VIDEO_224p[0],
-    FILE_VIDEO_224p[1],
+    [100, 109],
+    [110, 119],
+    [120, 129],
+    [130, 139],
+    [140, 149],
+    [150, 159],
+    [160, 169],
+    [170, 179],
+    [180, 189],
+    [190, 199],
 
-    # video 720 pixeles de alto
-    FILE_VIDEO_720p[0],
-    FILE_VIDEO_720p[1],
+    [200, 209],
+    [210, 219],
+    [220, 229],
+    [230, 239],
+    [240, 249],
+    [250, 259],
+    [260, 269],
+    [270, 279],
+    [280, 289],
+    [290, 299],
 
-    # video - Low Quality
-    # "1.mkv",
-    # "2.mkv",
+    [300, 309],
+    [310, 319],
+    [320, 329],
+    [330, 339],
+    [340, 349],
+    [350, 359],
+    [360, 369],
+    [370, 379],
+    [380, 389],
+    [390, 399],
 
-    # video - High Quality, falta algun tipo de permiso (HTTP Error 401: Unauthorized)
-    # "1_HQ.mkv",
-    # "2_HQ.mkv",
-    # "video.ini",
-
-    # version 3
-    # "Frames-v3.zip",
-    # file_labels[3],
-]
-
-SPLIT = [
-    "train",
-    "valid",
-    "test",
-    # "challenge",  # dataset de retos para nuevos releases
+    [400, 409],
+    [410, 419],
+    [420, 429],
+    [430, 439],
+    [440, 449],
+    [450, 459],
+    [460, 469],
+    [470, 479],
+    [480, 489],
+    [490, 499],
 ]
 
 
@@ -231,12 +249,20 @@ def cut_video_segments_by_label(
             # Definir el nombre y ruta del archivo de salida
             base_filename = os.path.splitext(video_filename)[0]  # Nombre del archivo original sin extensión
             base_filename = base_filename.split("_")[1]
-            #base_filename = f"{base_filename}_{directory.replace("/", "_").replace("\\", "_")}"
+            # base_filename = f"{base_filename}_{directory.replace("/", "_").replace("\\", "_")}"
             output_filename = f"{label_for_clip}_{segment_index:04d}_{base_filename}_{game_time_str.replace(' - ', '_').replace(':', '')}.mkv"
             output_path = os.path.join(output_dir, output_filename)
 
             # Especificamos el codec para MKV, libx264 es común
-            subclip.write_videofile(output_path, codec='libx264', audio_codec='aac')
+            subclip.write_videofile(
+                output_path,
+                codec="libx264",
+                # algunos videos de soccernet tienen 'errores' en la codificacion del audio (ejemplo game_id=79), y sinceramente no estamos analizando audio, solo necesitamos los frames
+                audio=False,
+                # audio_codec="aac",
+                # audio_codec="libvorbis",
+                # write_logfile=True,
+            )
 
             logger.info(f"Segmento guardado exitosamente en: '{output_path}'")
             saved_clip_paths.append(output_path)
@@ -252,74 +278,72 @@ def cut_video_segments_by_label(
     return saved_clip_paths
 
 
-def download_files(
-        list_games: list,
-        cantidad: int = 1,
-) -> None:
-    ut.write_soccernet_games_in_txt(list_games, os.path.join(SOCCERNET_RESULTS, "SoccerNet_list_games.txt"))
-
-    for i in range(cantidad):
-        # logger.info(f"Identificando partido: {i + 1}")
-        # 'downloadGame' solo crea el directorio del 'game' actual
-        downloader.downloadGame(game=list_games[i], files=FILES)
-
-
-def download_files_by_index(
-        list_games: list,
-        partidos_seleccionados: list = [0],
-) -> None:
-    ut.write_soccernet_games_in_txt(list_games, os.path.join(SOCCERNET_RESULTS, "SoccerNet_list_games.txt"))
-    result_list = [list_games[index] for index in partidos_seleccionados]
-    # TODO crear un .csv a partir de 'result_list', headers [index, game], y guardarlo en local
-    ut.write_soccernet_games_in_txt(result_list, os.path.join(SOCCERNET_RESULTS, "SoccerNet_list_games_downloaded_by_index.txt"))
-
-    for game in result_list:
-        # 'downloadGame' solo crea el directorio del 'game' actual
-        downloader.downloadGame(game=game, files=FILES)
-
-
-def cut_video_loop(
-        games: list,
-        videos: list,
-        # actions: list,
-) -> None:
-    # recorro todos los directorios
-    for game in games:
-        #time.sleep(4.0)
-        for video in videos:
-            # for action in actions:
-            saved_clips = cut_video_segments_by_label(
-                directory=os.path.join(DS_SOCCERNET_RAW, str(game).replace('\\', '/')),
-                video_filename=video,
-                json_filename=file_labels[1],
-                # label_to_find=action,
-                mas_menos=1.5,
-            )
-
-
 def main(args) -> None:
-    list_games = getListGames(split=SPLIT)
+    # configurando descarga de SoccerNet
+    file_video = ["1_720p.mkv", "2_720p.mkv"] if args.calidad_video == "720p" else ["1_224p.mkv", "2_224p.mkv"]
+    file_label = ["Labels.json", "Labels-v2.json", "Labels-cameras.json", "Labels-v3.json"]
+    list_games = getListGames(
+        split=[
+            "train",
+            "valid",
+            "test",
+            # "challenge",  # dataset de retos para nuevos releases
+        ]
+    )
+    result_list = [list_games[index] for index in args.partidos_indice]
+
+    files = [
+        file_label[1],
+        file_video[0],
+        file_video[1],
+    ]
+
+    ut.write_soccernet_games_in_txt(
+        list_games,
+        os.path.join(SOCCERNET_RESULTS, "SoccerNet_list_games.txt"),
+    )
+    ut.write_soccernet_games_in_txt(
+        result_list,
+        os.path.join(SOCCERNET_RESULTS, f"SoccerNet_list_games_requested_{time.time()}.txt"),
+    )
 
     if args.omitir_descarga == 0:
         t_start = time.time()
-        
-        if args.partidos_cantidad > 0:
-            download_files(list_games, args.partidos_cantidad)
-        else:
-            download_files_by_index(list_games, args.partidos_indice)
-        
+
+        for game in result_list:
+            # 'downloadGame' solo crea el directorio del 'game' actual
+            downloader.downloadGame(game=game, files=files)
+
         ut.get_time_employed(t_start, "Descarga de archivos desde SoccerNet.")
 
     if args.omitir_recorte == 0:
         t_start = time.time()
-        result_list = [list_games[index] for index in args.partidos_indice]
-        
-        if args.calidad_video == "224p":
-            cut_video_loop(result_list, FILE_VIDEO_224p)
-        elif args.calidad_video == "720p":
-            cut_video_loop(result_list, FILE_VIDEO_720p)
-        
-        ut.get_time_employed(t_start, "Recorte de acciones etiquetadas en los partidos (crudos) de SoccerNet.")
+
+        for game in result_list:
+            # time.sleep(4.0)
+            for video in file_video:
+                # for action in actions:
+                saved_clips = cut_video_segments_by_label(
+                    directory=os.path.join(DS_SOCCERNET_RAW, str(game).replace('\\', '/')),
+                    video_filename=video,
+                    json_filename=file_label[1],
+                    # label_to_find=action,
+                    mas_menos=1.5,
+                )
+
+        ut.get_time_employed(t_start, "Generación de videoclips por cada acción.")
+
+    # crear archivos csv para EDA
+    for indice in args.partidos_indice:
+        if 0 <= indice < len(list_games):
+            nombre_juego = list_games[indice]
+            ut.escribir_csv(
+                nombre_archivo=os.path.join(SOCCERNET_RESULTS, "games.csv"),
+                index=indice,
+                game=nombre_juego,
+            )
+        else:
+            logger.error(f"El índice {indice} está fuera del rango [0 - 499].")
 
 
 def parse_arguments():
@@ -327,16 +351,14 @@ def parse_arguments():
         description="Descargar archivos de SoccerNet y recortar acciones etiquetadas.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
-    parser.add_argument("--omitir_descarga", default=0, type=int, choices=[0, 1],
-                        help="Omite el proceso de descarga en SoccerNet. 0: apagado, 1: prendido.")
-    parser.add_argument("--partidos_cantidad", default=0, type=ut.non_negative_int,
-                        help="Descarga los primeros N partidos, valor entero entre 0 y 500.")
     parser.add_argument("--partidos_indice", default=[0], type=ut.non_negative_int, nargs="+",
                         help="Índice de cada partido que desea descargar, valores enteros entre 0 y 500.")
+    parser.add_argument("--calidad_video", default="224p", type=str, choices=["224p", "720p"],
+                        help="Tamaño del video a utilizar.")
+    parser.add_argument("--omitir_descarga", default=0, type=int, choices=[0, 1],
+                        help="Omite el proceso de descarga en SoccerNet. 0: apagado, 1: prendido.")
     parser.add_argument("--omitir_recorte", default=0, type=int, choices=[0, 1],
                         help="Omite el proceso de recortar las acciones en los videos de SoccerNet. 0: apagado, 1: prendido.")
-    parser.add_argument("--calidad_video", default="224p", type=str, choices=["224p", "720p"],
-                        help="Tamaño del video que se utilizará para recortar las acciones.")
 
     return parser.parse_args()
 
@@ -347,14 +369,11 @@ if __name__ == "__main__":
     else:
         # Valores por defecto si no se proporcionan argumentos desde la línea de comandos
         class Args:
-            omitir_descarga = 1
-            partidos_cantidad = 0
-            partidos_indice = PARTIDOS_INDICE_LOTE_1
-            #partidos_indice = PARTIDOS_INDICE_LOTE_2
-            #partidos_indice = PARTIDOS_INDICE_LOTE_3
-            omitir_recorte = 0
-            #calidad_video = "224p"
+            partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[0])
+            # calidad_video = "224p"
             calidad_video = "720p"
+            omitir_descarga = 0
+            omitir_recorte = 0
 
 
         args = Args()

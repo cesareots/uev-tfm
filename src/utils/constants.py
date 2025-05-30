@@ -9,38 +9,23 @@ RESULTS = "results/"
 
 # soccernet
 SOCCERNET_PASSWORD = os.getenv("SOCCERNET_PASSWORD")
-SOCCERNET_LABELS = {  # TODO que acciones utilizaré? (preprocesamiento)
+SOCCERNET_LABELS = {
     "Goal": 0,
     "Yellow card": 1,
-    "Shots on target": 2,
+    "Substitution": 2,
+    "Corner": 3,
 }
-# no tomo en cuenta el split que hace soccernet, simplemente descargo la misma cantidad de partidos por [liga-temporada]
-PARTIDOS_INDICE_LOTE_1 = [
-    0, 1, 2, 3,  # england_epl/2014-2015/
-    4, 5, 6, 7,  # england_epl/2015-2016/
-    29, 30, 31, 32,  # england_epl/2016-2017/
-    58, 59, 60, 61,  # europe_uefa-champions-league/2014-2015/
-    80, 81, 82, 83,  # europe_uefa-champions-league/2015-2016/
-    109, 110, 111, 112,  # europe_uefa-champions-league/2016-2017/
-]
-PARTIDOS_INDICE_LOTE_2 = [
-    120,  # france_ligue-1/2014-2015/
-    121, 122, 339,  # france_ligue-1/2015-2016/
-    123, 124, 125, 126,  # france_ligue-1/2016-2017/
-    147, 148, 149, 150,  # germany_bundesliga/2014-2015/
-    152, 153, 154, 155,  # germany_bundesliga/2015-2016/
-    162, 163, 164, 165,  # germany_bundesliga/2016-2017/
-    178, 179, 180, 181,  # italy_serie-a/2014-2015/
-]
-PARTIDOS_INDICE_LOTE_3 = [
-    185, 186, 187, 188,  # italy_serie-a/2015-2016/
-    190, 191, 192, 193,  # italy_serie-a/2016-2017/
-    234, 235, 236, 237,  # spain_laliga/2014-2015/
-    240, 241, 242, 243,  # spain_laliga/2015-2016/
-    258, 259, 260, 261,  # spain_laliga/2016-2017/
-]
-PARTIDOS_INDICE_LOTE_4 = [
-    
+PARTIDOS_INDICE_LOTE = [
+    [0, 49],
+    [50, 99],
+    [100, 149],
+    [150, 199],
+    [200, 249],
+    [250, 299],
+    [300, 349],
+    [350, 399],
+    [400, 449],
+    [450, 499],
 ]
 SOCCERNET_RESULTS = f"{RESULTS}soccernet"
 DS_SOCCERNET_RAW = os.getenv("DS_SOCCERNET_RAW")
