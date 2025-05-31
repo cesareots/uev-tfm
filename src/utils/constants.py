@@ -6,6 +6,7 @@ dotenv.load_dotenv()
 
 #
 RESULTS = "results/"
+MODELS_DIR = "models/"
 
 # soccernet
 SOCCERNET_PASSWORD = os.getenv("SOCCERNET_PASSWORD")
@@ -16,6 +17,7 @@ SOCCERNET_LABELS = {
     "Corner": 3,
 }
 PARTIDOS_INDICE_LOTE = [
+    #[0, 1],
     [0, 49],
     [50, 99],
     [100, 149],

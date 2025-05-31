@@ -1,0 +1,101 @@
+index,UrlLocal,UrlYoutube,gameAwayTeam,gameDate,gameHomeTeam,gameScore
+0,england_epl/2014-2015/2015-02-21 - 18-00 Chelsea 1 - 1 Burnley/,,Burnley,21/02/2015 - 18:00,Chelsea,1 - 1
+1,england_epl/2014-2015/2015-02-21 - 18-00 Crystal Palace 1 - 2 Arsenal/,,Arsenal,21/02/2015 - 18:00,Crystal Palace,1 - 2
+2,england_epl/2014-2015/2015-02-21 - 18-00 Swansea 2 - 1 Manchester United/,,Manchester United,21/02/2015 - 18:00,Swansea,2 - 1
+3,england_epl/2014-2015/2015-02-22 - 19-15 Southampton 0 - 2 Liverpool/,,Liverpool,22/02/2015 - 19:15,Southampton,0 - 2
+4,england_epl/2015-2016/2015-08-08 - 19-30 Chelsea 2 - 2 Swansea/,,Swansea,08/08/2015 - 19:30,Chelsea,2 - 2
+5,england_epl/2015-2016/2015-08-29 - 17-00 Chelsea 1 - 2 Crystal Palace/,,Crystal Palace,29/08/2015 - 17:00,Chelsea,1 - 2
+6,england_epl/2015-2016/2015-08-29 - 17-00 Manchester City 2 - 0 Watford/,,Watford,29/08/2015 - 17:00,Manchester City,2 - 0
+7,england_epl/2015-2016/2015-09-12 - 14-45 Everton 3 - 1 Chelsea/,,Chelsea,12/09/2015 - 14:45,Everton,3 - 1
+8,england_epl/2015-2016/2015-09-12 - 17-00 Crystal Palace 0 - 1 Manchester City/,,Manchester City,12/09/2015 - 17:00,Crystal Palace,0 - 1
+9,england_epl/2015-2016/2015-09-19 - 19-30 Manchester City 1 - 2 West Ham/,,West Ham,19/09/2015 - 19:30,Manchester City,1 - 2
+10,england_epl/2015-2016/2015-09-26 - 17-00 Liverpool 3 - 2 Aston Villa/,,Aston Villa,26/09/2015 - 17:00,Liverpool,3 - 2
+11,england_epl/2015-2016/2015-10-17 - 17-00 Chelsea 2 - 0 Aston Villa/,,Aston Villa,17/10/2015 - 17:00,Chelsea,2 - 0
+12,england_epl/2015-2016/2015-10-31 - 15-45 Chelsea 1 - 3 Liverpool/,,Liverpool,31/10/2015 - 15:45,Chelsea,1 - 3
+13,england_epl/2015-2016/2015-11-07 - 18-00 Manchester United 2 - 0 West Brom/,,West Brom,07/11/2015 - 18:00,Manchester United,2 - 0
+14,england_epl/2015-2016/2015-11-21 - 20-30 Manchester City 1 - 4 Liverpool/,,Liverpool,21/11/2015 - 20:30,Manchester City,1 - 4
+15,england_epl/2015-2016/2015-11-29 - 15-00 Tottenham 0 - 0 Chelsea/,,Chelsea,29/11/2015 - 15:00,Tottenham,0 - 0
+16,england_epl/2015-2016/2015-12-05 - 20-30 Chelsea 0 - 1 Bournemouth/,,Bournemouth,05/12/2015 - 20:30,Chelsea,0 - 1
+17,england_epl/2015-2016/2015-12-19 - 18-00 Chelsea 3 - 1 Sunderland/,,Sunderland,19/12/2015 - 18:00,Chelsea,3 - 1
+18,england_epl/2015-2016/2015-12-26 - 18-00 Manchester City 4 - 1 Sunderland/,,Sunderland,26/12/2015 - 18:00,Manchester City,4 - 1
+19,england_epl/2015-2016/2016-01-03 - 16-30 Crystal Palace 0 - 3 Chelsea/,,Chelsea,03/01/2016 - 16:30,Crystal Palace,0 - 3
+20,england_epl/2015-2016/2016-01-13 - 22-45 Chelsea 2 - 2 West Brom/,,West Brom,13/01/2016 - 22:45,Chelsea,2 - 2
+21,england_epl/2015-2016/2016-02-07 - 19-00 Chelsea 1 - 1 Manchester United/,,Manchester United,07/02/2016 - 19:00,Chelsea,1 - 1
+22,england_epl/2015-2016/2016-02-14 - 19-15 Manchester City 1 - 2 Tottenham/,,Tottenham,14/02/2016 - 19:15,Manchester City,1 - 2
+23,england_epl/2015-2016/2016-03-02 - 23-00 Liverpool 3 - 0 Manchester City/,,Manchester City,02/03/2016 - 23:00,Liverpool,3 - 0
+24,england_epl/2015-2016/2016-03-05 - 18-00 Chelsea 1 - 1 Stoke City/,,Stoke City,05/03/2016 - 18:00,Chelsea,1 - 1
+25,england_epl/2015-2016/2016-03-19 - 18-00 Chelsea 2 - 2 West Ham/,,West Ham,19/03/2016 - 18:00,Chelsea,2 - 2
+26,england_epl/2015-2016/2016-04-09 - 17-00 Swansea 1 - 0 Chelsea/,,Chelsea,09/04/2016 - 17:00,Swansea,1 - 0
+27,england_epl/2015-2016/2016-04-09 - 19-30 Manchester City 2 - 1 West Brom/,,West Brom,09/04/2016 - 19:30,Manchester City,2 - 1
+28,england_epl/2015-2016/2016-05-07 - 17-00 Sunderland 3 - 2 Chelsea/,,Chelsea,07/05/2016 - 17:00,Sunderland,3 - 2
+29,england_epl/2016-2017/2016-08-14 - 18-00 Arsenal 3 - 4 Liverpool/,,Liverpool,14/08/2016 - 18:00,Arsenal,3 - 4
+30,england_epl/2016-2017/2016-08-20 - 17-00 Burnley 2 - 0 Liverpool/,,Liverpool,20/08/2016 - 17:00,Burnley,2 - 0
+31,england_epl/2016-2017/2016-08-20 - 19-30 Leicester 0 - 0 Arsenal/,,Arsenal,20/08/2016 - 19:30,Leicester,0 - 0
+32,england_epl/2016-2017/2016-09-10 - 17-00 Arsenal 2 - 1 Southampton/,,Southampton,10/09/2016 - 17:00,Arsenal,2 - 1
+33,england_epl/2016-2017/2016-09-16 - 22-00 Chelsea 1 - 2 Liverpool/,,Liverpool,16/09/2016 - 22:00,Chelsea,1 - 2
+34,england_epl/2016-2017/2016-09-17 - 17-00 Hull City 1 - 4 Arsenal/,,Arsenal,17/09/2016 - 17:00,Hull City,1 - 4
+35,england_epl/2016-2017/2016-09-24 - 19-30 Arsenal 3 - 0 Chelsea/,,Chelsea,24/09/2016 - 19:30,Arsenal,3 - 0
+36,england_epl/2016-2017/2016-10-17 - 22-00 Liverpool 0 - 0 Manchester United/,,Manchester United,17/10/2016 - 22:00,Liverpool,0 - 0
+37,england_epl/2016-2017/2016-10-22 - 19-30 Liverpool 2 - 1 West Brom/,,West Brom,22/10/2016 - 19:30,Liverpool,2 - 1
+38,england_epl/2016-2017/2016-10-29 - 14-30 Sunderland 1 - 4 Arsenal/,,Arsenal,29/10/2016 - 14:30,Sunderland,1 - 4
+39,england_epl/2016-2017/2016-10-29 - 17-00 Tottenham 1 - 1 Leicester/,,Leicester,29/10/2016 - 17:00,Tottenham,1 - 1
+40,england_epl/2016-2017/2016-11-06 - 17-15 Liverpool 6 - 1 Watford/,,Watford,06/11/2016 - 17:15,Liverpool,6 - 1
+41,england_epl/2016-2017/2016-11-06 - 19-30 Leicester 1 - 2 West Brom/,,West Brom,06/11/2016 - 19:30,Leicester,1 - 2
+42,england_epl/2016-2017/2016-11-19 - 18-00 Southampton 0 - 0 Liverpool/,,Liverpool,19/11/2016 - 18:00,Southampton,0 - 0
+43,england_epl/2016-2017/2016-11-26 - 18-00 Liverpool 2 - 0 Sunderland/,,Sunderland,26/11/2016 - 18:00,Liverpool,2 - 0
+44,england_epl/2016-2017/2016-12-10 - 20-30 Leicester 4 - 2 Manchester City/,,Manchester City,10/12/2016 - 20:30,Leicester,4 - 2
+45,england_epl/2016-2017/2016-12-11 - 19-30 Liverpool 2 - 2 West Ham/,,West Ham,11/12/2016 - 19:30,Liverpool,2 - 2
+46,england_epl/2016-2017/2016-12-14 - 22-45 Middlesbrough 0 - 3 Liverpool/,,Liverpool,14/12/2016 - 22:45,Middlesbrough,0 - 3
+47,england_epl/2016-2017/2016-12-19 - 23-00 Everton 0 - 1 Liverpool/,,Liverpool,19/12/2016 - 23:00,Everton,0 - 1
+48,england_epl/2016-2017/2016-12-27 - 20-15 Liverpool 4 - 1 Stoke City/,,Stoke City,27/12/2016 - 20:15,Liverpool,4 - 1
+49,england_epl/2016-2017/2016-12-31 - 20-30 Liverpool 1 - 0 Manchester City/,,Manchester City,31/12/2016 - 20:30,Liverpool,1 - 0
+50,england_epl/2016-2017/2017-01-02 - 15-30 Middlesbrough 0 - 0 Leicester/,,Leicester,02/01/2017 - 15:30,Middlesbrough,0 - 0
+51,england_epl/2016-2017/2017-01-02 - 18-00 Sunderland 2 - 2 Liverpool/,,Liverpool,02/01/2017 - 18:00,Sunderland,2 - 2
+52,england_epl/2016-2017/2017-01-14 - 20-30 Leicester 0 - 3 Chelsea/,,Chelsea,14/01/2017 - 20:30,Leicester,0 - 3
+53,england_epl/2016-2017/2017-01-15 - 19-00 Manchester United 1 - 1 Liverpool/,,Liverpool,15/01/2017 - 19:00,Manchester United,1 - 1
+54,england_epl/2016-2017/2017-01-31 - 23-00 Liverpool 1 - 1 Chelsea/,,Chelsea,31/01/2017 - 23:00,Liverpool,1 - 1
+55,england_epl/2016-2017/2017-02-27 - 23-00 Leicester 3 - 1 Liverpool/,,Liverpool,27/02/2017 - 23:00,Leicester,3 - 1
+56,england_epl/2016-2017/2017-04-26 - 21-45 Arsenal 1 - 0 Leicester/,,Leicester,26/04/2017 - 21:45,Arsenal,1 - 0
+57,england_epl/2016-2017/2017-05-13 - 14-30 Manchester City 2 - 1 Leicester/,,Leicester,13/05/2017 - 14:30,Manchester City,2 - 1
+58,europe_uefa-champions-league/2014-2015/2014-11-04 - 22-45 Arsenal 3 - 3 Anderlecht/,,Anderlecht,04/11/2014 - 22:45,Arsenal,3 - 3
+59,europe_uefa-champions-league/2014-2015/2014-11-04 - 22-45 Dortmund 4 - 1 Galatasaray/,,Galatasaray,04/11/2014 - 22:45,Dortmund,4 - 1
+60,europe_uefa-champions-league/2014-2015/2014-11-05 - 22-45 Bayern Munich 2 - 0 AS Roma/,,AS Roma,05/11/2014 - 22:45,Bayern Munich,2 - 0
+61,europe_uefa-champions-league/2014-2015/2014-12-09 - 22-45 Benfica 0 - 0 Bayer Leverkusen/,,Bayer Leverkusen,09/12/2014 - 22:45,Benfica,0 - 0
+62,europe_uefa-champions-league/2014-2015/2014-12-09 - 22-45 Dortmund 1 - 1 Anderlecht/,,Anderlecht,09/12/2014 - 22:45,Dortmund,1 - 1
+63,europe_uefa-champions-league/2014-2015/2014-12-09 - 22-45 Liverpool 1 - 1 Basel/,,Basel,09/12/2014 - 22:45,Liverpool,1 - 1
+64,europe_uefa-champions-league/2014-2015/2014-12-10 - 22-45 Barcelona 3 - 1 Paris SG/,,Paris SG,10/12/2014 - 22:45,Barcelona,3 - 1
+65,europe_uefa-champions-league/2014-2015/2014-12-10 - 22-45 Bayern Munich 3 - 0 CSKA Moscow/,,CSKA Moscow,10/12/2014 - 22:45,Bayern Munich,3 - 0
+66,europe_uefa-champions-league/2014-2015/2015-02-17 - 22-45 Paris SG 1 - 1 Chelsea/,,Chelsea,17/02/2015 - 22:45,Paris SG,1 - 1
+67,europe_uefa-champions-league/2014-2015/2015-02-17 - 22-45 Shakhtar Donetsk 0 - 0 Bayern Munich/,,Bayern Munich,17/02/2015 - 22:45,Shakhtar Donetsk,0 - 0
+68,europe_uefa-champions-league/2014-2015/2015-02-18 - 22-45 Schalke 0 - 2 Real Madrid/,,Real Madrid,18/02/2015 - 22:45,Schalke,0 - 2
+69,europe_uefa-champions-league/2014-2015/2015-02-25 - 22-45 Arsenal 1 - 3 Monaco/,,Monaco,25/02/2015 - 22:45,Arsenal,1 - 3
+70,europe_uefa-champions-league/2014-2015/2015-02-25 - 22-45 Bayer Leverkusen 1 - 0 Atl. Madrid/,,Atl. Madrid,25/02/2015 - 22:45,Bayer Leverkusen,1 - 0
+71,europe_uefa-champions-league/2014-2015/2015-03-10 - 22-45 FC Porto 4 - 0 Basel/,,Basel,10/03/2015 - 22:45,FC Porto,4 - 0
+72,europe_uefa-champions-league/2014-2015/2015-03-18 - 22-45 Barcelona 1 - 0 Manchester City/,,Manchester City,18/03/2015 - 22:45,Barcelona,1 - 0
+73,europe_uefa-champions-league/2014-2015/2015-03-18 - 22-45 Dortmund 0 - 3 Juventus/,,Juventus,18/03/2015 - 22:45,Dortmund,0 - 3
+74,europe_uefa-champions-league/2014-2015/2015-04-14 - 21-45 Atl. Madrid 0 - 0 Real Madrid/,,Real Madrid,14/04/2015 - 21:45,Atl. Madrid,0 - 0
+75,europe_uefa-champions-league/2014-2015/2015-04-14 - 21-45 Juventus 1 - 0 Monaco/,,Monaco,14/04/2015 - 21:45,Juventus,1 - 0
+76,europe_uefa-champions-league/2014-2015/2015-04-21 - 21-45 Bayern Munich 6 - 1 FC Porto/,,FC Porto,21/04/2015 - 21:45,Bayern Munich,6 - 1
+77,europe_uefa-champions-league/2014-2015/2015-04-22 - 21-45 Monaco 0 - 0 Juventus/,,Juventus,22/04/2015 - 21:45,Monaco,0 - 0
+78,europe_uefa-champions-league/2014-2015/2015-05-06 - 21-45 Barcelona 3 - 0 Bayern Munich/,,Bayern Munich,06/05/2015 - 21:45,Barcelona,3 - 0
+79,europe_uefa-champions-league/2014-2015/2015-05-12 - 21-45 Bayern Munich 3 - 2 Barcelona/,,Barcelona,12/05/2015 - 21:45,Bayern Munich,3 - 2
+80,europe_uefa-champions-league/2015-2016/2015-09-15 - 21-45 Galatasaray 0 - 2 Atl. Madrid/,,Atl. Madrid,15/09/2015 - 21:45,Galatasaray,0 - 2
+81,europe_uefa-champions-league/2015-2016/2015-09-15 - 21-45 Manchester City 1 - 2 Juventus/,,Juventus,15/09/2015 - 21:45,Manchester City,1 - 2
+82,europe_uefa-champions-league/2015-2016/2015-09-15 - 21-45 Paris SG 2 - 0 Malmo FF/,,Malmo FF,15/09/2015 - 21:45,Paris SG,2 - 0
+83,europe_uefa-champions-league/2015-2016/2015-09-15 - 21-45 Real Madrid 4 - 0 Shakhtar Donetsk/,,Shakhtar Donetsk,15/09/2015 - 21:45,Real Madrid,4 - 0
+84,europe_uefa-champions-league/2015-2016/2015-09-15 - 21-45 Sevilla 3 - 0 B. Monchengladbach/,,B. Monchengladbach,15/09/2015 - 21:45,Sevilla,3 - 0
+85,europe_uefa-champions-league/2015-2016/2015-09-16 - 21-45 AS Roma 1 - 1 Barcelona/,,Barcelona,16/09/2015 - 21:45,AS Roma,1 - 1
+86,europe_uefa-champions-league/2015-2016/2015-09-16 - 21-45 Bayer Leverkusen 4 - 1 BATE/,,BATE,16/09/2015 - 21:45,Bayer Leverkusen,4 - 1
+87,europe_uefa-champions-league/2015-2016/2015-09-16 - 21-45 Gent 1 - 1 Lyon/,,Lyon,16/09/2015 - 21:45,Gent,1 - 1
+88,europe_uefa-champions-league/2015-2016/2015-09-29 - 21-45 Arsenal 2 - 3 Olympiakos Piraeus/,,Olympiakos Piraeus,29/09/2015 - 21:45,Arsenal,2 - 3
+89,europe_uefa-champions-league/2015-2016/2015-09-29 - 21-45 Lyon 0 - 1 Valencia/,,Valencia,29/09/2015 - 21:45,Lyon,0 - 1
+90,europe_uefa-champions-league/2015-2016/2015-10-20 - 21-45 Arsenal 2 - 0 Bayern Munich/,,Bayern Munich,20/10/2015 - 21:45,Arsenal,2 - 0
+91,europe_uefa-champions-league/2015-2016/2015-11-03 - 18-00 FC Astana 0 - 0 Atl. Madrid/,,Atl. Madrid,03/11/2015 - 18:00,FC Astana,0 - 0
+92,europe_uefa-champions-league/2015-2016/2015-11-03 - 22-45 B. Monchengladbach 1 - 1 Juventus/,,Juventus,03/11/2015 - 22:45,B. Monchengladbach,1 - 1
+93,europe_uefa-champions-league/2015-2016/2015-11-03 - 22-45 Manchester United 1 - 0 CSKA Moscow/,,CSKA Moscow,03/11/2015 - 22:45,Manchester United,1 - 0
+94,europe_uefa-champions-league/2015-2016/2015-11-03 - 22-45 PSV 2 - 0 Wolfsburg/,,Wolfsburg,03/11/2015 - 22:45,PSV,2 - 0
+95,europe_uefa-champions-league/2015-2016/2015-11-04 - 22-45 Bayern Munich 5 - 1 Arsenal/,,Arsenal,04/11/2015 - 22:45,Bayern Munich,5 - 1
+96,europe_uefa-champions-league/2015-2016/2015-11-04 - 22-45 Gent 1 - 0 Valencia/,,Valencia,04/11/2015 - 22:45,Gent,1 - 0
+97,europe_uefa-champions-league/2015-2016/2015-11-04 - 22-45 Lyon 0 - 2 Zenit Petersburg/,,Zenit Petersburg,04/11/2015 - 22:45,Lyon,0 - 2
+98,europe_uefa-champions-league/2015-2016/2015-11-04 - 22-45 Maccabi Tel Aviv 1 - 3 FC Porto/,,FC Porto,04/11/2015 - 22:45,Maccabi Tel Aviv,1 - 3
+99,europe_uefa-champions-league/2015-2016/2015-11-24 - 20-00 Zenit Petersburg 2 - 0 Valencia/,,Valencia,24/11/2015 - 20:00,Zenit Petersburg,2 - 0

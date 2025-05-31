@@ -1,7 +1,7 @@
 # import torch
 # import torchvision.io
 # import numpy as np
-from basic_cnn_3d import *
+from src.model_cnn_3d.basic_cnn_3d import *
 
 # La dependencia de torchvision.io.read_video es para leer todo el video.
 # Para grandes videos, puede ser más eficiente usar un iterador de frames como cv2.VideoCapture

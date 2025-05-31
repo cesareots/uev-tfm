@@ -22,6 +22,7 @@ def verify_system() -> None:
         list_path = [
             DS_SOCCERNET_RAW,
             RESULTS,
+            MODELS_DIR,
             SOCCERNET_RESULTS,
             YOLO_PATH_RESULTS,
             LOG_DIR,
@@ -238,24 +239,20 @@ def obtener_numeros(rango):
 
 
 def escribir_csv(
-        nombre_archivo: str,
-        index,
-        game,
+    nombre_archivo,
+    cabecera,
+    registro,
 ) -> None:
     """
-    Escribe un registro (index, game) en un archivo CSV.
-
-    Si el archivo no existe, lo crea con la cabecera 'index,game'.
+    Escribe un registro en un archivo CSV.
+    Si el archivo no existe, lo crea con la cabecera.
     Si el archivo existe, agrega el registro en una nueva línea.
 
     Args:
         nombre_archivo (str): La ruta y nombre del archivo CSV.
-        index (str o int): El valor para la columna 'index'.
-        game (str): El valor para la columna 'game'.
+        cabecera (list): Lista de cadenas para la cabecera del CSV.
+        registro (list): Lista de valores para el registro a escribir.
     """
-    cabecera = ['index', 'game']
-
-    # Comprueba si el archivo existe
     archivo_existe = os.path.exists(nombre_archivo)
 
     # modo append ('a') para añadir.
@@ -266,6 +263,31 @@ def escribir_csv(
         # Si el archivo no existe, escribe la cabecera
         if not archivo_existe:
             escritor_csv.writerow(cabecera)
-
+        
         # Escribe el registro actual
-        escritor_csv.writerow([index, game])
+        escritor_csv.writerow(registro)
+
+
+def juego_ya_registrado(
+    nombre_archivo_games_csv,
+    game_index,
+):
+    """
+    Verifica si un índice de juego ya está presente en el games.csv para evitar duplicados.
+    """
+    if not os.path.exists(nombre_archivo_games_csv):
+        return False
+    
+    with open(nombre_archivo_games_csv, mode='r', newline='', encoding='utf-8') as archivo_csv:
+        lector_csv = csv.reader(archivo_csv)
+        next(lector_csv, None) # Saltar la cabecera
+        for fila in lector_csv:
+            try:
+                # Asumiendo que el índice es la primera columna
+                if len(fila) > 0 and int(fila[0]) == game_index:
+                    return True
+            except ValueError:
+                # Si el valor no es un entero, lo ignoramos y seguimos
+                continue
+            
+    return False

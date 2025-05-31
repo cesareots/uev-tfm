@@ -278,10 +278,85 @@ def cut_video_segments_by_label(
     return saved_clip_paths
 
 
+def procesar_csv(
+        list_games,
+        partidos_indice,
+        json_filename,
+):
+    # Rutas completas a los archivos CSV de salida
+    name_g = "games.csv"
+    name_d = "detalle.csv"
+    games_csv_path = os.path.join(SOCCERNET_RESULTS, name_g)
+    detalle_csv_path = os.path.join(SOCCERNET_RESULTS, name_d)
+
+    # Cabeceras para los CSV
+    cabecera_games = ["index", "UrlLocal", "UrlYoutube", "gameAwayTeam", "gameDate", "gameHomeTeam", "gameScore"]
+    cabecera_detalle = ["game_index", "gameTime", "label", "position", "team", "visibility"]
+
+    for indice_juego in partidos_indice:
+        if not (0 <= indice_juego < len(list_games)):
+            logger.error(f"El índice {indice_juego} está fuera del rango de [0 - {len(list_games) - 1}]. Saltando.")
+            continue
+
+        game_dir_name = list_games[indice_juego]
+        json_file_path = os.path.join(DS_SOCCERNET_RAW, game_dir_name, json_filename)
+        # logger.info(f"Procesando juego con índice: {indice_juego}, directorio: {game_dir_name}")
+
+        try:
+            # Procesar 'name_g' (solo una vez por juego)
+            if not ut.juego_ya_registrado(games_csv_path, indice_juego):
+                with open(json_file_path, 'r', encoding='utf-8') as f:
+                    game_data = json.load(f)
+
+                # Preparar el registro para 'name_g'
+                registro_game = [
+                    indice_juego,
+                    game_data.get("UrlLocal", ""),
+                    game_data.get("UrlYoutube", ""),
+                    game_data.get("gameAwayTeam", ""),
+                    game_data.get("gameDate", ""),
+                    game_data.get("gameHomeTeam", ""),
+                    game_data.get("gameScore", "")
+                ]
+                ut.escribir_csv(games_csv_path, cabecera_games, registro_game)
+                logger.info(f"Registro del juego '{game_dir_name}' añadido a '{name_g}'.")
+            else:
+                logger.info(f"Juego '{game_dir_name}' ya existe en '{name_g}'. Saltando adición.")
+
+            # Procesar 'name_d' (por cada anotación)
+            with open(json_file_path, 'r', encoding='utf-8') as f:
+                game_data = json.load(f)
+
+            annotations = game_data.get("annotations", [])
+            if not annotations:
+                logger.warning(f"No se encontraron anotaciones para el juego '{game_dir_name}' en {json_file_path}.")
+
+            for annotation in annotations:
+                registro_detalle = [
+                    indice_juego,
+                    annotation.get("gameTime", ""),
+                    annotation.get("label", ""),
+                    annotation.get("position", ""),
+                    annotation.get("team", ""),
+                    annotation.get("visibility", "")
+                ]
+                ut.escribir_csv(detalle_csv_path, cabecera_detalle, registro_detalle)
+            logger.info(f"Anotaciones del juego '{game_dir_name}' añadidas a '{name_d}'.")
+        except FileNotFoundError:
+            logger.error(f"Archivo JSON no encontrado: {json_file_path}. Saltando este juego.")
+        except json.JSONDecodeError:
+            logger.error(
+                f"Error al decodificar JSON en: {json_file_path}. El archivo podría estar corrupto. Saltando este juego.")
+        except Exception as e:
+            logger.error(
+                f"Ocurrió un error inesperado al procesar el juego '{game_dir_name}' ({json_file_path}): {e}. Saltando este juego.")
+
+
 def main(args) -> None:
     # configurando descarga de SoccerNet
     file_video = ["1_720p.mkv", "2_720p.mkv"] if args.calidad_video == "720p" else ["1_224p.mkv", "2_224p.mkv"]
-    file_label = ["Labels.json", "Labels-v2.json", "Labels-cameras.json", "Labels-v3.json"]
+    # file_label = ["Labels.json", "Labels-v2.json", "Labels-cameras.json", "Labels-v3.json"]
+    file_label = "Labels-v2.json"
     list_games = getListGames(
         split=[
             "train",
@@ -293,7 +368,7 @@ def main(args) -> None:
     result_list = [list_games[index] for index in args.partidos_indice]
 
     files = [
-        file_label[1],
+        file_label,
         file_video[0],
         file_video[1],
     ]
@@ -326,7 +401,7 @@ def main(args) -> None:
                 saved_clips = cut_video_segments_by_label(
                     directory=os.path.join(DS_SOCCERNET_RAW, str(game).replace('\\', '/')),
                     video_filename=video,
-                    json_filename=file_label[1],
+                    json_filename=file_label,
                     # label_to_find=action,
                     mas_menos=1.5,
                 )
@@ -334,16 +409,11 @@ def main(args) -> None:
         ut.get_time_employed(t_start, "Generación de videoclips por cada acción.")
 
     # crear archivos csv para EDA
-    for indice in args.partidos_indice:
-        if 0 <= indice < len(list_games):
-            nombre_juego = list_games[indice]
-            ut.escribir_csv(
-                nombre_archivo=os.path.join(SOCCERNET_RESULTS, "games.csv"),
-                index=indice,
-                game=nombre_juego,
-            )
-        else:
-            logger.error(f"El índice {indice} está fuera del rango [0 - 499].")
+    procesar_csv(
+        list_games=list_games,
+        partidos_indice=args.partidos_indice,
+        json_filename=file_label,
+    )
 
 
 def parse_arguments():
@@ -369,7 +439,7 @@ if __name__ == "__main__":
     else:
         # Valores por defecto si no se proporcionan argumentos desde la línea de comandos
         class Args:
-            partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[0])
+            partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[1])
             # calidad_video = "224p"
             calidad_video = "720p"
             omitir_descarga = 0
