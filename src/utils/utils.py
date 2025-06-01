@@ -23,6 +23,7 @@ def verify_system() -> None:
             DS_SOCCERNET_RAW,
             RESULTS,
             MODELS_DIR,
+            M_BASIC,
             SOCCERNET_RESULTS,
             YOLO_PATH_RESULTS,
             LOG_DIR,

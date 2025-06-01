@@ -7,6 +7,7 @@ dotenv.load_dotenv()
 #
 RESULTS = "results/"
 MODELS_DIR = "models/"
+M_BASIC = f"{MODELS_DIR}CNN3D/"
 
 # soccernet
 SOCCERNET_PASSWORD = os.getenv("SOCCERNET_PASSWORD")

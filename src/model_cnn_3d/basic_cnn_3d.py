@@ -19,8 +19,8 @@ from src.utils.constants import *
 
 logger = logging.getLogger(__name__)
 
-# Hiperparámetros de entrenamiento, ajustar basado en la memoria de la GPU
-BATCH_SIZE = 8  # Ajustar según VRAM
+# Hiperparámetros de entrenamiento
+BATCH_SIZE = 8  # segun VRAM
 LEARNING_RATE = 0.001
 
 # Tamaño final de los frames que entrarán al modelo después de las transformaciones
@@ -115,18 +115,37 @@ class SimpleCNN3D(nn.Module):
         return x
 
 
-def train_model(model, dataloader, criterion, optimizer, num_epochs, device):
-    t_start = time.time()
+def train_model(
+    model,
+    train_dataloader,
+    val_dataloader,
+    criterion,
+    optimizer,
+    num_epochs,
+    device,
+    save_every_n_epochs=1,
+    save_best_metric='loss',
+    run_name="run",
+):
+    t_start_training = time.time()
     model.train()
     logger.info(f"Entrenamiento iniciado... Número de épocas: {num_epochs}")
-
+    
+    # Crear un subdirectorio para los checkpoints de esta ejecución específica
+    checkpoint_dir = Path(M_BASIC) / run_name
+    checkpoint_dir.mkdir(parents=True, exist_ok=True)
+    logger.info(f"Guardando checkpoints en: {checkpoint_dir}")
+    
+    best_val_metric_value = float('inf') if save_best_metric == 'loss' else float('-inf')  # TODO que hace aca?
+    
     for epoch in range(num_epochs):
         running_loss = 0.0
         correct_predictions = 0
         total_samples = 0
+        epoch_t_start = time.time()
 
-        for i, batch_data in enumerate(dataloader):
-            inputs, labels, video_paths = batch_data  # Asumiendo que el dataloader ahora devuelve paths
+        for i, batch_data in enumerate(train_dataloader):
+            inputs, labels, video_paths = batch_data
 
             # Filtrar muestras que tuvieron errores (etiqueta -1)
             valid_indices = labels != -1
@@ -135,7 +154,7 @@ def train_model(model, dataloader, criterion, optimizer, num_epochs, device):
 
             if inputs.size(0) == 0:  # Si todos los items en el batch eran inválidos
                 logger.warning(
-                    f"Epoch [{epoch + 1}/{num_epochs}], Step [{i + 1}/{len(dataloader)}]: Batch vacío después de filtrar errores. Saltando.")
+                    f"Epoch [{epoch + 1}/{num_epochs}], Step [{i + 1}/{len(train_dataloader)}]: Batch vacío después de filtrar errores. Saltando.")
                 continue
 
             optimizer.zero_grad()
@@ -152,24 +171,78 @@ def train_model(model, dataloader, criterion, optimizer, num_epochs, device):
 
             # Imprimir estadísticas cada cierto número de batches
             if (i + 1) % 10 == 0:
-                log_con = f"Epoch [{epoch + 1}/{num_epochs}], Step [{i + 1}/{len(dataloader)}], Loss: {loss.item():.4f}"
+                log_con = f"Epoch [{epoch + 1}/{num_epochs}], Step [{i + 1}/{len(train_dataloader)}], Loss: {loss.item():.4f}"
                 print(log_con)
                 logger.info(log_con)
 
-        epoch_loss = running_loss / total_samples if total_samples > 0 else 0
-        epoch_acc = correct_predictions / total_samples if total_samples > 0 else 0
+        epoch_train_loss = running_loss / total_samples if total_samples > 0 else 0
+        epoch_train_acc = correct_predictions / total_samples if total_samples > 0 else 0
+        epoch_duration = time.time() - epoch_t_start
 
-        log_con = f"Epoch [{epoch + 1}/{num_epochs}] finalizada. Pérdida: {epoch_loss:.4f}, Precisión: {epoch_acc:.4f}"
-        print(log_con)
-        logger.info(log_con)
+        log_con_epoch = f"Epoch [{epoch + 1}/{num_epochs}] (Entrenamiento) finalizada en {epoch_duration:.2f}s. Pérdida: {epoch_train_loss:.4f}, Precisión: {epoch_train_acc:.4f}"
+        print(log_con_epoch)
+        logger.info(log_con_epoch)
 
-    ut.get_time_employed(t_start, "Entrenamiento.")
+        # Validación al final de cada época
+        val_loss, val_acc = evaluate_model(
+            model,
+            val_dataloader,
+            criterion,
+            device,
+            per_epoch_eval=True,
+        )
+        logger.info(f"Epoch [{epoch + 1}/{num_epochs}] (Validación). Pérdida: {val_loss:.4f}, Precisión: {val_acc:.4f}")
+        
+        # Checkpointing
+        checkpoint_data = {
+            'epoch': epoch + 1,
+            'model_state_dict': model.state_dict(),
+            'optimizer_state_dict': optimizer.state_dict(),
+            'train_loss': epoch_train_loss,
+            'train_acc': epoch_train_acc,
+            'val_loss': val_loss,
+            'val_acc': val_acc,
+            'run_name': run_name,
+        }
+        
+        # Guardar el modelo más reciente
+        #latest_checkpoint_path = checkpoint_dir / "model_latest.pth"
+        #torch.save(checkpoint_data, latest_checkpoint_path)
+        #logger.info(f"Checkpoint guardado (último): '{latest_checkpoint_path}'")
+
+        # Guardar periódicamente por época
+        if save_every_n_epochs > 0 and (epoch + 1) % save_every_n_epochs == 0:
+            epoch_checkpoint_path = checkpoint_dir / f"model_CNN3D_{epoch+1}_epochs.pth"
+            torch.save(checkpoint_data, epoch_checkpoint_path)
+            logger.info(f"Checkpoint guardado (época {epoch + 1}): '{epoch_checkpoint_path}'")
+
+        # Guardar el mejor modelo
+        current_metric_for_best = val_loss if save_best_metric == 'loss' else val_acc
+        is_better = (current_metric_for_best < best_val_metric_value) if save_best_metric == 'loss' \
+            else (current_metric_for_best > best_val_metric_value)
+
+        if is_better:
+            best_val_metric_value = current_metric_for_best
+            best_checkpoint_path = checkpoint_dir / "model_CNN3D_best.pth"
+            torch.save(checkpoint_data, best_checkpoint_path)
+            logger.info(f"Nuevo mejor checkpoint guardado (Val {save_best_metric}: {best_val_metric_value:.4f}): '{best_checkpoint_path}'")
+        
+    ut.get_time_employed(t_start_training, "Entrenamiento.")
 
 
-def evaluate_model(model, dataloader, criterion, device):
-    t_start = time.time()
+def evaluate_model(
+    model,
+    dataloader,
+    criterion,
+    device,
+    per_epoch_eval=False,
+):
+    if not per_epoch_eval:
+        t_start = time.time()
+        logger.info("Evaluación final iniciada...")
+
     model.eval()
-    logger.info("Evaluación iniciada...")
+    #logger.info("Evaluación iniciada...")
     running_loss = 0.0
     correct_predictions = 0
     total_samples = 0
@@ -197,8 +270,11 @@ def evaluate_model(model, dataloader, criterion, device):
     avg_loss = running_loss / total_samples if total_samples > 0 else 0
     accuracy = correct_predictions / total_samples if total_samples > 0 else 0
 
-    ut.get_time_employed(t_start, "Evaluación.")
-    logger.info(f"Pérdida promedio en validación: {avg_loss:.4f}, Precisión en validación: {accuracy:.4f}")
+    if not per_epoch_eval:
+        ut.get_time_employed(t_start, "Evaluación final.")
+        log_con = f"Pérdida promedio en validación: {avg_loss:.4f}, Precisión en validación: {accuracy:.4f}"
+        print(log_con)
+        logger.info(log_con)
 
     return avg_loss, accuracy
 
@@ -323,15 +399,49 @@ def main(args):
 
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
+    
+    # Ejemplo básico de carga
+    """start_epoch = 0
+    if args.resume_checkpoint: # Nuevo argumento a parsear
+        if Path(args.resume_checkpoint).exists():
+            checkpoint = torch.load(args.resume_checkpoint)
+            model.load_state_dict(checkpoint['model_state_dict'])
+            optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+            start_epoch = checkpoint['epoch']
+            best_val_metric_value = checkpoint.get('val_loss', float('inf')) # o val_acc
+            logger.info(f"Reanudando entrenamiento desde la época {start_epoch} del checkpoint '{args.resume_checkpoint}'")
+        else:
+            logger.warning(f"Checkpoint para reanudar no encontrado en '{args.resume_checkpoint}'. Empezando desde cero.")
+    
+    # Luego, al llamar a train_model, pasar start_epoch y modificar el bucle de épocas para que empiece desde start_epoch.
+    # El bucle en train_model sería: for epoch in range(start_epoch, num_epochs):"""
 
-    train_model(model, train_dataloader, criterion, optimizer, args.epocas, device)
-    evaluate_model(model, val_dataloader, criterion, device)
+    current_time_str = time.strftime("%Y%m%d-%H%M%S")
+    run_name = f"cnn3d_{args.epocas}_epochs_{current_time_str}"
 
-    # Guardar estado del modelo entrenado
-    model_filename = f"model_torch_CNN3D_{args.epocas}epochs_{int(time.time())}.pth"
-    model_save_path = Path(MODELS_DIR) / model_filename
-    torch.save(model.state_dict(), model_save_path)
-    logger.info(f"Modelo guardado en '{model_save_path}'")
+    train_model(
+        model,
+        train_dataloader,
+        val_dataloader,
+        criterion,
+        optimizer,
+        num_epochs=args.epocas,
+        device=device,
+        save_every_n_epochs=args.epocas_checkpoint,
+        save_best_metric="loss",  # o 'accuracy'
+        run_name=run_name,
+    )
+    
+    # La evaluación final después del bucle de entrenamiento ahora es opcional, ya que guardamos el mejor modelo y el último durante el entrenamiento.
+    # Pero puede ser útil para una última verificación del estado final del modelo.
+    logger.info("Realizando evaluación final del modelo en su último estado de entrenamiento.")
+    evaluate_model(
+        model,
+        val_dataloader,
+        criterion,
+        device,
+        per_epoch_eval=False,
+    )
 
 
 def parse_arguments():
@@ -341,9 +451,15 @@ def parse_arguments():
     )
     parser.add_argument(
         "--epocas",
-        default=2,
+        default=10,  # TODO ajustar
         type=ut.non_negative_int,
         help="Número de épocas para el entrenamiento."
+    )
+    parser.add_argument(
+        "--epocas_checkpoint",
+        default=5,
+        type=ut.non_negative_int,
+        help="Frecuencia (en épocas) para guardar un checkpoint."
     )
 
     return parser.parse_args()
