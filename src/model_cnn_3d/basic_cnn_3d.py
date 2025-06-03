@@ -10,6 +10,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import torchvision.transforms.v2 as T_v2
+from torch.optim.lr_scheduler import ReduceLROnPlateau
 from torch.utils.data import DataLoader, random_split
 
 from src.preprocess.dataset_soccernet import DatasetSoccernet, FRAMES_PER_CLIP, NUM_CLASSES, TARGET_FPS, \
@@ -21,11 +22,20 @@ logger = logging.getLogger(__name__)
 
 # Hiperparámetros de entrenamiento
 BATCH_SIZE = 8  # segun VRAM
-LEARNING_RATE = 0.001
+INITIAL_LEARNING_RATE = 0.001
 
 # Tamaño final de los frames que entrarán al modelo después de las transformaciones
 # Esto debe coincidir con lo que producen tus transformaciones (ej. RandomResizedCrop)
 TARGET_SIZE_DATASET = (256, 256)
+
+# Guardar checkpoint de época cada N épocas
+EPOCAS_CHECKPOINT_SAVE_INTERVAL = 3
+# Métrica para 'model_best.pth': 'loss' o 'accuracy'
+SAVE_BEST_METRIC_TYPE = "loss"
+
+# Parámetros para el LR Scheduler (ReduceLROnPlateau)
+LR_SCHEDULER_PATIENCE = 2  # Paciencia para reducir el LR (en épocas)
+LR_SCHEDULER_FACTOR = 0.5  # Factor por el cual se reduce el LR
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 logger.info(f"Usando dispositivo: {device}")
@@ -116,29 +126,38 @@ class SimpleCNN3D(nn.Module):
 
 
 def train_model(
-    model,
-    train_dataloader,
-    val_dataloader,
-    criterion,
-    optimizer,
-    num_epochs,
-    device,
-    save_every_n_epochs=1,
-    save_best_metric='loss',
-    run_name="run",
+        model,
+        optimizer,
+        scheduler,
+        train_dataloader,
+        val_dataloader,
+        criterion,
+        num_epochs,
+        device,
+        checkpoint_dir_run,  # Directorio para una ejecución específica
+        save_every_n_epochs,  # Frecuencia para guardar checkpoints de época
+        save_best_metric_type,  # 'loss' o 'accuracy' para el mejor modelo
+        start_epoch: int = 0,
+        # run_name="run",
+        initial_best_val_metric=None,  # Para reanudar el mejor valor
 ):
+    # model.train()
     t_start_training = time.time()
-    model.train()
-    logger.info(f"Entrenamiento iniciado... Número de épocas: {num_epochs}")
-    
+    logger.info(
+        f"Entrenamiento iniciado... Número de épocas: {num_epochs - start_epoch} (desde la época {start_epoch + 1} hasta {num_epochs})")
+
+    # lleva el registro del mejor valor de la métrica de validación encontrado hasta el momento (para decidir cuándo guardar model_CNN3D_best.pth).
+    best_val_metric_value = initial_best_val_metric if initial_best_val_metric is not None \
+        else (float('inf') if save_best_metric_type == "loss" else float('-inf'))
+
     # Crear un subdirectorio para los checkpoints de esta ejecución específica
-    checkpoint_dir = Path(M_BASIC) / run_name
-    checkpoint_dir.mkdir(parents=True, exist_ok=True)
-    logger.info(f"Guardando checkpoints en: {checkpoint_dir}")
-    
-    best_val_metric_value = float('inf') if save_best_metric == 'loss' else float('-inf')  # TODO que hace aca?
-    
-    for epoch in range(num_epochs):
+    # checkpoint_dir = Path(M_BASIC) / run_name
+    # checkpoint_dir.mkdir(parents=True, exist_ok=True)
+    logger.info(f"Guardando checkpoints en: {checkpoint_dir_run}")
+
+    for epoch in range(start_epoch, num_epochs):
+        model.train()
+        current_epoch_display = epoch + 1
         running_loss = 0.0
         correct_predictions = 0
         total_samples = 0
@@ -170,8 +189,8 @@ def train_model(
             correct_predictions += (predicted == labels).sum().item()
 
             # Imprimir estadísticas cada cierto número de batches
-            if (i + 1) % 10 == 0:
-                log_con = f"Epoch [{epoch + 1}/{num_epochs}], Step [{i + 1}/{len(train_dataloader)}], Loss: {loss.item():.4f}"
+            if (i + 1) % 15 == 0:
+                log_con = f"Epoch [{current_epoch_display}/{num_epochs}], Step [{i + 1}/{len(train_dataloader)}], Loss: {loss.item():.4f}"
                 print(log_con)
                 logger.info(log_con)
 
@@ -179,7 +198,7 @@ def train_model(
         epoch_train_acc = correct_predictions / total_samples if total_samples > 0 else 0
         epoch_duration = time.time() - epoch_t_start
 
-        log_con_epoch = f"Epoch [{epoch + 1}/{num_epochs}] (Entrenamiento) finalizada en {epoch_duration:.2f}s. Pérdida: {epoch_train_loss:.4f}, Precisión: {epoch_train_acc:.4f}"
+        log_con_epoch = f"Epoch [{current_epoch_display}/{num_epochs}] (Entrenamiento) finalizada en {epoch_duration:.2f}s. Pérdida: {epoch_train_loss:.4f}, Precisión: {epoch_train_acc:.4f}"
         print(log_con_epoch)
         logger.info(log_con_epoch)
 
@@ -191,58 +210,78 @@ def train_model(
             device,
             per_epoch_eval=True,
         )
-        logger.info(f"Epoch [{epoch + 1}/{num_epochs}] (Validación). Pérdida: {val_loss:.4f}, Precisión: {val_acc:.4f}")
-        
+        logger.info(
+            f"Epoch [{current_epoch_display}/{num_epochs}] (Validación). Pérdida: {val_loss:.4f}, Precisión: {val_acc:.4f}")
+
+        # Learning Rate Scheduler
+        current_lr_before_step = optimizer.param_groups[0]['lr']
+        if scheduler:
+            if isinstance(scheduler, ReduceLROnPlateau):
+                scheduler.step(val_loss)  # ReduceLROnPlateau necesita la métrica
+            else:
+                scheduler.step()  # Otros schedulers solo se llaman
+
+            new_lr = optimizer.param_groups[0]['lr']
+            if new_lr < current_lr_before_step:
+                logger.info(
+                    f"Tasa de aprendizaje reducida de {current_lr_before_step:.7f} a {new_lr:.7f} por el scheduler.")
+        logger.info(f"LR actual para la próxima época: {optimizer.param_groups[0]['lr']:.7f}")
+
         # Checkpointing
         checkpoint_data = {
-            'epoch': epoch + 1,
+            'epoch': current_epoch_display,
             'model_state_dict': model.state_dict(),
             'optimizer_state_dict': optimizer.state_dict(),
+            'scheduler_state_dict': scheduler.state_dict() if scheduler else None,  # Guardar estado del scheduler
             'train_loss': epoch_train_loss,
             'train_acc': epoch_train_acc,
             'val_loss': val_loss,
             'val_acc': val_acc,
-            'run_name': run_name,
+            'best_val_metric_value': best_val_metric_value,  # Para reanudar el guardado del mejor
         }
-        
+
         # Guardar el modelo más reciente
-        #latest_checkpoint_path = checkpoint_dir / "model_latest.pth"
-        #torch.save(checkpoint_data, latest_checkpoint_path)
-        #logger.info(f"Checkpoint guardado (último): '{latest_checkpoint_path}'")
+        # latest_checkpoint_path = checkpoint_dir / "model_latest.pth"
+        # torch.save(checkpoint_data, latest_checkpoint_path)
+        # logger.info(f"Checkpoint guardado (último): '{latest_checkpoint_path}'")
 
         # Guardar periódicamente por época
-        if save_every_n_epochs > 0 and (epoch + 1) % save_every_n_epochs == 0:
-            epoch_checkpoint_path = checkpoint_dir / f"model_CNN3D_{epoch+1}_epochs.pth"
+        if save_every_n_epochs > 0 and current_epoch_display % save_every_n_epochs == 0:
+            epoch_checkpoint_path = checkpoint_dir_run / f"model_CNN3D_epoch_{current_epoch_display}.pth"
             torch.save(checkpoint_data, epoch_checkpoint_path)
-            logger.info(f"Checkpoint guardado (época {epoch + 1}): '{epoch_checkpoint_path}'")
+            logger.info(f"Checkpoint guardado (época {current_epoch_display}): '{epoch_checkpoint_path}'")
 
         # Guardar el mejor modelo
-        current_metric_for_best = val_loss if save_best_metric == 'loss' else val_acc
-        is_better = (current_metric_for_best < best_val_metric_value) if save_best_metric == 'loss' \
+        current_metric_for_best = val_loss if save_best_metric_type == "loss" else val_acc
+        is_better = (current_metric_for_best < best_val_metric_value) if save_best_metric_type == "loss" \
             else (current_metric_for_best > best_val_metric_value)
 
         if is_better:
             best_val_metric_value = current_metric_for_best
-            best_checkpoint_path = checkpoint_dir / "model_CNN3D_best.pth"
+            # Actualizar el valor en checkpoint_data antes de guardarlo como el mejor
+            checkpoint_data['best_val_metric_value'] = best_val_metric_value
+            best_checkpoint_path = checkpoint_dir_run / "model_CNN3D_best.pth"
             torch.save(checkpoint_data, best_checkpoint_path)
-            logger.info(f"Nuevo mejor checkpoint guardado (Val {save_best_metric}: {best_val_metric_value:.4f}): '{best_checkpoint_path}'")
-        
+            logger.info(
+                f"Nuevo mejor checkpoint guardado (Val {save_best_metric_type}: {best_val_metric_value:.4f}): '{best_checkpoint_path}'")
+
     ut.get_time_employed(t_start_training, "Entrenamiento.")
 
 
 def evaluate_model(
-    model,
-    dataloader,
-    criterion,
-    device,
-    per_epoch_eval=False,
+        model,
+        dataloader,
+        criterion,
+        device,
+        per_epoch_eval=False,
 ):
+    model.eval()
+
     if not per_epoch_eval:
         t_start = time.time()
         logger.info("Evaluación final iniciada...")
 
-    model.eval()
-    #logger.info("Evaluación iniciada...")
+    # logger.info("Evaluación iniciada...")
     running_loss = 0.0
     correct_predictions = 0
     total_samples = 0
@@ -284,6 +323,40 @@ def main(args):
     logger.info(f"Frames por clip: {FRAMES_PER_CLIP}, Duración clip: {CLIP_DURATION_SEC}s")
     logger.info(f"Modelo esperará frames de tamaño HxW: {TARGET_SIZE_DATASET[0]}x{TARGET_SIZE_DATASET[1]}")
 
+    start_epoch = 0
+    initial_best_val_metric = None
+    run_name_to_use = None
+    resume_checkpoint_file_path_from_arg = args.resume_checkpoint_file
+    actual_checkpoint_to_load = None  # para la ruta definitiva del checkpoint
+
+    if resume_checkpoint_file_path_from_arg is not None:
+        path_obj = Path(resume_checkpoint_file_path_from_arg)
+
+        if path_obj.is_absolute():
+            # Si el path proporcionado ya es absoluto, lo usamos directamente.
+            actual_checkpoint_to_load = path_obj
+            logger.info(f"Se proporcionó una ruta absoluta para reanudar: '{actual_checkpoint_to_load}'")
+        else:
+            actual_checkpoint_to_load = Path(M_BASIC) / resume_checkpoint_file_path_from_arg
+            logger.info(f"Se proporcionó una ruta relativa, resolviendo a: '{actual_checkpoint_to_load}'")
+
+        if actual_checkpoint_to_load.exists():
+            # Esto asegura que los nuevos checkpoints continúen en el mismo directorio de la ejecución anterior.
+            run_name_to_use = actual_checkpoint_to_load.parent.name
+            logger.info(
+                f"Se reanudará desde el checkpoint: '{actual_checkpoint_to_load}'. El nombre de la ejecución será: '{run_name_to_use}'.")
+        else:
+            logger.error(f"No existe checkpoint especificado: '{resume_checkpoint_file_path_from_arg}')")
+            sys.exit(1)
+    else:
+        # Si no se especifica un checkpoint para reanudar, es una nueva ejecución.
+        run_name_to_use = time.strftime("%Y%m%d-%H%M%S")
+        logger.info(f"Iniciando nuevo entrenamiento: {run_name_to_use}")  # actual_checkpoint_to_load permanece None
+
+    # print(run_name_to_use)
+    checkpoint_dir_run = Path(M_BASIC) / run_name_to_use
+    checkpoint_dir_run.mkdir(parents=True, exist_ok=True)
+
     train_transforms = T_v2.Compose([
         T_v2.RandomHorizontalFlip(p=0.5),  # volteo horizontal aleatorio
         T_v2.ColorJitter(
@@ -310,7 +383,7 @@ def main(args):
         ),
     ])
 
-    # --- Creación y División del Dataset ---
+    # Creación y División del Dataset
     logger.info("1. Creando dataset base para obtener la lista de todos los vídeos.")
     # Instancia base solo para recolectar todos los video_items. Sin transformaciones aquí.
     base_dataset_for_items = DatasetSoccernet(
@@ -398,68 +471,89 @@ def main(args):
     ).to(device)
 
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
-    
-    # Ejemplo básico de carga
-    """start_epoch = 0
-    if args.resume_checkpoint: # Nuevo argumento a parsear
-        if Path(args.resume_checkpoint).exists():
-            checkpoint = torch.load(args.resume_checkpoint)
-            model.load_state_dict(checkpoint['model_state_dict'])
-            optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
-            start_epoch = checkpoint['epoch']
-            best_val_metric_value = checkpoint.get('val_loss', float('inf')) # o val_acc
-            logger.info(f"Reanudando entrenamiento desde la época {start_epoch} del checkpoint '{args.resume_checkpoint}'")
-        else:
-            logger.warning(f"Checkpoint para reanudar no encontrado en '{args.resume_checkpoint}'. Empezando desde cero.")
-    
-    # Luego, al llamar a train_model, pasar start_epoch y modificar el bucle de épocas para que empiece desde start_epoch.
-    # El bucle en train_model sería: for epoch in range(start_epoch, num_epochs):"""
+    optimizer = optim.Adam(model.parameters(), lr=INITIAL_LEARNING_RATE)
+    scheduler = ReduceLROnPlateau(
+        optimizer=optimizer,
+        mode='min',
+        factor=LR_SCHEDULER_FACTOR,
+        patience=LR_SCHEDULER_PATIENCE,
+        # verbose=False,  # 'False' para no duplicar logs
+    )
+    logger.info(
+        f"Scheduler ReduceLROnPlateau activado: paciencia={LR_SCHEDULER_PATIENCE}, factor={LR_SCHEDULER_FACTOR}, monitoreando val_loss.")
 
-    current_time_str = time.strftime("%Y%m%d-%H%M%S")
-    run_name = f"cnn3d_{args.epocas}_epochs_{current_time_str}"
+    # Cargar Checkpoint si actual_checkpoint_to_load está definido y existe
+    if actual_checkpoint_to_load and actual_checkpoint_to_load.exists():
+        # logger.info(f"Cargando checkpoint desde: '{actual_checkpoint_to_load}'")
+        checkpoint = torch.load(actual_checkpoint_to_load, map_location=device)
+        model.load_state_dict(checkpoint['model_state_dict'])
+        optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+
+        if checkpoint.get('scheduler_state_dict'):
+            scheduler.load_state_dict(checkpoint['scheduler_state_dict'])
+
+        start_epoch = checkpoint['epoch']
+        initial_best_val_metric = checkpoint.get('best_val_metric_value')
+        logger.info(
+            f"Reanudando entrenamiento desde la época {start_epoch + 1}. LR actual: {optimizer.param_groups[0]['lr']:.7f}")
+
+    # current_time_str = time.strftime("%Y%m%d-%H%M%S")
+    # run_name = f"cnn3d_{args.epocas}_epochs_{current_time_str}"
 
     train_model(
-        model,
-        train_dataloader,
-        val_dataloader,
-        criterion,
-        optimizer,
+        model=model,
+        optimizer=optimizer,
+        scheduler=scheduler,
+        train_dataloader=train_dataloader,
+        val_dataloader=val_dataloader,
+        criterion=criterion,
         num_epochs=args.epocas,
         device=device,
-        save_every_n_epochs=args.epocas_checkpoint,
-        save_best_metric="loss",  # o 'accuracy'
-        run_name=run_name,
+        checkpoint_dir_run=checkpoint_dir_run,
+        save_every_n_epochs=EPOCAS_CHECKPOINT_SAVE_INTERVAL,
+        save_best_metric_type=SAVE_BEST_METRIC_TYPE,
+        start_epoch=start_epoch,
+        initial_best_val_metric=initial_best_val_metric,
     )
-    
+
     # La evaluación final después del bucle de entrenamiento ahora es opcional, ya que guardamos el mejor modelo y el último durante el entrenamiento.
     # Pero puede ser útil para una última verificación del estado final del modelo.
-    logger.info("Realizando evaluación final del modelo en su último estado de entrenamiento.")
+    best_model_path = checkpoint_dir_run / "model_CNN3D_best.pth"
+    if best_model_path.exists():
+        logger.info(f"Cargando el mejor modelo desde '{best_model_path}' para la evaluación final.")
+        checkpoint = torch.load(best_model_path, map_location=device)
+        model.load_state_dict(checkpoint['model_state_dict'])
+    else:
+        logger.warning(f"No se encontró el archivo del mejor modelo. Evaluando el último estado del modelo.")
+
     evaluate_model(
-        model,
-        val_dataloader,
-        criterion,
-        device,
+        model=model,
+        dataloader=val_dataloader,
+        criterion=criterion,
+        device=device,
         per_epoch_eval=False,
     )
+
+    logger.info(f"Los checkpoints de la ejecución '{run_name_to_use}' se encuentran en '{checkpoint_dir_run}'")
 
 
 def parse_arguments():
     parser = argparse.ArgumentParser(
         description="Mdelo CNN3D - entrenamiento y guardado, directamente desde videos.",
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
         "--epocas",
-        default=10,  # TODO ajustar
+        default=5,  # TODO
         type=ut.non_negative_int,
-        help="Número de épocas para el entrenamiento."
+        help="Número de épocas para el entrenamiento.",
     )
     parser.add_argument(
-        "--epocas_checkpoint",
-        default=5,
-        type=ut.non_negative_int,
-        help="Frecuencia (en épocas) para guardar un checkpoint."
+        "--resume_checkpoint_file",
+        #default="20250603-233152/model_CNN3D_best.pth",  # TODO
+        default=None,  # TODO
+        type=str,
+        help="Reanudar entrenamiento desde un checkpoint.",
     )
 
     return parser.parse_args()
