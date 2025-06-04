@@ -18,7 +18,6 @@ SOCCERNET_LABELS = {
     "Corner": 3,
 }
 PARTIDOS_INDICE_LOTE = [
-    #[0, 1],
     [0, 49],
     [50, 99],
     [100, 149],

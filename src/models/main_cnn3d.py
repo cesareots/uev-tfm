@@ -69,57 +69,85 @@ class SimpleCNN3D(nn.Module):
             nn.Conv3d(input_channels, 32, kernel_size=(3, 3, 3), padding=1),
             nn.BatchNorm3d(32),
             nn.ReLU(),
-            nn.MaxPool3d(kernel_size=(2, 2, 2), stride=2),  # (B, 32, T/2, H/2, W/2)
+            nn.Dropout3d(p=0.2),
+            nn.MaxPool3d(kernel_size=(2, 2, 2), stride=2),
 
             nn.Conv3d(32, 64, kernel_size=(3, 3, 3), padding=1),
             nn.BatchNorm3d(64),
             nn.ReLU(),
-            nn.MaxPool3d(kernel_size=(2, 2, 2), stride=2),  # (B, 64, T/4, H/4, W/4)
+            nn.Dropout3d(p=0.3),
+            nn.MaxPool3d(kernel_size=(2, 2, 2), stride=2),
 
             nn.Conv3d(64, 128, kernel_size=(3, 3, 3), padding=1),
             nn.BatchNorm3d(128),
             nn.ReLU(),
-            nn.MaxPool3d(kernel_size=(2, 2, 2), stride=2),  # (B, 128, T/8, H/8, W/8)
+            nn.Dropout3d(p=0.4),
+            nn.MaxPool3d(kernel_size=(2, 2, 2), stride=2),
+
+            nn.Conv3d(128, 256, kernel_size=(3, 3, 3), padding=1),  # ultima capa convolucional
+            nn.BatchNorm3d(256),
+            nn.ReLU(),
+            nn.Dropout3d(p=0.5),
+            nn.MaxPool3d(kernel_size=(2, 2, 2), stride=2),
         )
 
-        # Calcular el tamaño de la entrada a la capa lineal después de aplanar
-        # Podemos usar un tensor dummy para que PyTorch nos diga el tamaño
+        # Calcular la forma de salida de self.features para verificación y para obtener num_features_for_fc
         # (Batch=1, C, T, H, W)
-        dummy_input_size = (1, input_channels, input_frames, input_size[0], input_size[1])
-        dummy_tensor = torch.zeros(dummy_input_size)
+        dummy_input_size_tuple = (1, input_channels, input_frames, input_size[0], input_size[1])
+        dummy_tensor = torch.zeros(dummy_input_size_tuple)
 
         with torch.no_grad():
             try:
-                size_after_features = self.features(dummy_tensor).shape
+                output_shape_features = self.features(dummy_tensor).shape
             except RuntimeError as e:
                 logger.error(
-                    f"Calculando el tamaño a aplanar: {e}. Las dimensiones de entrada {input_size} pueden ser demasiado pequeñas.")
-                # Considera ajustar la arquitectura o el tamaño de entrada si esto ocurre.
-                # Para que el código no falle, podrías lanzar una excepción o usar un tamaño de emergencia y advertir.
+                    f"Error al calcular la salida de self.features con input_channels={input_channels}, input_frames={input_frames}, input_size={input_size}: {e}. "
+                    f"Las dimensiones de entrada pueden ser demasiado pequeñas para la arquitectura.")
                 raise ValueError(
                     f"Error al calcular el tamaño aplanado con input_size={input_size}. Ajusta el modelo o el tamaño de entrada.") from e
 
-        # Tamaño a aplanar: canales * dim_temporal * dim_alto * dim_ancho
-        flattened_size = size_after_features[1] * size_after_features[2] * size_after_features[3] * size_after_features[
-            4]
-        logger.info(f"Tamaño a aplanar calculado: {size_after_features} -> {flattened_size}")
+        logger.info(
+            f"Dimensiones de entrada al modelo (C, T, H, W): ({input_channels}, {input_frames}, {input_size[0]}, {input_size[1]})")
+        logger.info(f"Dimensiones tras self.features (antes de adaptive_pool): {output_shape_features}")
 
-        if flattened_size == 0:
+        # Comprobar si alguna dimensión (T, H, W) colapsó a cero después de self.features
+        # output_shape_features es (B, C, T_out, H_out, W_out)
+        if any(d == 0 for d in output_shape_features[2:]):  # Comprobar T_out, H_out, W_out
             raise ValueError(
-                f"Flattened size es 0. Output de features: {size_after_features}. Input H,W: {input_size}, T: {input_frames}")
+                f"Una o más dimensiones (T, H, W) se han reducido a 0 después de self.features: {output_shape_features}. "
+                f"Dimensiones de entrada (T, H, W): ({input_frames}, {input_size[0]}, {input_size[1]}). "
+                f"Esto puede ocurrir si la entrada es demasiado pequeña para la profundidad/strides de la red convolucional.")
 
-        logger.info(f"Tamaño de entrada al modelo HxW: {input_size}")
-        logger.info(f"Dimensiones tras capas convolucionales: {size_after_features}")
-        logger.info(f"Tamaño a aplanar calculado: {flattened_size}")
+        # Pooling adaptativo global para reducir cada canal a un tamaño de 1x1x1
+        self.adaptive_pool = nn.AdaptiveAvgPool3d((1, 1, 1))
 
-        self.fc = nn.Linear(flattened_size, num_classes)
+        # El número de características para la capa FC es el número de canales de salida de self.features
+        num_features_for_fc = output_shape_features[1]  # Dimensión de canales
+
+        # Después de adaptive_pool, la forma será (Batch, num_features_for_fc, 1, 1, 1)
+        # Al aplanar, esto se convierte en (Batch, num_features_for_fc)
+        logger.info(f"Después de adaptive_pool, las dimensiones espaciales/temporales se reducen a (1,1,1).")
+        logger.info(f"Número de características para la capa lineal (FC): {num_features_for_fc}")
+
+        if num_features_for_fc == 0:  # No debería ocurrir si las capas convolucionales están definidas correctamente
+            raise ValueError(
+                f"El número de características para la capa FC es 0. Salida de self.features: {output_shape_features}")
+
+        self.fc = nn.Sequential(
+            nn.Linear(num_features_for_fc, 1024),
+            nn.ReLU(),
+            nn.Dropout(p=0.5),
+            nn.Linear(1024, num_classes),
+        )
 
     def forward(self, x):
-        # Input x shape: (Batch, C, T, H, W)
+        # Input shape: (Batch, C, T, H, W)
         x = self.features(x)
-        # Flatten
+        # Aplicar pooling adaptativo
+        x = self.adaptive_pool(x)
+        # Aplanar: la salida de adaptive_pool es (Batch, Channels, 1, 1, 1)
         x = x.view(x.size(0), -1)
-        # Fully connected layer
+        # capa 'fully connected'
         x = self.fc(x)
 
         return x
@@ -544,14 +572,14 @@ def parse_arguments():
     )
     parser.add_argument(
         "--epocas",
-        default=5,  # TODO
+        default=1,  # TODO
         type=ut.non_negative_int,
         help="Número de épocas para el entrenamiento.",
     )
     parser.add_argument(
         "--resume_checkpoint_file",
-        #default="20250603-233152/model_CNN3D_best.pth",  # TODO
-        default=None,  # TODO
+        # default="20250603-233152/model_CNN3D_best.pth",  # TODO
+        default=None,  # empezará un nuevo entrenamiento
         type=str,
         help="Reanudar entrenamiento desde un checkpoint.",
     )

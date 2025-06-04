@@ -439,7 +439,7 @@ if __name__ == "__main__":
     else:
         # Valores por defecto si no se proporcionan argumentos desde la línea de comandos
         class Args:
-            partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[1])
+            partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[2])
             # calidad_video = "224p"
             calidad_video = "720p"
             omitir_descarga = 0
