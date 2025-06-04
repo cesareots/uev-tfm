@@ -539,7 +539,7 @@ def main(args):
 
 def parse_arguments():
     parser = argparse.ArgumentParser(
-        description="Mdelo CNN3D - entrenamiento y guardado, directamente desde videos.",
+        description="Modelo CNN3D - entrenamiento y guardado, directamente desde videos.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(

@@ -240,9 +240,9 @@ def obtener_numeros(rango):
 
 
 def escribir_csv(
-    nombre_archivo,
-    cabecera,
-    registro,
+        nombre_archivo,
+        cabecera,
+        registro,
 ) -> None:
     """
     Escribe un registro en un archivo CSV.
@@ -264,24 +264,24 @@ def escribir_csv(
         # Si el archivo no existe, escribe la cabecera
         if not archivo_existe:
             escritor_csv.writerow(cabecera)
-        
+
         # Escribe el registro actual
         escritor_csv.writerow(registro)
 
 
 def juego_ya_registrado(
-    nombre_archivo_games_csv,
-    game_index,
+        nombre_archivo_games_csv,
+        game_index,
 ):
     """
     Verifica si un índice de juego ya está presente en el games.csv para evitar duplicados.
     """
     if not os.path.exists(nombre_archivo_games_csv):
         return False
-    
+
     with open(nombre_archivo_games_csv, mode='r', newline='', encoding='utf-8') as archivo_csv:
         lector_csv = csv.reader(archivo_csv)
-        next(lector_csv, None) # Saltar la cabecera
+        next(lector_csv, None)  # Saltar la cabecera
         for fila in lector_csv:
             try:
                 # Asumiendo que el índice es la primera columna
@@ -290,5 +290,32 @@ def juego_ya_registrado(
             except ValueError:
                 # Si el valor no es un entero, lo ignoramos y seguimos
                 continue
-            
+
     return False
+
+
+def leer_registros_txt(ruta_archivo: str) -> list:
+    """
+    Lee un archivo de texto (.txt) y almacena cada línea como un elemento en una lista.
+
+    Args:
+        ruta_archivo (str): La ruta completa al archivo .txt.
+
+    Returns:
+        list: Una lista de strings, donde cada string es una línea del archivo.
+              Retorna una lista vacía si el archivo no se encuentra o está vacío.
+    """
+    registros = []
+
+    try:
+        with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
+            for linea in archivo:
+                # .strip() elimina los espacios en blanco al principio/final y, muy importante, el carácter de nueva línea ('\n')
+                registros.append(linea.strip())
+        logger.info(f"Archivo '{ruta_archivo}' leído exitosamente. Se encontraron {len(registros)} registros.")
+    except FileNotFoundError:
+        logger.error(f"El archivo '{ruta_archivo}' no fue encontrado.")
+    except Exception as e:
+        logger.error(f"Al leer el archivo '{ruta_archivo}': {str(e)}")
+
+    return registros
