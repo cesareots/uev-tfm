@@ -208,7 +208,7 @@ def extras(
         model_name_dir: str,
 ):
     actual_checkpoint_to_load = None
-    
+
     if resume_checkpoint_file_path_from_arg is not None:
         path_obj = Path(resume_checkpoint_file_path_from_arg)
 

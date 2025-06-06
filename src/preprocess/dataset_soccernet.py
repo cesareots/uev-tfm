@@ -7,9 +7,10 @@ import numpy as np
 import torch
 import torchvision.io
 import torchvision.transforms.v2 as T_v2
+from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader, random_split
 from torch.utils.data import Dataset
-from sklearn.model_selection import train_test_split
+
 from src.utils.constants import *
 
 logger = logging.getLogger(__name__)
@@ -126,7 +127,6 @@ class DatasetSoccernet(Dataset):
                 video_tensor_processed = self.transform(video_tensor_processed)
             # video_tensor_processed shape: (FRAMES_PER_CLIP, C, H_final_model, W_final_model)
 
-            #video_tensor_final = video_tensor_processed.float() / 255.0  # self.transform se encarga de esto
             video_tensor_final = video_tensor_processed.permute(1, 0, 2, 3)  # (C, T, H, W)
             label_tensor = torch.tensor(label, dtype=torch.long)
 
@@ -247,3 +247,124 @@ def crear_dividir_dataset(
     )
 
     return train_dataloader, val_dataloader
+
+
+def crear_dividir_dataset_t_v_t(
+        frames_per_clip: int,
+        target_fps: float,
+        train_transforms: T_v2.Compose,
+        validation_test_transforms: T_v2.Compose,
+        batch_size: int,
+        train_split: float = 0.7,
+        val_split: float = 0.15,
+        test_split: float = 0.15,
+):
+    """
+    Crea y divide el dataset en entrenamiento, validación y prueba, asegurando
+    la estratificación de clases, y devuelve sus respectivos DataLoaders.
+    """
+    # Validar que los porcentajes suman 1.0
+    if not np.isclose(train_split + val_split + test_split, 1.0):
+        raise ValueError("Los porcentajes de train, val, y test deben sumar 1.0")
+
+    logger.info("1. Creando dataset base para obtener la lista de todos los vídeos.")
+    base_dataset = DatasetSoccernet(
+        root_dir=DS_SOCCERNET_ACTIONS,
+        label_map=SOCCERNET_LABELS,
+        frames_per_clip=frames_per_clip,
+        target_fps=target_fps,
+        transform=None,  # No aplicar transformaciones
+    )
+    if len(base_dataset) == 0:
+        logger.error(f"'{DS_SOCCERNET_ACTIONS}' está vacío.")
+        sys.exit(1)
+
+    # lista (path, label, action_name)
+    all_video_items = base_dataset.video_items
+
+    logger.info(f"2. Extraer los paths (X) y las etiquetas (y) para la estratificación.")
+    paths = [item[0] for item in all_video_items]
+    labels = [item[1] for item in all_video_items]
+
+    logger.info(f"3. Primera división: separar el conjunto de Test")
+    # Creamos un conjunto de entrenamiento temporal (train+val) y el conjunto de test final
+    train_val_indices, test_indices = train_test_split(
+        range(len(paths)),  # Dividir sobre los índices
+        test_size=test_split,
+        stratify=labels,  # Mantiene la proporción de clases
+        random_state=SEMILLA,
+    )
+
+    logger.info(f"4. Segunda división: separar Train y Validation del conjunto temporal")
+    # Calculamos el tamaño de la validación como proporción del conjunto train_val restante
+    val_size_proportion = val_split / (train_split + val_split)
+
+    train_indices, val_indices = train_test_split(
+        train_val_indices,  # Dividir el conjunto de índices que no son de test
+        test_size=val_size_proportion,
+        stratify=[labels[i] for i in train_val_indices],  # Estratificar sobre las etiquetas de este subconjunto
+        random_state=SEMILLA,
+    )
+
+    # Reconstruir las listas de items para cada conjunto
+    train_items = [all_video_items[i] for i in train_indices]
+    val_items = [all_video_items[i] for i in val_indices]
+    test_items = [all_video_items[i] for i in test_indices]
+
+    # Crear los tres Datasets
+    train_dataset = DatasetSoccernet(
+        root_dir=None,
+        label_map=SOCCERNET_LABELS,
+        frames_per_clip=frames_per_clip,
+        target_fps=target_fps,
+        transform=train_transforms,
+        video_items_list=train_items,
+    )
+    val_dataset = DatasetSoccernet(
+        root_dir=None,
+        label_map=SOCCERNET_LABELS,
+        frames_per_clip=frames_per_clip,
+        target_fps=target_fps,
+        transform=validation_test_transforms,
+        video_items_list=val_items,
+    )
+    test_dataset = DatasetSoccernet(
+        root_dir=None,
+        label_map=SOCCERNET_LABELS,
+        frames_per_clip=frames_per_clip,
+        target_fps=target_fps,
+        transform=validation_test_transforms,
+        video_items_list=test_items,
+    )
+
+    if len(train_dataset) == 0 or len(val_dataset) == 0 or len(test_dataset) == 0:
+        logger.error("Uno de los datasets (train/validation/test) está vacío después del split. Verificar.")
+        sys.exit(1)
+
+    # Crear los tres DataLoaders
+    train_dataloader = DataLoader(
+        train_dataset,
+        batch_size=batch_size,
+        shuffle=True,
+        num_workers=4,  # Número de subprocesos para la carga de datos.
+        pin_memory=True,  # Optimización para transferencias a GPU.
+    )
+    val_dataloader = DataLoader(
+        val_dataset,
+        batch_size=batch_size,
+        shuffle=False,
+        num_workers=4,
+        pin_memory=True,
+    )
+    test_dataloader = DataLoader(
+        test_dataset,
+        batch_size=batch_size,
+        shuffle=False,
+        num_workers=4,
+        pin_memory=True,
+    )
+
+    logger.info(f"5. Datasets y DataLoaders creados. "
+                f"Train: ({len(train_items)} videos). Validation: ({len(val_items)} videos). Test: ({len(test_items)} videos).")
+
+    return train_dataloader, val_dataloader, test_dataloader

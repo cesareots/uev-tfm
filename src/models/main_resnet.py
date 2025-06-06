@@ -6,14 +6,14 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
+import torchvision.transforms.v2 as T_v2
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from torchvision.models.video import r2plus1d_18, R2Plus1D_18_Weights
 
-from src.models.engine_training import train_model, extras
-from src.preprocess.dataset_soccernet import NUM_CLASSES, CLIP_DURATION_SEC, crear_dividir_dataset
+from src.models.engine_training import train_model, evaluate_model, extras
+from src.preprocess.dataset_soccernet import NUM_CLASSES, CLIP_DURATION_SEC, crear_dividir_dataset_t_v_t
 from src.utils import utils as ut
 from src.utils.constants import *
-import torchvision.transforms.v2 as T_v2
 
 logger = logging.getLogger(__name__)
 
@@ -82,7 +82,7 @@ def get_pretrained_r2plus1d_model(
     model.fc = nn.Linear(num_original_features, num_classes_output)
     logger.info(f"Cabeza de clasificación reemplazada: {num_original_features} -> {num_classes_output} clases.")
 
-    #return model, weights.transforms()
+    # return model, weights.transforms()
     return model, weights
 
 
@@ -108,7 +108,7 @@ def main(args):
     model = model.to(device)
     logger.info("Transformaciones deterministas que acepta el modelo:")
     logger.info(weights.transforms())
-    
+
     # pipeline de transformaciones para ENTRENAMIENTO
     train_transforms = T_v2.Compose([
         # Los modelos de torchvision esperan uint8 en el rango [0, 255] al inicio
@@ -145,7 +145,7 @@ def main(args):
             std=weights.transforms().std,
         ),
     ])
-    
+
     # pipeline de transformaciones para VALIDACIÓN, solo contiene el pre-procesamiento determinista.
     val_transforms = T_v2.Compose([
         # Los modelos de torchvision esperan uint8 en el rango [0, 255] al inicio
@@ -173,12 +173,15 @@ def main(args):
     ])
 
     # Creación y División del Dataset
-    train_dataloader, val_dataloader = crear_dividir_dataset(
+    train_dataloader, val_dataloader, test_dataloader = crear_dividir_dataset_t_v_t(
         frames_per_clip=TRANSFER_MODEL_FRAMES_PER_CLIP,
         target_fps=TARGET_FPS,
         train_transforms=train_transforms,
         val_transforms=val_transforms,
         batch_size=BATCH_SIZE,
+        train_split=0.7,
+        val_split=0.15,
+        test_split=0.15,
     )
 
     # Optimizador y Scheduler
@@ -243,7 +246,25 @@ def main(args):
         checkpoint_base_name=model_name,
     )
 
-    # TODO evaluar con split: test
+    # Cargar el MEJOR modelo guardado durante el entrenamiento
+    best_model_path = checkpoint_dir_run / f"{model_name}_best.pth"
+
+    if best_model_path.exists():
+        logger.info(f"Mejor modelo '{best_model_path}' para evaluación final, en 'TEST'.")
+        checkpoint = torch.load(best_model_path, map_location=device)
+        model.load_state_dict(checkpoint['model_state_dict'])
+    else:
+        logger.warning(
+            f"No se encontró archivo del mejor modelo. Evaluando con el último estado del modelo, en 'TEST'.")
+
+    logger.info("Iniciando evaluación final, en 'TEST' (NO VISTO)")
+    evaluate_model(
+        model=model,
+        dataloader=test_dataloader,
+        criterion=criterion,
+        device=device,
+        per_epoch_eval=False,  # Para obtener el log completo y detallado
+    )
 
     logger.info(f"Checkpoints de '{run_name_to_use}' se encuentran en '{checkpoint_dir_run}'")
 
