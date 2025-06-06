@@ -1,0 +1,15 @@
+spain_laliga/2015-2016/2015-12-05 - 18-00 Real Madrid 4 - 1 Getafe
+spain_laliga/2015-2016/2015-12-30 - 18-00 Real Madrid 3 - 1 Real Sociedad
+spain_laliga/2015-2016/2016-02-27 - 18-00 Real Madrid 0 - 1 Atl. Madrid
+spain_laliga/2015-2016/2016-03-02 - 23-00 Levante 1 - 3 Real Madrid
+spain_laliga/2015-2016/2016-05-08 - 18-00 Real Madrid 3 - 2 Valencia
+spain_laliga/2015-2016/2016-05-14 - 18-00 Dep. La Coruna 0 - 2 Real Madrid
+spain_laliga/2016-2017/2016-09-10 - 21-30 Barcelona 1 - 2 Alaves
+spain_laliga/2016-2017/2016-09-21 - 21-00 Real Madrid 1 - 1 Villarreal
+spain_laliga/2016-2017/2016-09-24 - 21-45 Las Palmas 2 - 2 Real Madrid
+spain_laliga/2016-2017/2016-11-26 - 18-15 Real Madrid 2 - 1 Gijon
+spain_laliga/2016-2017/2016-12-18 - 22-45 Barcelona 4 - 1 Espanyol
+spain_laliga/2016-2017/2017-02-11 - 22-45 Osasuna 1 - 3 Real Madrid
+spain_laliga/2016-2017/2017-03-12 - 22-45 Real Madrid 2 - 1 Betis
+spain_laliga/2016-2017/2017-04-02 - 17-15 Real Madrid 3 - 0 Alaves
+spain_laliga/2016-2017/2017-04-08 - 21-45 Malaga 2 - 0 Barcelona

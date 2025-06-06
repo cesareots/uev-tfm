@@ -1,0 +1,21 @@
+italy_serie-a/2014-2015/2015-04-29 - 21-45 Juventus 3 - 2 Fiorentina
+italy_serie-a/2015-2016/2015-08-29 - 21-45 AC Milan 2 - 1 Empoli
+italy_serie-a/2015-2016/2015-09-20 - 16-00 Genoa 0 - 2 Juventus
+italy_serie-a/2015-2016/2015-09-27 - 21-45 Inter 1 - 4 Fiorentina
+italy_serie-a/2016-2017/2016-08-27 - 21-45 Napoli 4 - 2 AC Milan
+italy_serie-a/2016-2017/2016-09-11 - 16-00 AC Milan 0 - 1 Udinese
+italy_serie-a/2016-2017/2016-09-20 - 21-45 AC Milan 2 - 0 Lazio
+italy_serie-a/2016-2017/2016-09-24 - 21-45 Napoli 2 - 0 Chievo
+italy_serie-a/2016-2017/2016-09-25 - 13-30 Torino 3 - 1 AS Roma
+italy_serie-a/2016-2017/2016-09-25 - 21-45 Fiorentina 0 - 0 AC Milan
+italy_serie-a/2016-2017/2016-10-02 - 21-45 AS Roma 2 - 1 Inter
+italy_serie-a/2016-2017/2016-11-20 - 17-00 Atalanta 2 - 1 AS Roma
+italy_serie-a/2016-2017/2016-11-26 - 22-45 Empoli 1 - 4 AC Milan
+italy_serie-a/2016-2017/2016-12-04 - 17-00 Lazio 0 - 2 AS Roma
+italy_serie-a/2016-2017/2017-01-08 - 17-00 Genoa 0 - 1 AS Roma
+italy_serie-a/2016-2017/2017-01-29 - 17-00 Sampdoria 3 - 2 AS Roma
+italy_serie-a/2016-2017/2017-02-07 - 22-45 AS Roma 4 - 0 Fiorentina
+italy_serie-a/2016-2017/2017-02-25 - 20-00 Napoli 0 - 2 Atalanta
+italy_serie-a/2016-2017/2017-02-26 - 22-45 Inter 1 - 3 AS Roma
+italy_serie-a/2016-2017/2017-04-01 - 21-45 AS Roma 2 - 0 Empoli
+italy_serie-a/2016-2017/2017-04-30 - 21-45 Inter 0 - 1 Napoli

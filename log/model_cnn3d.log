@@ -1,0 +1,460 @@
+2025-05-31 02:06:29 - src.utils.utils - INFO - Directorio no existía y fue creado 'D:\uev-tfm\models'
+2025-05-31 02:06:29 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-05-31 02:06:29 - __main__ - INFO - Iniciando carga de datos directamente desde vídeos.
+2025-05-31 02:06:29 - __main__ - INFO - Frames por clip: 32, Duración clip: 3.0s
+2025-05-31 02:06:29 - __main__ - INFO - Modelo esperará frames de tamaño HxW: 256x256
+2025-05-31 02:06:29 - __main__ - INFO - 1. Creando dataset base para obtener la lista de todos los vídeos.
+2025-05-31 02:06:29 - __main__ - INFO - 2. Dividiendo 24 vídeos en conjuntos de entrenamiento y validación (80/20)
+2025-05-31 02:06:29 - __main__ - INFO - 3. Creando dataset de entrenamiento (19 videos) con train_transforms.
+2025-05-31 02:06:29 - __main__ - INFO - 4. Creando dataset de validación (5 vídeos) con val_transforms
+2025-05-31 02:06:29 - __main__ - INFO - 5. Creando DataLoaders.
+2025-05-31 02:06:29 - __main__ - INFO - Tamaño a aplanar calculado: torch.Size([1, 128, 4, 32, 32]) -> 524288
+2025-05-31 02:06:29 - __main__ - INFO - Tamaño de entrada al modelo HxW: (256, 256)
+2025-05-31 02:06:29 - __main__ - INFO - Dimensiones tras capas convolucionales: torch.Size([1, 128, 4, 32, 32])
+2025-05-31 02:06:29 - __main__ - INFO - Tamaño a aplanar calculado: 524288
+2025-05-31 02:06:29 - __main__ - INFO - Entrenamiento iniciado... Número de épocas: 2
+2025-05-31 02:07:58 - __main__ - INFO - Epoch [1/2] finalizada. Pérdida: 143.0378, Precisión: 0.4211
+2025-05-31 02:09:22 - __main__ - INFO - Epoch [2/2] finalizada. Pérdida: 84.1650, Precisión: 0.6842
+2025-05-31 02:09:22 - src.utils.utils - INFO - Tiempo total: 2.89 minutos. Tarea: Entrenamiento.
+2025-05-31 02:09:22 - __main__ - INFO - Evaluación iniciada...
+2025-05-31 02:09:30 - src.utils.utils - INFO - Tiempo total: 0.12 minutos. Tarea: Evaluación.
+2025-05-31 02:09:30 - __main__ - INFO - Pérdida promedio en validación: 126.7223, Precisión en validación: 0.0000
+2025-05-31 02:09:30 - __main__ - INFO - Modelo guardado en 'models\model_torch_CNN3D_2epochs_1748650170.pth'
+2025-06-01 23:23:25 - src.utils.utils - INFO - Directorio no existía y fue creado 'D:\uev-tfm\models\CNN3D'
+2025-06-01 23:23:25 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-01 23:23:25 - __main__ - INFO - Iniciando carga de datos directamente desde vídeos.
+2025-06-01 23:23:25 - __main__ - INFO - Frames por clip: 32, Duración clip: 3.0s
+2025-06-01 23:23:25 - __main__ - INFO - Modelo esperará frames de tamaño HxW: 256x256
+2025-06-01 23:23:25 - __main__ - INFO - 1. Creando dataset base para obtener la lista de todos los vídeos.
+2025-06-01 23:23:25 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 8 videos en dataset/soccernet_actions.
+2025-06-01 23:23:25 - __main__ - INFO - 2. Dividiendo 8 vídeos en conjuntos de entrenamiento y validación (80/20)
+2025-06-01 23:23:25 - __main__ - INFO - 3. Creando dataset de entrenamiento (6 videos) con train_transforms.
+2025-06-01 23:23:25 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet inicializado con 6 videos predefinidos.
+2025-06-01 23:23:25 - __main__ - INFO - 4. Creando dataset de validación (2 vídeos) con val_transforms
+2025-06-01 23:23:25 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet inicializado con 2 videos predefinidos.
+2025-06-01 23:23:25 - __main__ - INFO - 5. Creando DataLoaders.
+2025-06-01 23:23:25 - __main__ - INFO - Tamaño a aplanar calculado: torch.Size([1, 128, 4, 32, 32]) -> 524288
+2025-06-01 23:23:25 - __main__ - INFO - Tamaño de entrada al modelo HxW: (256, 256)
+2025-06-01 23:23:25 - __main__ - INFO - Dimensiones tras capas convolucionales: torch.Size([1, 128, 4, 32, 32])
+2025-06-01 23:23:25 - __main__ - INFO - Tamaño a aplanar calculado: 524288
+2025-06-01 23:23:25 - __main__ - INFO - Entrenamiento iniciado... Número de épocas: 10
+2025-06-01 23:23:25 - __main__ - INFO - Guardando checkpoints en: models\CNN3D\cnn3d_10_epochs_20250601-232325
+2025-06-01 23:24:10 - __main__ - INFO - Epoch [1/10] (Entrenamiento) finalizada en 44.61s. Pérdida: 1.4033, Precisión: 0.5000
+2025-06-01 23:24:15 - __main__ - INFO - Epoch [1/10] (Validación). Pérdida: 27.5045, Precisión: 0.0000
+2025-06-01 23:24:15 - __main__ - INFO - Nuevo mejor checkpoint guardado (Val loss: 27.5045): 'models\CNN3D\cnn3d_10_epochs_20250601-232325\model_CNN3D_best.pth'
+2025-06-01 23:24:58 - __main__ - INFO - Epoch [2/10] (Entrenamiento) finalizada en 42.58s. Pérdida: 12.9061, Precisión: 0.3333
+2025-06-01 23:25:03 - __main__ - INFO - Epoch [2/10] (Validación). Pérdida: 6.7872, Precisión: 0.0000
+2025-06-01 23:25:03 - __main__ - INFO - Nuevo mejor checkpoint guardado (Val loss: 6.7872): 'models\CNN3D\cnn3d_10_epochs_20250601-232325\model_CNN3D_best.pth'
+2025-06-01 23:25:44 - __main__ - INFO - Epoch [3/10] (Entrenamiento) finalizada en 40.96s. Pérdida: 2.5032, Precisión: 0.5000
+2025-06-01 23:25:49 - __main__ - INFO - Epoch [3/10] (Validación). Pérdida: 1.8242, Precisión: 0.0000
+2025-06-01 23:25:49 - __main__ - INFO - Nuevo mejor checkpoint guardado (Val loss: 1.8242): 'models\CNN3D\cnn3d_10_epochs_20250601-232325\model_CNN3D_best.pth'
+2025-06-01 23:26:29 - __main__ - INFO - Epoch [4/10] (Entrenamiento) finalizada en 40.31s. Pérdida: 1.2804, Precisión: 0.6667
+2025-06-01 23:26:34 - __main__ - INFO - Epoch [4/10] (Validación). Pérdida: 2.2509, Precisión: 0.0000
+2025-06-01 23:27:16 - __main__ - INFO - Epoch [5/10] (Entrenamiento) finalizada en 41.49s. Pérdida: 1.0684, Precisión: 0.5000
+2025-06-01 23:27:21 - __main__ - INFO - Epoch [5/10] (Validación). Pérdida: 1.7191, Precisión: 0.0000
+2025-06-01 23:27:21 - __main__ - INFO - Checkpoint guardado (época 5): 'models\CNN3D\cnn3d_10_epochs_20250601-232325\model_CNN3D_5_epochs.pth'
+2025-06-01 23:27:21 - __main__ - INFO - Nuevo mejor checkpoint guardado (Val loss: 1.7191): 'models\CNN3D\cnn3d_10_epochs_20250601-232325\model_CNN3D_best.pth'
+2025-06-01 23:28:02 - __main__ - INFO - Epoch [6/10] (Entrenamiento) finalizada en 40.82s. Pérdida: 0.9806, Precisión: 0.6667
+2025-06-01 23:28:07 - __main__ - INFO - Epoch [6/10] (Validación). Pérdida: 1.6974, Precisión: 0.0000
+2025-06-01 23:28:07 - __main__ - INFO - Nuevo mejor checkpoint guardado (Val loss: 1.6974): 'models\CNN3D\cnn3d_10_epochs_20250601-232325\model_CNN3D_best.pth'
+2025-06-01 23:28:48 - __main__ - INFO - Epoch [7/10] (Entrenamiento) finalizada en 40.98s. Pérdida: 0.9593, Precisión: 0.6667
+2025-06-01 23:28:53 - __main__ - INFO - Epoch [7/10] (Validación). Pérdida: 2.1767, Precisión: 0.0000
+2025-06-01 23:29:35 - __main__ - INFO - Epoch [8/10] (Entrenamiento) finalizada en 42.17s. Pérdida: 0.8684, Precisión: 0.6667
+2025-06-01 23:29:40 - __main__ - INFO - Epoch [8/10] (Validación). Pérdida: 1.8702, Precisión: 0.0000
+2025-06-01 23:30:22 - __main__ - INFO - Epoch [9/10] (Entrenamiento) finalizada en 41.87s. Pérdida: 0.7650, Precisión: 0.6667
+2025-06-01 23:30:27 - __main__ - INFO - Epoch [9/10] (Validación). Pérdida: 2.0016, Precisión: 0.0000
+2025-06-01 23:31:08 - __main__ - INFO - Epoch [10/10] (Entrenamiento) finalizada en 41.34s. Pérdida: 0.7432, Precisión: 0.6667
+2025-06-01 23:31:13 - __main__ - INFO - Epoch [10/10] (Validación). Pérdida: 1.9115, Precisión: 0.0000
+2025-06-01 23:31:13 - __main__ - INFO - Checkpoint guardado (época 10): 'models\CNN3D\cnn3d_10_epochs_20250601-232325\model_CNN3D_10_epochs.pth'
+2025-06-01 23:31:13 - src.utils.utils - INFO - Tiempo total: 7.8 minutos. Tarea: Entrenamiento.
+2025-06-01 23:31:13 - __main__ - INFO - Realizando evaluación final del modelo en su último estado de entrenamiento.
+2025-06-01 23:31:13 - __main__ - INFO - Evaluación final iniciada...
+2025-06-01 23:31:18 - src.utils.utils - INFO - Tiempo total: 0.08 minutos. Tarea: Evaluación final.
+2025-06-01 23:31:18 - __main__ - INFO - Pérdida promedio en validación: 1.9115, Precisión en validación: 0.0000
+2025-06-03 21:37:41 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-03 21:37:41 - __main__ - INFO - Iniciando carga de datos directamente desde vídeos.
+2025-06-03 21:37:41 - __main__ - INFO - Frames por clip: 32, Duración clip: 3.0s
+2025-06-03 21:37:41 - __main__ - INFO - Modelo esperará frames de tamaño HxW: 256x256
+2025-06-03 21:38:02 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-03 21:38:02 - __main__ - INFO - Iniciando carga de datos directamente desde vídeos.
+2025-06-03 21:38:02 - __main__ - INFO - Frames por clip: 32, Duración clip: 3.0s
+2025-06-03 21:38:02 - __main__ - INFO - Modelo esperará frames de tamaño HxW: 256x256
+2025-06-03 21:43:47 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-03 21:43:47 - __main__ - INFO - Iniciando carga de datos directamente desde vídeos.
+2025-06-03 21:43:47 - __main__ - INFO - Frames por clip: 32, Duración clip: 3.0s
+2025-06-03 21:43:47 - __main__ - INFO - Modelo esperará frames de tamaño HxW: 256x256
+2025-06-03 21:44:00 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-03 21:44:00 - __main__ - INFO - Iniciando carga de datos directamente desde vídeos.
+2025-06-03 21:44:00 - __main__ - INFO - Frames por clip: 32, Duración clip: 3.0s
+2025-06-03 21:44:00 - __main__ - INFO - Modelo esperará frames de tamaño HxW: 256x256
+2025-06-03 21:44:32 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-03 21:44:32 - __main__ - INFO - Iniciando carga de datos directamente desde vídeos.
+2025-06-03 21:44:32 - __main__ - INFO - Frames por clip: 32, Duración clip: 3.0s
+2025-06-03 21:44:32 - __main__ - INFO - Modelo esperará frames de tamaño HxW: 256x256
+2025-06-03 21:51:30 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-03 21:51:30 - __main__ - INFO - Iniciando carga de datos directamente desde vídeos.
+2025-06-03 21:51:30 - __main__ - INFO - Frames por clip: 32, Duración clip: 3.0s
+2025-06-03 21:51:30 - __main__ - INFO - Modelo esperará frames de tamaño HxW: 256x256
+2025-06-03 21:51:30 - __main__ - INFO - Intentando reanudar desde checkpoint: models\CNN3D\cnn3d_10_epochs_20250601-232325\model_CNN3D_best.pth
+2025-06-03 22:18:09 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-03 22:18:09 - __main__ - INFO - Iniciando carga de datos directamente desde vídeos.
+2025-06-03 22:18:09 - __main__ - INFO - Frames por clip: 32, Duración clip: 3.0s
+2025-06-03 22:18:09 - __main__ - INFO - Modelo esperará frames de tamaño HxW: 256x256
+2025-06-03 22:32:16 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-03 22:32:16 - __main__ - INFO - Iniciando carga de datos directamente desde vídeos.
+2025-06-03 22:32:16 - __main__ - INFO - Frames por clip: 32, Duración clip: 3.0s
+2025-06-03 22:32:16 - __main__ - INFO - Modelo esperará frames de tamaño HxW: 256x256
+2025-06-03 22:32:16 - __main__ - INFO - Iniciando nuevo entrenamiento: 20250603-223216
+2025-06-03 22:32:16 - __main__ - INFO - 1. Creando dataset base para obtener la lista de todos los vídeos.
+2025-06-03 22:32:16 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 4 videos en dataset/soccernet_actions.
+2025-06-03 22:32:16 - __main__ - INFO - 2. Dividiendo 4 vídeos en conjuntos de entrenamiento y validación (80/20)
+2025-06-03 22:32:17 - __main__ - INFO - 3. Creando dataset de entrenamiento (3 videos) con train_transforms.
+2025-06-03 22:32:17 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet inicializado con 3 videos predefinidos.
+2025-06-03 22:32:17 - __main__ - INFO - 4. Creando dataset de validación (1 vídeos) con val_transforms
+2025-06-03 22:32:17 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet inicializado con 1 videos predefinidos.
+2025-06-03 22:32:17 - __main__ - INFO - 5. Creando DataLoaders.
+2025-06-03 22:32:17 - __main__ - INFO - Tamaño a aplanar calculado: torch.Size([1, 128, 4, 32, 32]) -> 524288
+2025-06-03 22:32:17 - __main__ - INFO - Tamaño de entrada al modelo HxW: (256, 256)
+2025-06-03 22:32:17 - __main__ - INFO - Dimensiones tras capas convolucionales: torch.Size([1, 128, 4, 32, 32])
+2025-06-03 22:32:17 - __main__ - INFO - Tamaño a aplanar calculado: 524288
+2025-06-03 22:33:41 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-03 22:33:41 - __main__ - INFO - Iniciando carga de datos directamente desde vídeos.
+2025-06-03 22:33:41 - __main__ - INFO - Frames por clip: 32, Duración clip: 3.0s
+2025-06-03 22:33:41 - __main__ - INFO - Modelo esperará frames de tamaño HxW: 256x256
+2025-06-03 22:33:41 - __main__ - INFO - Iniciando nuevo entrenamiento: 20250603-223341
+2025-06-03 22:33:41 - __main__ - INFO - 1. Creando dataset base para obtener la lista de todos los vídeos.
+2025-06-03 22:33:41 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 4 videos en dataset/soccernet_actions.
+2025-06-03 22:33:41 - __main__ - INFO - 2. Dividiendo 4 vídeos en conjuntos de entrenamiento y validación (80/20)
+2025-06-03 22:33:41 - __main__ - INFO - 3. Creando dataset de entrenamiento (3 videos) con train_transforms.
+2025-06-03 22:33:41 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet inicializado con 3 videos predefinidos.
+2025-06-03 22:33:41 - __main__ - INFO - 4. Creando dataset de validación (1 vídeos) con val_transforms
+2025-06-03 22:33:41 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet inicializado con 1 videos predefinidos.
+2025-06-03 22:33:41 - __main__ - INFO - 5. Creando DataLoaders.
+2025-06-03 22:33:41 - __main__ - INFO - Tamaño a aplanar calculado: torch.Size([1, 128, 4, 32, 32]) -> 524288
+2025-06-03 22:33:41 - __main__ - INFO - Tamaño de entrada al modelo HxW: (256, 256)
+2025-06-03 22:33:41 - __main__ - INFO - Dimensiones tras capas convolucionales: torch.Size([1, 128, 4, 32, 32])
+2025-06-03 22:33:41 - __main__ - INFO - Tamaño a aplanar calculado: 524288
+2025-06-03 22:33:41 - __main__ - INFO - Scheduler ReduceLROnPlateau activado: paciencia=15, factor=0.5, monitoreando val_loss.
+2025-06-03 22:37:09 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-03 22:37:09 - __main__ - INFO - Iniciando carga de datos directamente desde vídeos.
+2025-06-03 22:37:09 - __main__ - INFO - Frames por clip: 32, Duración clip: 3.0s
+2025-06-03 22:37:09 - __main__ - INFO - Modelo esperará frames de tamaño HxW: 256x256
+2025-06-03 22:37:09 - __main__ - INFO - Iniciando nuevo entrenamiento: 20250603-223709
+2025-06-03 22:37:09 - __main__ - INFO - 1. Creando dataset base para obtener la lista de todos los vídeos.
+2025-06-03 22:37:09 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 4 videos en dataset/soccernet_actions.
+2025-06-03 22:37:09 - __main__ - INFO - 2. Dividiendo 4 vídeos en conjuntos de entrenamiento y validación (80/20)
+2025-06-03 22:37:09 - __main__ - INFO - 3. Creando dataset de entrenamiento (3 videos) con train_transforms.
+2025-06-03 22:37:09 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet inicializado con 3 videos predefinidos.
+2025-06-03 22:37:09 - __main__ - INFO - 4. Creando dataset de validación (1 vídeos) con val_transforms
+2025-06-03 22:37:09 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet inicializado con 1 videos predefinidos.
+2025-06-03 22:37:09 - __main__ - INFO - 5. Creando DataLoaders.
+2025-06-03 22:37:09 - __main__ - INFO - Tamaño a aplanar calculado: torch.Size([1, 128, 4, 32, 32]) -> 524288
+2025-06-03 22:37:09 - __main__ - INFO - Tamaño de entrada al modelo HxW: (256, 256)
+2025-06-03 22:37:09 - __main__ - INFO - Dimensiones tras capas convolucionales: torch.Size([1, 128, 4, 32, 32])
+2025-06-03 22:37:09 - __main__ - INFO - Tamaño a aplanar calculado: 524288
+2025-06-03 22:37:09 - __main__ - INFO - Scheduler ReduceLROnPlateau activado: paciencia=15, factor=0.5, monitoreando val_loss.
+2025-06-03 22:37:09 - __main__ - INFO - Iniciando nuevo entrenamiento desde la época 1.
+2025-06-03 22:37:09 - __main__ - INFO - Entrenamiento iniciado... Número de épocas: 10 (desde la época 1 hasta 10)
+2025-06-03 22:37:09 - __main__ - INFO - Guardando checkpoints en: models\CNN3D\20250603-223709
+2025-06-03 22:37:35 - __main__ - INFO - Epoch [1/10] (Entrenamiento) finalizada en 26.14s. Pérdida: 1.5637, Precisión: 0.3333
+2025-06-03 22:37:40 - __main__ - INFO - Epoch [1/10] (Validación). Pérdida: 33.4019, Precisión: 0.0000
+2025-06-03 22:37:40 - __main__ - INFO - LR actual para la próxima época: 0.0010000
+2025-06-03 22:37:40 - __main__ - INFO - Nuevo mejor checkpoint guardado (Val loss: 33.4019): 'models\CNN3D\20250603-223709\model_CNN3D_best.pth'
+2025-06-03 22:38:04 - __main__ - INFO - Epoch [2/10] (Entrenamiento) finalizada en 23.85s. Pérdida: 125.0019, Precisión: 0.3333
+2025-06-03 22:38:08 - __main__ - INFO - Epoch [2/10] (Validación). Pérdida: 67.5215, Precisión: 0.0000
+2025-06-03 22:38:08 - __main__ - INFO - LR actual para la próxima época: 0.0010000
+2025-06-03 22:38:08 - __main__ - INFO - Checkpoint guardado (época 2): 'models\CNN3D\20250603-223709\model_CNN3D_epoch_2.pth'
+2025-06-03 22:38:32 - __main__ - INFO - Epoch [3/10] (Entrenamiento) finalizada en 23.81s. Pérdida: 0.0000, Precisión: 1.0000
+2025-06-03 22:38:37 - __main__ - INFO - Epoch [3/10] (Validación). Pérdida: 110.1865, Precisión: 0.0000
+2025-06-03 22:38:37 - __main__ - INFO - LR actual para la próxima época: 0.0010000
+2025-06-03 22:39:00 - __main__ - INFO - Epoch [4/10] (Entrenamiento) finalizada en 23.70s. Pérdida: 0.0000, Precisión: 1.0000
+2025-06-03 22:39:06 - __main__ - INFO - Epoch [4/10] (Validación). Pérdida: 157.8418, Precisión: 0.0000
+2025-06-03 22:39:06 - __main__ - INFO - LR actual para la próxima época: 0.0010000
+2025-06-03 22:39:06 - __main__ - INFO - Checkpoint guardado (época 4): 'models\CNN3D\20250603-223709\model_CNN3D_epoch_4.pth'
+2025-06-03 22:39:31 - __main__ - INFO - Epoch [5/10] (Entrenamiento) finalizada en 24.91s. Pérdida: 29.3736, Precisión: 0.6667
+2025-06-03 22:39:36 - __main__ - INFO - Epoch [5/10] (Validación). Pérdida: 209.0138, Precisión: 0.0000
+2025-06-03 22:39:36 - __main__ - INFO - LR actual para la próxima época: 0.0010000
+2025-06-03 22:39:58 - __main__ - INFO - Epoch [6/10] (Entrenamiento) finalizada en 22.35s. Pérdida: 0.0000, Precisión: 1.0000
+2025-06-03 22:40:02 - __main__ - INFO - Epoch [6/10] (Validación). Pérdida: 265.2477, Precisión: 0.0000
+2025-06-03 22:40:02 - __main__ - INFO - LR actual para la próxima época: 0.0010000
+2025-06-03 22:40:03 - __main__ - INFO - Checkpoint guardado (época 6): 'models\CNN3D\20250603-223709\model_CNN3D_epoch_6.pth'
+2025-06-03 22:40:26 - __main__ - INFO - Epoch [7/10] (Entrenamiento) finalizada en 23.17s. Pérdida: 0.0000, Precisión: 1.0000
+2025-06-03 22:40:30 - __main__ - INFO - Epoch [7/10] (Validación). Pérdida: 323.8745, Precisión: 0.0000
+2025-06-03 22:40:30 - __main__ - INFO - LR actual para la próxima época: 0.0010000
+2025-06-03 22:40:54 - __main__ - INFO - Epoch [8/10] (Entrenamiento) finalizada en 23.22s. Pérdida: 0.0000, Precisión: 1.0000
+2025-06-03 22:40:58 - __main__ - INFO - Epoch [8/10] (Validación). Pérdida: 376.1885, Precisión: 0.0000
+2025-06-03 22:40:58 - __main__ - INFO - LR actual para la próxima época: 0.0010000
+2025-06-03 22:40:58 - __main__ - INFO - Checkpoint guardado (época 8): 'models\CNN3D\20250603-223709\model_CNN3D_epoch_8.pth'
+2025-06-03 22:41:21 - __main__ - INFO - Epoch [9/10] (Entrenamiento) finalizada en 22.65s. Pérdida: 0.0000, Precisión: 1.0000
+2025-06-03 22:41:25 - __main__ - INFO - Epoch [9/10] (Validación). Pérdida: 431.1757, Precisión: 0.0000
+2025-06-03 22:41:25 - __main__ - INFO - LR actual para la próxima época: 0.0010000
+2025-06-03 22:41:47 - __main__ - INFO - Epoch [10/10] (Entrenamiento) finalizada en 22.16s. Pérdida: 0.0000, Precisión: 1.0000
+2025-06-03 22:41:52 - __main__ - INFO - Epoch [10/10] (Validación). Pérdida: 475.3231, Precisión: 0.0000
+2025-06-03 22:41:52 - __main__ - INFO - LR actual para la próxima época: 0.0010000
+2025-06-03 22:41:52 - __main__ - INFO - Checkpoint guardado (época 10): 'models\CNN3D\20250603-223709\model_CNN3D_epoch_10.pth'
+2025-06-03 22:41:52 - src.utils.utils - INFO - Tiempo total: 4.72 minutos. Tarea: Entrenamiento.
+2025-06-03 22:41:52 - __main__ - INFO - Cargando el mejor modelo desde 'models\CNN3D\20250603-223709\model_CNN3D_best.pth' para la evaluación final.
+2025-06-03 22:41:52 - __main__ - INFO - Evaluación final iniciada...
+2025-06-03 22:41:56 - src.utils.utils - INFO - Tiempo total: 0.07 minutos. Tarea: Evaluación final.
+2025-06-03 22:41:56 - __main__ - INFO - Pérdida promedio en validación: 33.4019, Precisión en validación: 0.0000
+2025-06-03 22:41:56 - __main__ - INFO - Los checkpoints de la ejecución '20250603-223709' se encuentran en 'models\CNN3D\20250603-223709'
+2025-06-03 22:43:01 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-03 22:43:01 - __main__ - INFO - Iniciando carga de datos directamente desde vídeos.
+2025-06-03 22:43:01 - __main__ - INFO - Frames por clip: 32, Duración clip: 3.0s
+2025-06-03 22:43:01 - __main__ - INFO - Modelo esperará frames de tamaño HxW: 256x256
+2025-06-03 22:43:01 - __main__ - INFO - Iniciando nuevo entrenamiento: 20250603-224301
+2025-06-03 22:43:01 - __main__ - INFO - 1. Creando dataset base para obtener la lista de todos los vídeos.
+2025-06-03 22:43:01 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 4 videos en dataset/soccernet_actions.
+2025-06-03 22:43:01 - __main__ - INFO - 2. Dividiendo 4 vídeos en conjuntos de entrenamiento y validación (80/20)
+2025-06-03 22:43:01 - __main__ - INFO - 3. Creando dataset de entrenamiento (3 videos) con train_transforms.
+2025-06-03 22:43:01 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet inicializado con 3 videos predefinidos.
+2025-06-03 22:43:01 - __main__ - INFO - 4. Creando dataset de validación (1 vídeos) con val_transforms
+2025-06-03 22:43:01 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet inicializado con 1 videos predefinidos.
+2025-06-03 22:43:01 - __main__ - INFO - 5. Creando DataLoaders.
+2025-06-03 22:43:02 - __main__ - INFO - Tamaño a aplanar calculado: torch.Size([1, 128, 4, 32, 32]) -> 524288
+2025-06-03 22:43:02 - __main__ - INFO - Tamaño de entrada al modelo HxW: (256, 256)
+2025-06-03 22:43:02 - __main__ - INFO - Dimensiones tras capas convolucionales: torch.Size([1, 128, 4, 32, 32])
+2025-06-03 22:43:02 - __main__ - INFO - Tamaño a aplanar calculado: 524288
+2025-06-03 22:43:02 - __main__ - INFO - Scheduler ReduceLROnPlateau activado: paciencia=2, factor=0.5, monitoreando val_loss.
+2025-06-03 22:43:02 - __main__ - INFO - Iniciando nuevo entrenamiento desde la época 1.
+2025-06-03 22:43:02 - __main__ - INFO - Entrenamiento iniciado... Número de épocas: 10 (desde la época 1 hasta 10)
+2025-06-03 22:43:02 - __main__ - INFO - Guardando checkpoints en: models\CNN3D\20250603-224301
+2025-06-03 22:43:25 - __main__ - INFO - Epoch [1/10] (Entrenamiento) finalizada en 23.22s. Pérdida: 1.5637, Precisión: 0.3333
+2025-06-03 22:43:29 - __main__ - INFO - Epoch [1/10] (Validación). Pérdida: 33.4019, Precisión: 0.0000
+2025-06-03 22:43:29 - __main__ - INFO - LR actual para la próxima época: 0.0010000
+2025-06-03 22:43:29 - __main__ - INFO - Nuevo mejor checkpoint guardado (Val loss: 33.4019): 'models\CNN3D\20250603-224301\model_CNN3D_best.pth'
+2025-06-03 22:43:52 - __main__ - INFO - Epoch [2/10] (Entrenamiento) finalizada en 22.75s. Pérdida: 125.0019, Precisión: 0.3333
+2025-06-03 22:43:57 - __main__ - INFO - Epoch [2/10] (Validación). Pérdida: 67.5215, Precisión: 0.0000
+2025-06-03 22:43:57 - __main__ - INFO - LR actual para la próxima época: 0.0010000
+2025-06-03 22:44:19 - __main__ - INFO - Epoch [3/10] (Entrenamiento) finalizada en 22.27s. Pérdida: 0.0000, Precisión: 1.0000
+2025-06-03 22:44:23 - __main__ - INFO - Epoch [3/10] (Validación). Pérdida: 110.1865, Precisión: 0.0000
+2025-06-03 22:44:23 - __main__ - INFO - LR actual para la próxima época: 0.0010000
+2025-06-03 22:44:24 - __main__ - INFO - Checkpoint guardado (época 3): 'models\CNN3D\20250603-224301\model_CNN3D_epoch_3.pth'
+2025-06-03 22:44:47 - __main__ - INFO - Epoch [4/10] (Entrenamiento) finalizada en 23.71s. Pérdida: 0.0000, Precisión: 1.0000
+2025-06-03 22:44:52 - __main__ - INFO - Epoch [4/10] (Validación). Pérdida: 157.8418, Precisión: 0.0000
+2025-06-03 22:44:52 - __main__ - INFO - Tasa de aprendizaje reducida de 0.0010000 a 0.0005000 por el scheduler.
+2025-06-03 22:44:52 - __main__ - INFO - LR actual para la próxima época: 0.0005000
+2025-06-03 22:45:15 - __main__ - INFO - Epoch [5/10] (Entrenamiento) finalizada en 23.65s. Pérdida: 29.3736, Precisión: 0.6667
+2025-06-03 22:45:20 - __main__ - INFO - Epoch [5/10] (Validación). Pérdida: 194.9725, Precisión: 0.0000
+2025-06-03 22:45:20 - __main__ - INFO - LR actual para la próxima época: 0.0005000
+2025-06-03 22:45:43 - __main__ - INFO - Epoch [6/10] (Entrenamiento) finalizada en 22.81s. Pérdida: 0.0000, Precisión: 1.0000
+2025-06-03 22:45:47 - __main__ - INFO - Epoch [6/10] (Validación). Pérdida: 238.8991, Precisión: 0.0000
+2025-06-03 22:45:47 - __main__ - INFO - LR actual para la próxima época: 0.0005000
+2025-06-03 22:45:47 - __main__ - INFO - Checkpoint guardado (época 6): 'models\CNN3D\20250603-224301\model_CNN3D_epoch_6.pth'
+2025-06-03 22:46:13 - __main__ - INFO - Epoch [7/10] (Entrenamiento) finalizada en 25.41s. Pérdida: 0.0000, Precisión: 1.0000
+2025-06-03 22:46:18 - __main__ - INFO - Epoch [7/10] (Validación). Pérdida: 284.3669, Precisión: 0.0000
+2025-06-03 22:46:18 - __main__ - INFO - Tasa de aprendizaje reducida de 0.0005000 a 0.0002500 por el scheduler.
+2025-06-03 22:46:18 - __main__ - INFO - LR actual para la próxima época: 0.0002500
+2025-06-03 22:46:41 - __main__ - INFO - Epoch [8/10] (Entrenamiento) finalizada en 23.67s. Pérdida: 0.0000, Precisión: 1.0000
+2025-06-03 22:46:46 - __main__ - INFO - Epoch [8/10] (Validación). Pérdida: 320.0504, Precisión: 0.0000
+2025-06-03 22:46:46 - __main__ - INFO - LR actual para la próxima época: 0.0002500
+2025-06-03 22:47:12 - __main__ - INFO - Epoch [9/10] (Entrenamiento) finalizada en 25.79s. Pérdida: 0.0000, Precisión: 1.0000
+2025-06-03 22:47:17 - __main__ - INFO - Epoch [9/10] (Validación). Pérdida: 355.5756, Precisión: 0.0000
+2025-06-03 22:47:17 - __main__ - INFO - LR actual para la próxima época: 0.0002500
+2025-06-03 22:47:17 - __main__ - INFO - Checkpoint guardado (época 9): 'models\CNN3D\20250603-224301\model_CNN3D_epoch_9.pth'
+2025-06-03 22:47:41 - __main__ - INFO - Epoch [10/10] (Entrenamiento) finalizada en 23.91s. Pérdida: 0.0000, Precisión: 1.0000
+2025-06-03 22:47:46 - __main__ - INFO - Epoch [10/10] (Validación). Pérdida: 382.3812, Precisión: 0.0000
+2025-06-03 22:47:46 - __main__ - INFO - Tasa de aprendizaje reducida de 0.0002500 a 0.0001250 por el scheduler.
+2025-06-03 22:47:46 - __main__ - INFO - LR actual para la próxima época: 0.0001250
+2025-06-03 22:47:46 - src.utils.utils - INFO - Tiempo total: 4.73 minutos. Tarea: Entrenamiento.
+2025-06-03 22:47:46 - __main__ - INFO - Cargando el mejor modelo desde 'models\CNN3D\20250603-224301\model_CNN3D_best.pth' para la evaluación final.
+2025-06-03 22:47:46 - __main__ - INFO - Evaluación final iniciada...
+2025-06-03 22:47:50 - src.utils.utils - INFO - Tiempo total: 0.07 minutos. Tarea: Evaluación final.
+2025-06-03 22:47:50 - __main__ - INFO - Pérdida promedio en validación: 33.4019, Precisión en validación: 0.0000
+2025-06-03 22:47:50 - __main__ - INFO - Los checkpoints de la ejecución '20250603-224301' se encuentran en 'models\CNN3D\20250603-224301'
+2025-06-03 23:31:52 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-03 23:31:52 - __main__ - INFO - Iniciando carga de datos directamente desde vídeos.
+2025-06-03 23:31:52 - __main__ - INFO - Frames por clip: 32, Duración clip: 3.0s
+2025-06-03 23:31:52 - __main__ - INFO - Modelo esperará frames de tamaño HxW: 256x256
+2025-06-03 23:31:52 - __main__ - INFO - Iniciando nuevo entrenamiento: 20250603-233152
+2025-06-03 23:31:52 - __main__ - INFO - 1. Creando dataset base para obtener la lista de todos los vídeos.
+2025-06-03 23:31:52 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 4 videos en dataset/soccernet_actions.
+2025-06-03 23:31:52 - __main__ - INFO - 2. Dividiendo 4 vídeos en conjuntos de entrenamiento y validación (80/20)
+2025-06-03 23:31:52 - __main__ - INFO - 3. Creando dataset de entrenamiento (3 videos) con train_transforms.
+2025-06-03 23:31:52 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet inicializado con 3 videos predefinidos.
+2025-06-03 23:31:52 - __main__ - INFO - 4. Creando dataset de validación (1 vídeos) con val_transforms
+2025-06-03 23:31:52 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet inicializado con 1 videos predefinidos.
+2025-06-03 23:31:52 - __main__ - INFO - 5. Creando DataLoaders.
+2025-06-03 23:31:52 - __main__ - INFO - Tamaño a aplanar calculado: torch.Size([1, 128, 4, 32, 32]) -> 524288
+2025-06-03 23:31:52 - __main__ - INFO - Tamaño de entrada al modelo HxW: (256, 256)
+2025-06-03 23:31:52 - __main__ - INFO - Dimensiones tras capas convolucionales: torch.Size([1, 128, 4, 32, 32])
+2025-06-03 23:31:52 - __main__ - INFO - Tamaño a aplanar calculado: 524288
+2025-06-03 23:31:52 - __main__ - INFO - Scheduler ReduceLROnPlateau activado: paciencia=2, factor=0.5, monitoreando val_loss.
+2025-06-03 23:31:52 - __main__ - INFO - Entrenamiento iniciado... Número de épocas: 10 (desde la época 1 hasta 10)
+2025-06-03 23:31:52 - __main__ - INFO - Guardando checkpoints en: models\CNN3D\20250603-233152
+2025-06-03 23:32:17 - __main__ - INFO - Epoch [1/10] (Entrenamiento) finalizada en 24.81s. Pérdida: 1.5637, Precisión: 0.3333
+2025-06-03 23:32:21 - __main__ - INFO - Epoch [1/10] (Validación). Pérdida: 33.4019, Precisión: 0.0000
+2025-06-03 23:32:21 - __main__ - INFO - LR actual para la próxima época: 0.0010000
+2025-06-03 23:32:21 - __main__ - INFO - Nuevo mejor checkpoint guardado (Val loss: 33.4019): 'models\CNN3D\20250603-233152\model_CNN3D_best.pth'
+2025-06-03 23:32:45 - __main__ - INFO - Epoch [2/10] (Entrenamiento) finalizada en 23.72s. Pérdida: 125.0019, Precisión: 0.3333
+2025-06-03 23:32:50 - __main__ - INFO - Epoch [2/10] (Validación). Pérdida: 67.5215, Precisión: 0.0000
+2025-06-03 23:32:50 - __main__ - INFO - LR actual para la próxima época: 0.0010000
+2025-06-03 23:33:13 - __main__ - INFO - Epoch [3/10] (Entrenamiento) finalizada en 23.56s. Pérdida: 0.0000, Precisión: 1.0000
+2025-06-03 23:33:17 - __main__ - INFO - Epoch [3/10] (Validación). Pérdida: 110.1865, Precisión: 0.0000
+2025-06-03 23:33:17 - __main__ - INFO - LR actual para la próxima época: 0.0010000
+2025-06-03 23:33:18 - __main__ - INFO - Checkpoint guardado (época 3): 'models\CNN3D\20250603-233152\model_CNN3D_epoch_3.pth'
+2025-06-03 23:33:43 - __main__ - INFO - Epoch [4/10] (Entrenamiento) finalizada en 24.99s. Pérdida: 0.0000, Precisión: 1.0000
+2025-06-03 23:33:47 - __main__ - INFO - Epoch [4/10] (Validación). Pérdida: 157.8418, Precisión: 0.0000
+2025-06-03 23:33:47 - __main__ - INFO - Tasa de aprendizaje reducida de 0.0010000 a 0.0005000 por el scheduler.
+2025-06-03 23:33:47 - __main__ - INFO - LR actual para la próxima época: 0.0005000
+2025-06-03 23:34:11 - __main__ - INFO - Epoch [5/10] (Entrenamiento) finalizada en 24.09s. Pérdida: 29.3736, Precisión: 0.6667
+2025-06-03 23:34:16 - __main__ - INFO - Epoch [5/10] (Validación). Pérdida: 194.9725, Precisión: 0.0000
+2025-06-03 23:34:16 - __main__ - INFO - LR actual para la próxima época: 0.0005000
+2025-06-03 23:34:38 - __main__ - INFO - Epoch [6/10] (Entrenamiento) finalizada en 22.19s. Pérdida: 0.0000, Precisión: 1.0000
+2025-06-03 23:34:42 - __main__ - INFO - Epoch [6/10] (Validación). Pérdida: 238.8991, Precisión: 0.0000
+2025-06-03 23:34:42 - __main__ - INFO - LR actual para la próxima época: 0.0005000
+2025-06-03 23:34:42 - __main__ - INFO - Checkpoint guardado (época 6): 'models\CNN3D\20250603-233152\model_CNN3D_epoch_6.pth'
+2025-06-03 23:35:07 - __main__ - INFO - Epoch [7/10] (Entrenamiento) finalizada en 24.29s. Pérdida: 0.0000, Precisión: 1.0000
+2025-06-03 23:35:11 - __main__ - INFO - Epoch [7/10] (Validación). Pérdida: 284.3669, Precisión: 0.0000
+2025-06-03 23:35:11 - __main__ - INFO - Tasa de aprendizaje reducida de 0.0005000 a 0.0002500 por el scheduler.
+2025-06-03 23:35:11 - __main__ - INFO - LR actual para la próxima época: 0.0002500
+2025-06-03 23:35:34 - __main__ - INFO - Epoch [8/10] (Entrenamiento) finalizada en 22.55s. Pérdida: 0.0000, Precisión: 1.0000
+2025-06-03 23:35:38 - __main__ - INFO - Epoch [8/10] (Validación). Pérdida: 320.0504, Precisión: 0.0000
+2025-06-03 23:35:38 - __main__ - INFO - LR actual para la próxima época: 0.0002500
+2025-06-03 23:36:01 - __main__ - INFO - Epoch [9/10] (Entrenamiento) finalizada en 22.89s. Pérdida: 0.0000, Precisión: 1.0000
+2025-06-03 23:36:05 - __main__ - INFO - Epoch [9/10] (Validación). Pérdida: 355.5756, Precisión: 0.0000
+2025-06-03 23:36:05 - __main__ - INFO - LR actual para la próxima época: 0.0002500
+2025-06-03 23:36:06 - __main__ - INFO - Checkpoint guardado (época 9): 'models\CNN3D\20250603-233152\model_CNN3D_epoch_9.pth'
+2025-06-03 23:36:28 - __main__ - INFO - Epoch [10/10] (Entrenamiento) finalizada en 22.56s. Pérdida: 0.0000, Precisión: 1.0000
+2025-06-03 23:36:33 - __main__ - INFO - Epoch [10/10] (Validación). Pérdida: 382.3812, Precisión: 0.0000
+2025-06-03 23:36:33 - __main__ - INFO - Tasa de aprendizaje reducida de 0.0002500 a 0.0001250 por el scheduler.
+2025-06-03 23:36:33 - __main__ - INFO - LR actual para la próxima época: 0.0001250
+2025-06-03 23:36:33 - src.utils.utils - INFO - Tiempo total: 4.68 minutos. Tarea: Entrenamiento.
+2025-06-03 23:36:33 - __main__ - INFO - Cargando el mejor modelo desde 'models\CNN3D\20250603-233152\model_CNN3D_best.pth' para la evaluación final.
+2025-06-03 23:36:33 - __main__ - INFO - Evaluación final iniciada...
+2025-06-03 23:36:38 - src.utils.utils - INFO - Tiempo total: 0.08 minutos. Tarea: Evaluación final.
+2025-06-03 23:36:38 - __main__ - INFO - Pérdida promedio en validación: 33.4019, Precisión en validación: 0.0000
+2025-06-03 23:36:38 - __main__ - INFO - Los checkpoints de la ejecución '20250603-233152' se encuentran en 'models\CNN3D\20250603-233152'
+2025-06-03 23:37:23 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-03 23:37:23 - __main__ - INFO - Iniciando carga de datos directamente desde vídeos.
+2025-06-03 23:37:23 - __main__ - INFO - Frames por clip: 32, Duración clip: 3.0s
+2025-06-03 23:37:23 - __main__ - INFO - Modelo esperará frames de tamaño HxW: 256x256
+2025-06-03 23:37:23 - __main__ - INFO - Se proporcionó una ruta relativa, resolviendo a: 'models\CNN3D\20250603-233152\model_CNN3D_best.pth'
+2025-06-03 23:37:23 - __main__ - INFO - Se reanudará desde el checkpoint: 'models\CNN3D\20250603-233152\model_CNN3D_best.pth'. El nombre de la ejecución será: '20250603-233152'.
+2025-06-03 23:37:23 - __main__ - INFO - 1. Creando dataset base para obtener la lista de todos los vídeos.
+2025-06-03 23:37:23 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 4 videos en dataset/soccernet_actions.
+2025-06-03 23:37:23 - __main__ - INFO - 2. Dividiendo 4 vídeos en conjuntos de entrenamiento y validación (80/20)
+2025-06-03 23:37:23 - __main__ - INFO - 3. Creando dataset de entrenamiento (3 videos) con train_transforms.
+2025-06-03 23:37:23 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet inicializado con 3 videos predefinidos.
+2025-06-03 23:37:23 - __main__ - INFO - 4. Creando dataset de validación (1 vídeos) con val_transforms
+2025-06-03 23:37:23 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet inicializado con 1 videos predefinidos.
+2025-06-03 23:37:23 - __main__ - INFO - 5. Creando DataLoaders.
+2025-06-03 23:37:23 - __main__ - INFO - Tamaño a aplanar calculado: torch.Size([1, 128, 4, 32, 32]) -> 524288
+2025-06-03 23:37:23 - __main__ - INFO - Tamaño de entrada al modelo HxW: (256, 256)
+2025-06-03 23:37:23 - __main__ - INFO - Dimensiones tras capas convolucionales: torch.Size([1, 128, 4, 32, 32])
+2025-06-03 23:37:23 - __main__ - INFO - Tamaño a aplanar calculado: 524288
+2025-06-03 23:37:23 - __main__ - INFO - Scheduler ReduceLROnPlateau activado: paciencia=2, factor=0.5, monitoreando val_loss.
+2025-06-03 23:37:23 - __main__ - INFO - Reanudando entrenamiento desde la época 2. LR actual: 0.0010000
+2025-06-03 23:37:23 - __main__ - INFO - Entrenamiento iniciado... Número de épocas: 9 (desde la época 2 hasta 10)
+2025-06-03 23:37:23 - __main__ - INFO - Guardando checkpoints en: models\CNN3D\20250603-233152
+2025-06-03 23:37:47 - __main__ - INFO - Epoch [2/10] (Entrenamiento) finalizada en 23.60s. Pérdida: 69.4628, Precisión: 0.3333
+2025-06-03 23:37:52 - __main__ - INFO - Epoch [2/10] (Validación). Pérdida: 70.7007, Precisión: 0.0000
+2025-06-03 23:37:52 - __main__ - INFO - LR actual para la próxima época: 0.0010000
+2025-06-03 23:38:15 - __main__ - INFO - Epoch [3/10] (Entrenamiento) finalizada en 23.70s. Pérdida: 5.8464, Precisión: 0.6667
+2025-06-03 23:38:20 - __main__ - INFO - Epoch [3/10] (Validación). Pérdida: 98.5870, Precisión: 0.0000
+2025-06-03 23:38:20 - __main__ - INFO - LR actual para la próxima época: 0.0010000
+2025-06-03 23:38:20 - __main__ - INFO - Checkpoint guardado (época 3): 'models\CNN3D\20250603-233152\model_CNN3D_epoch_3.pth'
+2025-06-03 23:39:49 - __main__ - INFO - Epoch [4/10] (Entrenamiento) finalizada en 89.15s. Pérdida: 0.0000, Precisión: 1.0000
+2025-06-03 23:39:54 - __main__ - INFO - Epoch [4/10] (Validación). Pérdida: 135.8390, Precisión: 0.0000
+2025-06-03 23:39:54 - __main__ - INFO - Tasa de aprendizaje reducida de 0.0010000 a 0.0005000 por el scheduler.
+2025-06-03 23:39:54 - __main__ - INFO - LR actual para la próxima época: 0.0005000
+2025-06-03 23:40:18 - __main__ - INFO - Epoch [5/10] (Entrenamiento) finalizada en 24.26s. Pérdida: 40.2038, Precisión: 0.6667
+2025-06-03 23:40:22 - __main__ - INFO - Epoch [5/10] (Validación). Pérdida: 175.0268, Precisión: 0.0000
+2025-06-03 23:40:22 - __main__ - INFO - LR actual para la próxima época: 0.0005000
+2025-06-03 23:40:46 - __main__ - INFO - Epoch [6/10] (Entrenamiento) finalizada en 23.81s. Pérdida: 0.2039, Precisión: 1.0000
+2025-06-03 23:40:51 - __main__ - INFO - Epoch [6/10] (Validación). Pérdida: 217.2529, Precisión: 0.0000
+2025-06-03 23:40:51 - __main__ - INFO - LR actual para la próxima época: 0.0005000
+2025-06-03 23:40:51 - __main__ - INFO - Checkpoint guardado (época 6): 'models\CNN3D\20250603-233152\model_CNN3D_epoch_6.pth'
+2025-06-03 23:41:14 - __main__ - INFO - Epoch [7/10] (Entrenamiento) finalizada en 22.64s. Pérdida: 0.0000, Precisión: 1.0000
+2025-06-03 23:41:18 - __main__ - INFO - Epoch [7/10] (Validación). Pérdida: 257.1550, Precisión: 0.0000
+2025-06-03 23:41:18 - __main__ - INFO - Tasa de aprendizaje reducida de 0.0005000 a 0.0002500 por el scheduler.
+2025-06-03 23:41:18 - __main__ - INFO - LR actual para la próxima época: 0.0002500
+2025-06-03 23:41:42 - __main__ - INFO - Epoch [8/10] (Entrenamiento) finalizada en 23.81s. Pérdida: 0.0000, Precisión: 1.0000
+2025-06-03 23:41:46 - __main__ - INFO - Epoch [8/10] (Validación). Pérdida: 291.0865, Precisión: 0.0000
+2025-06-03 23:41:46 - __main__ - INFO - LR actual para la próxima época: 0.0002500
+2025-06-03 23:42:10 - __main__ - INFO - Epoch [9/10] (Entrenamiento) finalizada en 23.27s. Pérdida: 0.0000, Precisión: 1.0000
+2025-06-03 23:42:14 - __main__ - INFO - Epoch [9/10] (Validación). Pérdida: 321.0983, Precisión: 0.0000
+2025-06-03 23:42:14 - __main__ - INFO - LR actual para la próxima época: 0.0002500
+2025-06-03 23:42:14 - __main__ - INFO - Checkpoint guardado (época 9): 'models\CNN3D\20250603-233152\model_CNN3D_epoch_9.pth'
+2025-06-03 23:42:37 - __main__ - INFO - Epoch [10/10] (Entrenamiento) finalizada en 23.23s. Pérdida: 0.0000, Precisión: 1.0000
+2025-06-03 23:42:42 - __main__ - INFO - Epoch [10/10] (Validación). Pérdida: 350.1953, Precisión: 0.0000
+2025-06-03 23:42:42 - __main__ - INFO - Tasa de aprendizaje reducida de 0.0002500 a 0.0001250 por el scheduler.
+2025-06-03 23:42:42 - __main__ - INFO - LR actual para la próxima época: 0.0001250
+2025-06-03 23:42:42 - src.utils.utils - INFO - Tiempo total: 5.31 minutos. Tarea: Entrenamiento.
+2025-06-03 23:42:42 - __main__ - INFO - Cargando el mejor modelo desde 'models\CNN3D\20250603-233152\model_CNN3D_best.pth' para la evaluación final.
+2025-06-03 23:42:42 - __main__ - INFO - Evaluación final iniciada...
+2025-06-03 23:42:46 - src.utils.utils - INFO - Tiempo total: 0.07 minutos. Tarea: Evaluación final.
+2025-06-03 23:42:46 - __main__ - INFO - Pérdida promedio en validación: 33.4019, Precisión en validación: 0.0000
+2025-06-03 23:42:46 - __main__ - INFO - Los checkpoints de la ejecución '20250603-233152' se encuentran en 'models\CNN3D\20250603-233152'
+2025-06-03 23:43:57 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-03 23:43:57 - __main__ - INFO - Iniciando carga de datos directamente desde vídeos.
+2025-06-03 23:43:57 - __main__ - INFO - Frames por clip: 32, Duración clip: 3.0s
+2025-06-03 23:43:57 - __main__ - INFO - Modelo esperará frames de tamaño HxW: 256x256
+2025-06-03 23:43:57 - __main__ - INFO - Se proporcionó una ruta relativa, resolviendo a: 'models\CNN3D\20250603-233152\model_CNN3D_best.pth'
+2025-06-03 23:43:57 - __main__ - INFO - Se reanudará desde el checkpoint: 'models\CNN3D\20250603-233152\model_CNN3D_best.pth'. El nombre de la ejecución será: '20250603-233152'.
+2025-06-03 23:43:57 - __main__ - INFO - 1. Creando dataset base para obtener la lista de todos los vídeos.
+2025-06-03 23:43:57 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 4 videos en dataset/soccernet_actions.
+2025-06-03 23:43:57 - __main__ - INFO - 2. Dividiendo 4 vídeos en conjuntos de entrenamiento y validación (80/20)
+2025-06-03 23:43:57 - __main__ - INFO - 3. Creando dataset de entrenamiento (3 videos) con train_transforms.
+2025-06-03 23:43:57 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet inicializado con 3 videos predefinidos.
+2025-06-03 23:43:57 - __main__ - INFO - 4. Creando dataset de validación (1 vídeos) con val_transforms
+2025-06-03 23:43:57 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet inicializado con 1 videos predefinidos.
+2025-06-03 23:43:57 - __main__ - INFO - 5. Creando DataLoaders.
+2025-06-03 23:43:57 - __main__ - INFO - Tamaño a aplanar calculado: torch.Size([1, 128, 4, 32, 32]) -> 524288
+2025-06-03 23:43:57 - __main__ - INFO - Tamaño de entrada al modelo HxW: (256, 256)
+2025-06-03 23:43:57 - __main__ - INFO - Dimensiones tras capas convolucionales: torch.Size([1, 128, 4, 32, 32])
+2025-06-03 23:43:57 - __main__ - INFO - Tamaño a aplanar calculado: 524288
+2025-06-03 23:43:57 - __main__ - INFO - Scheduler ReduceLROnPlateau activado: paciencia=2, factor=0.5, monitoreando val_loss.
+2025-06-03 23:43:57 - __main__ - INFO - Reanudando entrenamiento desde la época 2. LR actual: 0.0010000
+2025-06-03 23:43:57 - __main__ - INFO - Entrenamiento iniciado... Número de épocas: 4 (desde la época 2 hasta 5)
+2025-06-03 23:43:57 - __main__ - INFO - Guardando checkpoints en: models\CNN3D\20250603-233152
+2025-06-03 23:44:21 - __main__ - INFO - Epoch [2/5] (Entrenamiento) finalizada en 24.34s. Pérdida: 69.4628, Precisión: 0.3333
+2025-06-03 23:44:26 - __main__ - INFO - Epoch [2/5] (Validación). Pérdida: 70.7007, Precisión: 0.0000
+2025-06-03 23:44:26 - __main__ - INFO - LR actual para la próxima época: 0.0010000
+2025-06-03 23:44:49 - __main__ - INFO - Epoch [3/5] (Entrenamiento) finalizada en 23.46s. Pérdida: 5.8464, Precisión: 0.6667
+2025-06-03 23:44:53 - __main__ - INFO - Epoch [3/5] (Validación). Pérdida: 98.5870, Precisión: 0.0000
+2025-06-03 23:44:53 - __main__ - INFO - LR actual para la próxima época: 0.0010000
+2025-06-03 23:44:54 - __main__ - INFO - Checkpoint guardado (época 3): 'models\CNN3D\20250603-233152\model_CNN3D_epoch_3.pth'
+2025-06-03 23:46:23 - __main__ - INFO - Epoch [4/5] (Entrenamiento) finalizada en 89.35s. Pérdida: 0.0000, Precisión: 1.0000
+2025-06-03 23:46:28 - __main__ - INFO - Epoch [4/5] (Validación). Pérdida: 135.8390, Precisión: 0.0000
+2025-06-03 23:46:28 - __main__ - INFO - Tasa de aprendizaje reducida de 0.0010000 a 0.0005000 por el scheduler.
+2025-06-03 23:46:28 - __main__ - INFO - LR actual para la próxima época: 0.0005000
+2025-06-03 23:46:52 - __main__ - INFO - Epoch [5/5] (Entrenamiento) finalizada en 24.38s. Pérdida: 40.2038, Precisión: 0.6667
+2025-06-03 23:46:56 - __main__ - INFO - Epoch [5/5] (Validación). Pérdida: 175.0268, Precisión: 0.0000
+2025-06-03 23:46:56 - __main__ - INFO - LR actual para la próxima época: 0.0005000
+2025-06-03 23:46:56 - src.utils.utils - INFO - Tiempo total: 2.99 minutos. Tarea: Entrenamiento.
+2025-06-03 23:46:56 - __main__ - INFO - Cargando el mejor modelo desde 'models\CNN3D\20250603-233152\model_CNN3D_best.pth' para la evaluación final.
+2025-06-03 23:46:56 - __main__ - INFO - Evaluación final iniciada...
+2025-06-03 23:47:01 - src.utils.utils - INFO - Tiempo total: 0.07 minutos. Tarea: Evaluación final.
+2025-06-03 23:47:01 - __main__ - INFO - Pérdida promedio en validación: 33.4019, Precisión en validación: 0.0000
+2025-06-03 23:47:01 - __main__ - INFO - Los checkpoints de la ejecución '20250603-233152' se encuentran en 'models\CNN3D\20250603-233152'
+2025-06-04 22:12:37 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-04 22:12:37 - __main__ - INFO - Iniciando carga de datos directamente desde vídeos.
+2025-06-04 22:12:37 - __main__ - INFO - Frames por clip: 32, Duración clip: 3.0s
+2025-06-04 22:12:37 - __main__ - INFO - Modelo esperará frames de tamaño HxW: 256x256
+2025-06-04 22:12:37 - __main__ - INFO - Iniciando nuevo entrenamiento: 20250604-221237
+2025-06-04 22:12:37 - __main__ - INFO - 1. Creando dataset base para obtener la lista de todos los vídeos.
+2025-06-04 22:12:37 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 4 videos en dataset/soccernet_actions.
+2025-06-04 22:12:37 - __main__ - INFO - 2. Dividiendo 4 vídeos en conjuntos de entrenamiento y validación (80/20)
+2025-06-04 22:12:37 - __main__ - INFO - 3. Creando dataset de entrenamiento (3 videos) con train_transforms.
+2025-06-04 22:12:37 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet inicializado con 3 videos predefinidos.
+2025-06-04 22:12:37 - __main__ - INFO - 4. Creando dataset de validación (1 vídeos) con val_transforms
+2025-06-04 22:12:37 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet inicializado con 1 videos predefinidos.
+2025-06-04 22:12:37 - __main__ - INFO - 5. Creando DataLoaders.
+2025-06-04 22:12:37 - __main__ - INFO - Tamaño a aplanar calculado: torch.Size([1, 256, 2, 16, 16]) -> 131072
+2025-06-04 22:12:37 - __main__ - INFO - Tamaño de entrada al modelo HxW: (256, 256)
+2025-06-04 22:12:37 - __main__ - INFO - Dimensiones tras capas convolucionales: torch.Size([1, 256, 2, 16, 16])
+2025-06-04 22:12:37 - __main__ - INFO - Tamaño a aplanar calculado: 131072
+2025-06-04 22:12:37 - __main__ - INFO - Scheduler ReduceLROnPlateau activado: paciencia=2, factor=0.5, monitoreando val_loss.
+2025-06-04 22:12:37 - __main__ - INFO - Entrenamiento iniciado... Número de épocas: 1 (desde la época 1 hasta 1)
+2025-06-04 22:12:37 - __main__ - INFO - Guardando checkpoints en: models\CNN3D\20250604-221237
+2025-06-04 22:13:03 - __main__ - INFO - Epoch [1/1] (Entrenamiento) finalizada en 25.55s. Pérdida: 1.3598, Precisión: 0.3333
+2025-06-04 22:13:08 - __main__ - INFO - Epoch [1/1] (Validación). Pérdida: 2.1683, Precisión: 0.0000
+2025-06-04 22:13:08 - __main__ - INFO - LR actual para la próxima época: 0.0010000
+2025-06-04 22:13:13 - __main__ - INFO - Nuevo mejor checkpoint guardado (Val loss: 2.1683): 'models\CNN3D\20250604-221237\model_CNN3D_best.pth'
+2025-06-04 22:13:13 - src.utils.utils - INFO - Tiempo total: 0.6 minutos. Tarea: Entrenamiento.
+2025-06-04 22:13:13 - __main__ - INFO - Cargando el mejor modelo desde 'models\CNN3D\20250604-221237\model_CNN3D_best.pth' para la evaluación final.
+2025-06-04 22:13:14 - __main__ - INFO - Evaluación final iniciada...
+2025-06-04 22:13:19 - src.utils.utils - INFO - Tiempo total: 0.08 minutos. Tarea: Evaluación final.
+2025-06-04 22:13:19 - __main__ - INFO - Pérdida promedio en validación: 2.1683, Precisión en validación: 0.0000
+2025-06-04 22:13:19 - __main__ - INFO - Los checkpoints de la ejecución '20250604-221237' se encuentran en 'models\CNN3D\20250604-221237'

@@ -1,7 +1,10 @@
 #
-dataset/
+dataset/soccernet_tensors/
+dataset/soccernet_actions/
+dataset/soccernet_actions_2/
 #results/
 #log/
+models/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -61,7 +64,7 @@ cover/
 *.pot
 
 # Django stuff:
-*.log
+#*.log
 local_settings.py
 db.sqlite3
 db.sqlite3-journal

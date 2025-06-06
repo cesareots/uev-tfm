@@ -114,6 +114,7 @@ def infer_full_video(
             print(f"Inferencia en {current_frame_start / video_fps:.2f} segundos...")
 
     print("Inferencia del video completada.")
+    
     return all_probabilities_over_time
 
 

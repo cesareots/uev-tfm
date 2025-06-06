@@ -1,0 +1,15 @@
+2025-06-06 00:17:28 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-06 00:17:28 - __main__ - INFO - Iniciando arquitectura  de modelo RESNET - Transfer Learning con R(2+1)D_18.
+2025-06-06 00:17:28 - __main__ - INFO - Frames por clip: 16, Duración clip: 3.0s
+2025-06-06 00:17:28 - src.models.engine_training - INFO - Iniciando nuevo entrenamiento: 20250606-001728
+2025-06-06 00:17:28 - __main__ - INFO - Cargando modelo R(2+1)D_18 pre-entrenado con pesos Kinetics-400...
+2025-06-06 00:17:28 - __main__ - INFO - Congelando pesos del backbone pre-entrenado.
+2025-06-06 00:17:28 - __main__ - INFO - Cabeza de clasificación reemplazada: 512 -> 4 clases.
+2025-06-06 00:17:28 - __main__ - INFO - Transformaciones de vídeo para el modelo pre-entrenado:
+2025-06-06 00:17:28 - __main__ - INFO - VideoClassification(
+    crop_size=[112, 112]
+    resize_size=[128, 171]
+    mean=[0.43216, 0.394666, 0.37645]
+    std=[0.22803, 0.22145, 0.216989]
+    interpolation=InterpolationMode.BILINEAR
+)

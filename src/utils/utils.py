@@ -190,7 +190,7 @@ def write_soccernet_games_in_txt(
                 elemento = str(elemento).replace('\\', '/')
                 archivo.write(elemento + '\n')
 
-        logger.info(f"Lsta de {len(lista)} partidos, se ha escrito correctamente en '{nombre_archivo}'")
+        logger.info(f"Lista de {len(lista)} partidos, se ha escrito correctamente en '{nombre_archivo}'")
     except IOError as e:
         logger.error(str(e))
     except Exception as e:

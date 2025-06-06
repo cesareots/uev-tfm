@@ -353,6 +353,10 @@ def procesar_csv(
 
 
 def main(args) -> None:
+    if args.partidos_indice is None:
+        logger.warning(f"Falta indicar los índices de los partidos deseados.")
+        sys.exit(1)
+
     # configurando descarga de SoccerNet
     file_video = ["1_720p.mkv", "2_720p.mkv"] if args.calidad_video == "720p" else ["1_224p.mkv", "2_224p.mkv"]
     # file_label = ["Labels.json", "Labels-v2.json", "Labels-cameras.json", "Labels-v3.json"]
@@ -421,47 +425,57 @@ def parse_arguments():
         description="Descargar archivos de SoccerNet y recortar acciones etiquetadas.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
-    parser.add_argument("--partidos_indice", default=[0], type=ut.non_negative_int, nargs="+",
-                        help="Índice de cada partido que desea descargar, valores enteros entre 0 y 500.")
-    parser.add_argument("--calidad_video", default="224p", type=str, choices=["224p", "720p"],
-                        help="Tamaño del video a utilizar.")
-    parser.add_argument("--omitir_descarga", default=0, type=int, choices=[0, 1],
-                        help="Omite el proceso de descarga en SoccerNet. 0: apagado, 1: prendido.")
-    parser.add_argument("--omitir_recorte", default=0, type=int, choices=[0, 1],
-                        help="Omite el proceso de recortar las acciones en los videos de SoccerNet. 0: apagado, 1: prendido.")
+    parser.add_argument(
+        "--partidos_indice",
+        default=None,
+        # default=ut.obtener_numeros(PARTIDOS_INDICE_LOTE[0])  # TODO lote 0
+        # default=ut.obtener_numeros(PARTIDOS_INDICE_LOTE[1])  # TODO lote 1
+        # default=ut.obtener_numeros(PARTIDOS_INDICE_LOTE[2])  # TODO lote 2
+        # default=ut.obtener_numeros(PARTIDOS_INDICE_LOTE[3])  # TODO lote 3
+        # default=ut.obtener_numeros(PARTIDOS_INDICE_LOTE[4])  # TODO lote 4
+        # default=ut.obtener_numeros(PARTIDOS_INDICE_LOTE[5])  # TODO lote 5
+        # default=ut.obtener_numeros(PARTIDOS_INDICE_LOTE[6])  # TODO lote 6
+        # default=ut.obtener_numeros(PARTIDOS_INDICE_LOTE[7])  # TODO lote 7
+        # default=ut.obtener_numeros(PARTIDOS_INDICE_LOTE[8])  # TODO lote 8
+        # default=ut.obtener_numeros(PARTIDOS_INDICE_LOTE[9])  # TODO lote 9
+        # default=ut.obtener_numeros(PARTIDOS_INDICE_LOTE[10])  # TODO lote 10
+        # default=ut.obtener_numeros(PARTIDOS_INDICE_LOTE[11])  # TODO lote 11
+        # default=ut.obtener_numeros(PARTIDOS_INDICE_LOTE[12])  # TODO lote 12
+        # default=ut.obtener_numeros(PARTIDOS_INDICE_LOTE[13])  # TODO lote 13
+        # default=ut.obtener_numeros(PARTIDOS_INDICE_LOTE[14])  # TODO lote 14
+        # default=ut.obtener_numeros(PARTIDOS_INDICE_LOTE[15])  # TODO lote 15
+        type=ut.non_negative_int,
+        nargs="+",
+        help="Índice de cada partido que desea descargar, valores enteros entre 0 y 500.",
+    )
+    parser.add_argument(
+        "--calidad_video",
+        # default="224p",
+        default="720p",
+        type=str,
+        choices=["224p", "720p"],
+        help="Tamaño del video a utilizar.",
+    )
+    parser.add_argument(
+        "--omitir_descarga",
+        default=0,
+        type=int,
+        choices=[0, 1],
+        help="Omite el proceso de descarga en SoccerNet. 0: apagado, 1: prendido.",
+    )
+    parser.add_argument(
+        "--omitir_recorte",
+        default=0,
+        type=int,
+        choices=[0, 1],
+        help="Omite el proceso de recortar las acciones en los videos de SoccerNet. 0: apagado, 1: prendido.",
+    )
 
     return parser.parse_args()
 
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        args = parse_arguments()
-    else:
-        # Valores por defecto si no se proporcionan argumentos desde la línea de comandos
-        class Args:
-            #partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[0])  # TODO lote 0
-            #partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[1])  # TODO lote 1
-            #partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[2])  # TODO lote 2
-            #partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[3])  # TODO lote 3
-            #partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[4])  # TODO lote 4
-            #partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[5])  # TODO lote 5
-            #partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[6])  # TODO lote 6
-            #partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[7])  # TODO lote 7
-            partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[8])  # TODO lote 8
-            #partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[9])  # TODO lote 9
-            #partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[10])  # TODO lote 10
-            #partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[11])  # TODO lote 11
-            #partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[12])  # TODO lote 12
-            #partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[13])  # TODO lote 13
-            #partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[14])  # TODO lote 14
-            # calidad_video = "224p"
-            calidad_video = "720p"
-            omitir_descarga = 0
-            omitir_recorte = 0
-
-
-        args = Args()
-
+    args = parse_arguments()
     config_log()
     ut.verify_system()
     main(args)

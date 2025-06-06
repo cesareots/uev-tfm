@@ -1,0 +1,11 @@
+germany_bundesliga/2014-2015/2015-05-09 - 16-30 Bayern Munich 0 - 1 FC Augsburg
+germany_bundesliga/2015-2016/2015-08-29 - 19-30 Bayern Munich 3 - 0 Bayer Leverkusen
+germany_bundesliga/2015-2016/2015-09-12 - 16-30 Bayern Munich 2 - 1 FC Augsburg
+germany_bundesliga/2015-2016/2015-10-24 - 16-30 Bayern Munich 4 - 0 FC Koln
+germany_bundesliga/2015-2016/2015-11-08 - 17-30 Dortmund 3 - 2 Schalke
+germany_bundesliga/2016-2017/2016-09-10 - 19-30 RB Leipzig 1 - 0 Dortmund
+germany_bundesliga/2016-2017/2016-10-01 - 19-30 Bayer Leverkusen 2 - 0 Dortmund
+germany_bundesliga/2016-2017/2016-11-05 - 17-30 Hamburger SV 2 - 5 Dortmund
+germany_bundesliga/2016-2017/2016-11-19 - 20-30 Dortmund 1 - 0 Bayern Munich
+germany_bundesliga/2016-2017/2016-12-16 - 22-30 Hoffenheim 2 - 2 Dortmund
+germany_bundesliga/2016-2017/2017-01-21 - 17-30 SV Werder Bremen 1 - 2 Dortmund

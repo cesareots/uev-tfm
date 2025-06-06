@@ -19,21 +19,23 @@ SOCCERNET_LABELS = {
     "Corner": 3,
 }
 PARTIDOS_INDICE_LOTE = [
-    [0, 49],
-    [50, 99],
-    [100, 149],
-    [150, 199],
-    [200, 249],
-    [250, 299],
-    [300, 349],
-    [350, 399],
-    [400, 416],  # 417 para inferencia, england_epl
-    [418, 435],  # 436 para inferencia, europe_uefa-champions-league
-    [437, 437],  # 438 para inferencia, france_ligue-1
-    [439, 449],
-    [450, 451],  # 452 para inferencia, germany_bundesliga
-    [453, 473],  # 474 para inferencia, italy_serie-a
-    [475, 498],  # 499 para inferencia, spain_laliga
+    [0, 49],  # lote 0
+    [50, 99],  # lote 1
+    [100, 149],  # lote 2
+    [150, 199],  # lote 3
+    [200, 249],  # lote 4
+    [250, 299],  # lote 5
+    [300, 349],  # lote 6
+    [350, 399],  # lote 7
+    [400, 416],  # lote 8 ---- index=417 para inferencia, england_epl
+    [418, 435],  # lote 9 ---- index=436 para inferencia, europe_uefa-champions-league
+    [437, 437],  # lote 10 ---- index=438 para inferencia, france_ligue-1
+    [439, 449],  # lote 11
+    [450, 451],  # lote 12 ---- index=452 para inferencia, germany_bundesliga
+    [453, 473],  # lote 13 ---- index=474 para inferencia, italy_serie-a
+    [475, 482],  # lote 14
+    #[483, 483],  # error con el codificador
+    [484, 498],  # lote 15 ---- index=499 para inferencia, spain_laliga
 ]
 SOCCERNET_RESULTS = f"{RESULTS}soccernet"
 DS_SOCCERNET_RAW = os.getenv("DS_SOCCERNET_RAW")
