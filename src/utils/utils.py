@@ -24,6 +24,7 @@ def verify_system() -> None:
             RESULTS,
             MODELS_DIR,
             M_BASIC,
+            M_RESNET,
             SOCCERNET_RESULTS,
             YOLO_PATH_RESULTS,
             LOG_DIR,

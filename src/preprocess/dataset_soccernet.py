@@ -1,3 +1,5 @@
+import logging
+import sys
 import warnings
 from pathlib import Path
 
@@ -5,9 +7,9 @@ import numpy as np
 import torch
 import torchvision.io
 import torchvision.transforms.v2 as T_v2
+from torch.utils.data import DataLoader, random_split
 from torch.utils.data import Dataset
-import logging
-
+from sklearn.model_selection import train_test_split
 from src.utils.constants import *
 
 logger = logging.getLogger(__name__)
@@ -28,15 +30,6 @@ ORIGINAL_SIZE = (720, 1280)
 
 # Duración de los clips
 CLIP_DURATION_SEC = 3.0
-
-# frames deseados por clip para el modelo (muestreados)
-# FRAMES_PER_CLIP = 16
-FRAMES_PER_CLIP = 32
-# FRAMES_PER_CLIP = 64
-
-# Este TARGET_FPS ahora es un valor conceptual para el muestreo manual, no un parámetro directo de decodificación en torchvision.io.read_video
-# servirá para 'torchcodec'
-TARGET_FPS = float(FRAMES_PER_CLIP / CLIP_DURATION_SEC)
 
 
 class DatasetSoccernet(Dataset):
@@ -133,11 +126,11 @@ class DatasetSoccernet(Dataset):
                 video_tensor_processed = self.transform(video_tensor_processed)
             # video_tensor_processed shape: (FRAMES_PER_CLIP, C, H_final_model, W_final_model)
 
-            video_tensor_final = video_tensor_processed.float() / 255.0
-            video_tensor_final = video_tensor_final.permute(1, 0, 2, 3)  # (C, T, H, W)
+            #video_tensor_final = video_tensor_processed.float() / 255.0  # self.transform se encarga de esto
+            video_tensor_final = video_tensor_processed.permute(1, 0, 2, 3)  # (C, T, H, W)
             label_tensor = torch.tensor(label, dtype=torch.long)
 
-            return video_tensor_final, label_tensor, video_path_str  # Devolver video_path_str es útil para debugging
+            return video_tensor_final, label_tensor, video_path_str  # video_path_str es útil para debugging
         except Exception as e:
             logger.error(f"Al cargar o procesar el video {video_path_str}: {e}")
             # Si se produce un error, devuelve un tensor dummy y una etiqueta -1
@@ -154,15 +147,103 @@ class DatasetSoccernet(Dataset):
                 # Como DatasetSoccernet no conoce ese valor directamente desde basic_cnn_3d.py, por ahora, usaremos un tamaño conocido (ej. 256x256 si es tu estándar) o el original.
                 # Usar el original es más seguro que un valor hardcodeado incorrecto si TARGET_SIZE_DATASET cambia.
                 logger.warning("Creando tensor dummy con tamaño post-transformación (256,256) estimado.")
-                dummy_h, dummy_w = (256, 256) # Asumimos que esto coincide con TARGET_SIZE_DATASET (H,W)
+                dummy_h, dummy_w = (256, 256)  # Asumimos que esto coincide con TARGET_SIZE_DATASET (H,W)
                 # Si prefieres el original como fallback general:
                 # dummy_h, dummy_w = (ORIGINAL_SIZE[0], ORIGINAL_SIZE[1])
-            elif self.target_size: # Si se proveyó un target_size intermedio (y es (H,W))
+            elif self.target_size:  # Si se proveyó un target_size intermedio (y es (H,W))
                 dummy_h, dummy_w = self.target_size
-            else: # Si no hay transformaciones ni target_size, usar el tamaño original
+            else:  # Si no hay transformaciones ni target_size, usar el tamaño original
                 dummy_h, dummy_w = (ORIGINAL_SIZE[0], ORIGINAL_SIZE[1])
 
             dummy_video = torch.zeros((dummy_c, dummy_t, dummy_h, dummy_w), dtype=torch.float)
             dummy_label = torch.tensor(-1, dtype=torch.long)  # Etiqueta inválida
 
             return dummy_video, dummy_label, video_path_str
+
+
+def crear_dividir_dataset(
+        frames_per_clip: int,
+        target_fps: float,
+        train_transforms: T_v2.Compose,
+        val_transforms: T_v2.Compose,
+        batch_size: int,
+):
+    logger.info("1. Creando dataset base para obtener la lista de todos los vídeos.")
+    # Instancia base solo para recolectar todos los video_items. Sin transformaciones aquí.
+    base_dataset_for_items = DatasetSoccernet(
+        root_dir=DS_SOCCERNET_ACTIONS,
+        label_map=SOCCERNET_LABELS,
+        frames_per_clip=frames_per_clip,
+        target_fps=target_fps,
+        transform=None,  # No aplicar transformaciones
+    )
+
+    if len(base_dataset_for_items) == 0:
+        logger.error(f"'{DS_SOCCERNET_ACTIONS}' está vacío.")
+        sys.exit(1)
+
+    # lista (path, label, action_name)
+    all_video_items = base_dataset_for_items.video_items
+
+    logger.info(f"2. Dividiendo {len(all_video_items)} vídeos en conjuntos de entrenamiento y validación (80/20)")
+    total_items = len(all_video_items)
+    train_size = int(0.8 * total_items)
+    val_size = total_items - train_size
+
+    indices = list(range(total_items))
+    # Asegura que la división sea la misma cada vez
+    generator = torch.Generator().manual_seed(SEMILLA)
+    train_indices, val_indices = random_split(
+        indices,
+        [train_size, val_size],
+        generator=generator,
+    )
+
+    # Seleccionar los items para cada conjunto usando los índices obtenidos
+    train_video_items_subset = [all_video_items[i] for i in train_indices]
+    val_video_items_subset = [all_video_items[i] for i in val_indices]
+
+    # Aplicar las transformaciones específicas del modelo
+    logger.info(f"3. Creando dataset de entrenamiento ({len(train_video_items_subset)} videos).")
+    # Crear el DatasetSoccernet para ENTRENAMIENTO, pasándole solo su subconjunto de vídeos y sus transformaciones
+    train_dataset = DatasetSoccernet(
+        root_dir=None,
+        label_map=SOCCERNET_LABELS,
+        frames_per_clip=frames_per_clip,
+        target_fps=target_fps,
+        transform=train_transforms,
+        video_items_list=train_video_items_subset,
+    )
+
+    logger.info(f"4. Creando dataset de validación ({len(val_video_items_subset)} vídeos) con val_transforms")
+    # Crear el DatasetSoccernet para VALIDACIÓN, pasándole solo su subconjunto de vídeos y sus transformaciones
+    val_dataset = DatasetSoccernet(
+        root_dir=None,
+        label_map=SOCCERNET_LABELS,
+        frames_per_clip=frames_per_clip,
+        target_fps=target_fps,
+        transform=val_transforms,
+        video_items_list=val_video_items_subset,
+    )
+
+    if len(train_dataset) == 0 or len(val_dataset) == 0:
+        logger.error("Uno de los datasets (train o val) está vacío después del split. Verificar.")
+        sys.exit(1)
+
+    logger.info("5. Creando DataLoaders.")
+    train_dataloader = DataLoader(
+        train_dataset,
+        batch_size=batch_size,
+        shuffle=True,
+        num_workers=2,
+        pin_memory=True,
+    )
+    val_dataloader = DataLoader(
+        val_dataset,
+        batch_size=batch_size,
+        shuffle=False,
+        num_workers=2,
+        pin_memory=True,
+    )
+
+    return train_dataloader, val_dataloader

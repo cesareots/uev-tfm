@@ -1,9 +1,6 @@
 import argparse
 import logging
 import random
-import sys
-import time
-from pathlib import Path
 
 import numpy as np
 import torch
@@ -11,10 +8,9 @@ import torch.nn as nn
 import torch.optim as optim
 import torchvision.transforms.v2 as T_v2
 from torch.optim.lr_scheduler import ReduceLROnPlateau
-from torch.utils.data import DataLoader, random_split
 
-from src.preprocess.dataset_soccernet import DatasetSoccernet, FRAMES_PER_CLIP, NUM_CLASSES, TARGET_FPS, \
-    CLIP_DURATION_SEC
+from src.models.engine_training import train_model, evaluate_model, extras
+from src.preprocess.dataset_soccernet import NUM_CLASSES, CLIP_DURATION_SEC, crear_dividir_dataset
 from src.utils import utils as ut
 from src.utils.constants import *
 
@@ -24,12 +20,21 @@ logger = logging.getLogger(__name__)
 BATCH_SIZE = 8  # segun VRAM
 INITIAL_LEARNING_RATE = 0.001
 
+# frames deseados por clip para el modelo (muestreados)
+# FRAMES_PER_CLIP = 16
+FRAMES_PER_CLIP = 32
+# FRAMES_PER_CLIP = 64
+
+# Este TARGET_FPS ahora es un valor conceptual para el muestreo manual, no un parámetro directo de decodificación en torchvision.io.read_video
+# servirá para 'torchcodec'
+TARGET_FPS = float(FRAMES_PER_CLIP / CLIP_DURATION_SEC)
+
 # Tamaño final de los frames que entrarán al modelo después de las transformaciones
 # Esto debe coincidir con lo que producen tus transformaciones (ej. RandomResizedCrop)
 TARGET_SIZE_DATASET = (256, 256)
 
 # Guardar checkpoint de época cada N épocas
-EPOCAS_CHECKPOINT_SAVE_INTERVAL = 3
+EPOCAS_CHECKPOINT_SAVE_INTERVAL = 5  # TODO
 # Métrica para 'model_best.pth': 'loss' o 'accuracy'
 SAVE_BEST_METRIC_TYPE = "loss"
 
@@ -153,237 +158,19 @@ class SimpleCNN3D(nn.Module):
         return x
 
 
-def train_model(
-        model,
-        optimizer,
-        scheduler,
-        train_dataloader,
-        val_dataloader,
-        criterion,
-        num_epochs,
-        device,
-        checkpoint_dir_run,  # Directorio para una ejecución específica
-        save_every_n_epochs,  # Frecuencia para guardar checkpoints de época
-        save_best_metric_type,  # 'loss' o 'accuracy' para el mejor modelo
-        start_epoch: int = 0,
-        # run_name="run",
-        initial_best_val_metric=None,  # Para reanudar el mejor valor
-):
-    # model.train()
-    t_start_training = time.time()
-    logger.info(
-        f"Entrenamiento iniciado... Número de épocas: {num_epochs - start_epoch} (desde la época {start_epoch + 1} hasta {num_epochs})")
-
-    # lleva el registro del mejor valor de la métrica de validación encontrado hasta el momento (para decidir cuándo guardar model_CNN3D_best.pth).
-    best_val_metric_value = initial_best_val_metric if initial_best_val_metric is not None \
-        else (float('inf') if save_best_metric_type == "loss" else float('-inf'))
-
-    # Crear un subdirectorio para los checkpoints de esta ejecución específica
-    # checkpoint_dir = Path(M_BASIC) / run_name
-    # checkpoint_dir.mkdir(parents=True, exist_ok=True)
-    logger.info(f"Guardando checkpoints en: {checkpoint_dir_run}")
-
-    for epoch in range(start_epoch, num_epochs):
-        model.train()
-        current_epoch_display = epoch + 1
-        running_loss = 0.0
-        correct_predictions = 0
-        total_samples = 0
-        epoch_t_start = time.time()
-
-        for i, batch_data in enumerate(train_dataloader):
-            inputs, labels, video_paths = batch_data
-
-            # Filtrar muestras que tuvieron errores (etiqueta -1)
-            valid_indices = labels != -1
-            inputs = inputs[valid_indices].to(device)
-            labels = labels[valid_indices].to(device)
-
-            if inputs.size(0) == 0:  # Si todos los items en el batch eran inválidos
-                logger.warning(
-                    f"Epoch [{epoch + 1}/{num_epochs}], Step [{i + 1}/{len(train_dataloader)}]: Batch vacío después de filtrar errores. Saltando.")
-                continue
-
-            optimizer.zero_grad()
-            outputs = model(inputs)
-            loss = criterion(outputs, labels)
-            loss.backward()
-            optimizer.step()
-
-            # Estadísticas
-            running_loss += loss.item() * inputs.size(0)
-            _, predicted = torch.max(outputs.data, 1)
-            total_samples += labels.size(0)
-            correct_predictions += (predicted == labels).sum().item()
-
-            # Imprimir estadísticas cada cierto número de batches
-            if (i + 1) % 15 == 0:
-                log_con = f"Epoch [{current_epoch_display}/{num_epochs}], Step [{i + 1}/{len(train_dataloader)}], Loss: {loss.item():.4f}"
-                print(log_con)
-                logger.info(log_con)
-
-        epoch_train_loss = running_loss / total_samples if total_samples > 0 else 0
-        epoch_train_acc = correct_predictions / total_samples if total_samples > 0 else 0
-        epoch_duration = time.time() - epoch_t_start
-
-        log_con_epoch = f"Epoch [{current_epoch_display}/{num_epochs}] (Entrenamiento) finalizada en {epoch_duration:.2f}s. Pérdida: {epoch_train_loss:.4f}, Precisión: {epoch_train_acc:.4f}"
-        print(log_con_epoch)
-        logger.info(log_con_epoch)
-
-        # Validación al final de cada época
-        val_loss, val_acc = evaluate_model(
-            model,
-            val_dataloader,
-            criterion,
-            device,
-            per_epoch_eval=True,
-        )
-        logger.info(
-            f"Epoch [{current_epoch_display}/{num_epochs}] (Validación). Pérdida: {val_loss:.4f}, Precisión: {val_acc:.4f}")
-
-        # Learning Rate Scheduler
-        current_lr_before_step = optimizer.param_groups[0]['lr']
-        if scheduler:
-            if isinstance(scheduler, ReduceLROnPlateau):
-                scheduler.step(val_loss)  # ReduceLROnPlateau necesita la métrica
-            else:
-                scheduler.step()  # Otros schedulers solo se llaman
-
-            new_lr = optimizer.param_groups[0]['lr']
-            if new_lr < current_lr_before_step:
-                logger.info(
-                    f"Tasa de aprendizaje reducida de {current_lr_before_step:.7f} a {new_lr:.7f} por el scheduler.")
-        logger.info(f"LR actual para la próxima época: {optimizer.param_groups[0]['lr']:.7f}")
-
-        # Checkpointing
-        checkpoint_data = {
-            'epoch': current_epoch_display,
-            'model_state_dict': model.state_dict(),
-            'optimizer_state_dict': optimizer.state_dict(),
-            'scheduler_state_dict': scheduler.state_dict() if scheduler else None,  # Guardar estado del scheduler
-            'train_loss': epoch_train_loss,
-            'train_acc': epoch_train_acc,
-            'val_loss': val_loss,
-            'val_acc': val_acc,
-            'best_val_metric_value': best_val_metric_value,  # Para reanudar el guardado del mejor
-        }
-
-        # Guardar el modelo más reciente
-        # latest_checkpoint_path = checkpoint_dir / "model_latest.pth"
-        # torch.save(checkpoint_data, latest_checkpoint_path)
-        # logger.info(f"Checkpoint guardado (último): '{latest_checkpoint_path}'")
-
-        # Guardar periódicamente por época
-        if save_every_n_epochs > 0 and current_epoch_display % save_every_n_epochs == 0:
-            epoch_checkpoint_path = checkpoint_dir_run / f"model_CNN3D_epoch_{current_epoch_display}.pth"
-            torch.save(checkpoint_data, epoch_checkpoint_path)
-            logger.info(f"Checkpoint guardado (época {current_epoch_display}): '{epoch_checkpoint_path}'")
-
-        # Guardar el mejor modelo
-        current_metric_for_best = val_loss if save_best_metric_type == "loss" else val_acc
-        is_better = (current_metric_for_best < best_val_metric_value) if save_best_metric_type == "loss" \
-            else (current_metric_for_best > best_val_metric_value)
-
-        if is_better:
-            best_val_metric_value = current_metric_for_best
-            # Actualizar el valor en checkpoint_data antes de guardarlo como el mejor
-            checkpoint_data['best_val_metric_value'] = best_val_metric_value
-            best_checkpoint_path = checkpoint_dir_run / "model_CNN3D_best.pth"
-            torch.save(checkpoint_data, best_checkpoint_path)
-            logger.info(
-                f"Nuevo mejor checkpoint guardado (Val {save_best_metric_type}: {best_val_metric_value:.4f}): '{best_checkpoint_path}'")
-
-    ut.get_time_employed(t_start_training, "Entrenamiento.")
-
-
-def evaluate_model(
-        model,
-        dataloader,
-        criterion,
-        device,
-        per_epoch_eval=False,
-):
-    model.eval()
-
-    if not per_epoch_eval:
-        t_start = time.time()
-        logger.info("Evaluación final iniciada...")
-
-    # logger.info("Evaluación iniciada...")
-    running_loss = 0.0
-    correct_predictions = 0
-    total_samples = 0
-
-    with torch.no_grad():
-        for i, batch_data in enumerate(dataloader):
-            inputs, labels, video_paths = batch_data
-
-            valid_indices = labels != -1
-            inputs = inputs[valid_indices].to(device)
-            labels = labels[valid_indices].to(device)
-
-            if inputs.size(0) == 0:
-                continue
-
-            outputs = model(inputs)
-            loss = criterion(outputs, labels)
-
-            # Estadísticas
-            running_loss += loss.item() * inputs.size(0)
-            _, predicted = torch.max(outputs.data, 1)
-            total_samples += labels.size(0)
-            correct_predictions += (predicted == labels).sum().item()
-
-    avg_loss = running_loss / total_samples if total_samples > 0 else 0
-    accuracy = correct_predictions / total_samples if total_samples > 0 else 0
-
-    if not per_epoch_eval:
-        ut.get_time_employed(t_start, "Evaluación final.")
-        log_con = f"Pérdida promedio en validación: {avg_loss:.4f}, Precisión en validación: {accuracy:.4f}"
-        print(log_con)
-        logger.info(log_con)
-
-    return avg_loss, accuracy
-
-
 def main(args):
-    logger.info("Iniciando carga de datos directamente desde vídeos.")
+    logger.info("Iniciando arquitectura de modelo CNN3D.")
     logger.info(f"Frames por clip: {FRAMES_PER_CLIP}, Duración clip: {CLIP_DURATION_SEC}s")
     logger.info(f"Modelo esperará frames de tamaño HxW: {TARGET_SIZE_DATASET[0]}x{TARGET_SIZE_DATASET[1]}")
 
     start_epoch = 0
     initial_best_val_metric = None
-    run_name_to_use = None
-    resume_checkpoint_file_path_from_arg = args.resume_checkpoint_file
-    actual_checkpoint_to_load = None  # para la ruta definitiva del checkpoint
 
-    if resume_checkpoint_file_path_from_arg is not None:
-        path_obj = Path(resume_checkpoint_file_path_from_arg)
-
-        if path_obj.is_absolute():
-            # Si el path proporcionado ya es absoluto, lo usamos directamente.
-            actual_checkpoint_to_load = path_obj
-            logger.info(f"Se proporcionó una ruta absoluta para reanudar: '{actual_checkpoint_to_load}'")
-        else:
-            actual_checkpoint_to_load = Path(M_BASIC) / resume_checkpoint_file_path_from_arg
-            logger.info(f"Se proporcionó una ruta relativa, resolviendo a: '{actual_checkpoint_to_load}'")
-
-        if actual_checkpoint_to_load.exists():
-            # Esto asegura que los nuevos checkpoints continúen en el mismo directorio de la ejecución anterior.
-            run_name_to_use = actual_checkpoint_to_load.parent.name
-            logger.info(
-                f"Se reanudará desde el checkpoint: '{actual_checkpoint_to_load}'. El nombre de la ejecución será: '{run_name_to_use}'.")
-        else:
-            logger.error(f"No existe checkpoint especificado: '{resume_checkpoint_file_path_from_arg}')")
-            sys.exit(1)
-    else:
-        # Si no se especifica un checkpoint para reanudar, es una nueva ejecución.
-        run_name_to_use = time.strftime("%Y%m%d-%H%M%S")
-        logger.info(f"Iniciando nuevo entrenamiento: {run_name_to_use}")  # actual_checkpoint_to_load permanece None
-
-    # print(run_name_to_use)
-    checkpoint_dir_run = Path(M_BASIC) / run_name_to_use
-    checkpoint_dir_run.mkdir(parents=True, exist_ok=True)
+    # actual_checkpoint_to_load: ruta definitiva del checkpoint
+    actual_checkpoint_to_load, run_name_to_use, checkpoint_dir_run = extras(
+        args.resume_checkpoint_file,
+        M_BASIC,
+    )
 
     train_transforms = T_v2.Compose([
         T_v2.RandomHorizontalFlip(p=0.5),  # volteo horizontal aleatorio
@@ -403,91 +190,31 @@ def main(args):
             ratio=(0.9, 1.1),
             antialias=True,
         ),
+        # Convertir a float y escalar a [0,1] antes de normalizar
+        T_v2.ToDtype(
+            torch.float32,
+            scale=True,
+        ),
     ])
     val_transforms = T_v2.Compose([
         T_v2.Resize(
             size=(TARGET_SIZE_DATASET[0], TARGET_SIZE_DATASET[1]),
             antialias=True,
         ),
+        # Convertir a float y escalar a [0,1] antes de normalizar
+        T_v2.ToDtype(
+            torch.float32,
+            scale=True,
+        ),
     ])
 
     # Creación y División del Dataset
-    logger.info("1. Creando dataset base para obtener la lista de todos los vídeos.")
-    # Instancia base solo para recolectar todos los video_items. Sin transformaciones aquí.
-    base_dataset_for_items = DatasetSoccernet(
-        root_dir=DS_SOCCERNET_ACTIONS,
-        label_map=SOCCERNET_LABELS,
+    train_dataloader, val_dataloader = crear_dividir_dataset(
         frames_per_clip=FRAMES_PER_CLIP,
         target_fps=TARGET_FPS,
-        transform=None,  # No aplicar transformaciones
-    )
-
-    if len(base_dataset_for_items) == 0:
-        logger.error(
-            "El dataset base (DatasetSoccernet) está vacío. Verifica la ruta y los archivos en DS_SOCCERNET_ACTIONS.")
-        sys.exit(1)
-
-    # Esta es la lista de (path, label, action_name)
-    all_video_items = base_dataset_for_items.video_items
-
-    logger.info(f"2. Dividiendo {len(all_video_items)} vídeos en conjuntos de entrenamiento y validación (80/20)")
-    total_items = len(all_video_items)
-    train_size = int(0.8 * total_items)
-    val_size = total_items - train_size
-
-    indices = list(range(total_items))
-    # Asegura que la división sea la misma cada vez
-    generator = torch.Generator().manual_seed(SEMILLA)
-    train_indices, val_indices = random_split(
-        indices,
-        [train_size, val_size],
-        generator=generator,
-    )
-
-    # Seleccionar los items para cada conjunto usando los índices obtenidos
-    train_video_items_subset = [all_video_items[i] for i in train_indices]
-    val_video_items_subset = [all_video_items[i] for i in val_indices]
-
-    logger.info(f"3. Creando dataset de entrenamiento ({len(train_video_items_subset)} videos) con train_transforms.")
-    # Crear el DatasetSoccernet para ENTRENAMIENTO, pasándole solo su subconjunto de vídeos y sus transformaciones
-    train_dataset = DatasetSoccernet(
-        root_dir=None,
-        label_map=SOCCERNET_LABELS,
-        frames_per_clip=FRAMES_PER_CLIP,
-        target_fps=TARGET_FPS,
-        transform=train_transforms,
-        video_items_list=train_video_items_subset,
-    )
-
-    logger.info(f"4. Creando dataset de validación ({len(val_video_items_subset)} vídeos) con val_transforms")
-    # Crear el DatasetSoccernet para VALIDACIÓN
-    val_dataset = DatasetSoccernet(
-        root_dir=None,
-        label_map=SOCCERNET_LABELS,
-        frames_per_clip=FRAMES_PER_CLIP,
-        target_fps=TARGET_FPS,
-        transform=val_transforms,
-        video_items_list=val_video_items_subset,
-    )
-
-    if len(train_dataset) == 0 or len(val_dataset) == 0:
-        logger.error("Uno de los datasets (train o val) está vacío después del split. Verificar.")
-        sys.exit(1)
-
-    logger.info("5. Creando DataLoaders.")
-    train_dataloader = DataLoader(
-        train_dataset,
+        train_transforms=train_transforms,
+        val_transforms=val_transforms,
         batch_size=BATCH_SIZE,
-        shuffle=True,
-        num_workers=2,
-        pin_memory=True,
-    )
-    val_dataloader = DataLoader(
-        val_dataset,
-        batch_size=BATCH_SIZE,
-        shuffle=False,
-        num_workers=2,
-        pin_memory=True,
     )
 
     # Las dimensiones C, T, H, W se definen por DatasetSoccernet y las transformaciones.
@@ -523,11 +250,11 @@ def main(args):
         start_epoch = checkpoint['epoch']
         initial_best_val_metric = checkpoint.get('best_val_metric_value')
         logger.info(
-            f"Reanudando entrenamiento desde la época {start_epoch + 1}. LR actual: {optimizer.param_groups[0]['lr']:.7f}")
+            f"Reanudando entrenamiento desde época {start_epoch + 1}. LR actual: {optimizer.param_groups[0]['lr']:.7f}")
+    else:
+        logger.info(f"Iniciando nuevo entrenamiento desde época {start_epoch + 1}.")
 
-    # current_time_str = time.strftime("%Y%m%d-%H%M%S")
-    # run_name = f"cnn3d_{args.epocas}_epochs_{current_time_str}"
-
+    model_name = "model_CNN3D"
     train_model(
         model=model,
         optimizer=optimizer,
@@ -542,27 +269,12 @@ def main(args):
         save_best_metric_type=SAVE_BEST_METRIC_TYPE,
         start_epoch=start_epoch,
         initial_best_val_metric=initial_best_val_metric,
+        checkpoint_base_name=model_name,
     )
 
-    # La evaluación final después del bucle de entrenamiento ahora es opcional, ya que guardamos el mejor modelo y el último durante el entrenamiento.
-    # Pero puede ser útil para una última verificación del estado final del modelo.
-    best_model_path = checkpoint_dir_run / "model_CNN3D_best.pth"
-    if best_model_path.exists():
-        logger.info(f"Cargando el mejor modelo desde '{best_model_path}' para la evaluación final.")
-        checkpoint = torch.load(best_model_path, map_location=device)
-        model.load_state_dict(checkpoint['model_state_dict'])
-    else:
-        logger.warning(f"No se encontró el archivo del mejor modelo. Evaluando el último estado del modelo.")
+    # TODO evaluar con split: test
 
-    evaluate_model(
-        model=model,
-        dataloader=val_dataloader,
-        criterion=criterion,
-        device=device,
-        per_epoch_eval=False,
-    )
-
-    logger.info(f"Los checkpoints de la ejecución '{run_name_to_use}' se encuentran en '{checkpoint_dir_run}'")
+    logger.info(f"Checkpoints de '{run_name_to_use}' se encuentran en '{checkpoint_dir_run}'")
 
 
 def parse_arguments():

@@ -1,0 +1,50 @@
+italy_serie-a/2016-2017/2016-10-26 - 21-45 Napoli 2 - 0 Empoli
+italy_serie-a/2016-2017/2016-10-26 - 21-45 Sassuolo 1 - 3 AS Roma
+italy_serie-a/2016-2017/2016-10-30 - 17-00 AC Milan 1 - 0 Pescara
+italy_serie-a/2016-2017/2016-10-30 - 17-00 Empoli 0 - 0 AS Roma
+italy_serie-a/2016-2017/2016-11-06 - 17-00 Palermo 1 - 2 AC Milan
+italy_serie-a/2016-2017/2016-11-06 - 22-45 AS Roma 3 - 0 Bologna
+italy_serie-a/2016-2017/2016-11-20 - 22-45 AC Milan 2 - 2 Inter
+italy_serie-a/2016-2017/2016-11-27 - 22-45 AS Roma 3 - 2 Pescara
+italy_serie-a/2016-2017/2016-12-04 - 14-30 AC Milan 2 - 1 Crotone
+italy_serie-a/2016-2017/2016-12-17 - 20-00 AC Milan 0 - 0 Atalanta
+italy_serie-a/2016-2017/2016-12-22 - 22-45 AS Roma 3 - 1 Chievo
+italy_serie-a/2016-2017/2017-01-08 - 20-00 AC Milan 1 - 0 Cagliari
+italy_serie-a/2016-2017/2017-01-15 - 17-00 Napoli 3 - 1 Pescara
+italy_serie-a/2016-2017/2017-01-15 - 17-00 Udinese 0 - 1 AS Roma
+italy_serie-a/2016-2017/2017-01-21 - 22-45 AC Milan 1 - 2 Napoli
+italy_serie-a/2016-2017/2017-02-04 - 22-45 Bologna 1 - 7 Napoli
+italy_serie-a/2016-2017/2017-02-10 - 22-45 Napoli 2 - 0 Genoa
+italy_serie-a/2016-2017/2017-02-12 - 14-30 Crotone 0 - 2 AS Roma
+italy_serie-a/2016-2017/2017-02-19 - 20-00 AS Roma 4 - 1 Torino
+italy_serie-a/2016-2017/2017-03-04 - 17-00 AS Roma 1 - 2 Napoli
+italy_serie-a/2016-2017/2017-03-12 - 17-00 Napoli 3 - 0 Crotone
+italy_serie-a/2016-2017/2017-03-19 - 14-30 Empoli 2 - 3 Napoli
+italy_serie-a/2016-2017/2017-03-19 - 22-45 AS Roma 3 - 1 Sassuolo
+italy_serie-a/2016-2017/2017-04-09 - 16-00 Bologna 0 - 3 AS Roma
+italy_serie-a/2016-2017/2017-04-09 - 21-45 Lazio 0 - 3 Napoli
+italy_serie-a/2016-2017/2017-04-15 - 16-00 AS Roma 1 - 1 Atalanta
+italy_serie-a/2016-2017/2017-04-23 - 13-30 Sassuolo 2 - 2 Napoli
+italy_serie-a/2016-2017/2017-04-24 - 21-45 Pescara 1 - 4 AS Roma
+italy_serie-a/2016-2017/2017-05-07 - 21-45 AC Milan 1 - 4 AS Roma
+italy_serie-a/2016-2017/2017-05-14 - 16-00 Torino 0 - 5 Napoli
+italy_serie-a/2016-2017/2017-05-14 - 21-45 AS Roma 3 - 1 Juventus
+italy_serie-a/2016-2017/2017-05-20 - 19-00 Chievo 3 - 5 AS Roma
+italy_serie-a/2016-2017/2017-05-28 - 19-00 AS Roma 3 - 2 Genoa
+italy_serie-a/2016-2017/2017-05-28 - 19-00 Sampdoria 2 - 4 Napoli
+spain_laliga/2014-2015/2015-02-21 - 18-00 Barcelona 0 - 1 Malaga
+spain_laliga/2014-2015/2015-02-22 - 23-00 Elche 0 - 2 Real Madrid
+spain_laliga/2014-2015/2015-05-09 - 21-00 Real Madrid 2 - 2 Valencia
+spain_laliga/2014-2015/2015-05-17 - 20-00 Atl. Madrid 0 - 1 Barcelona
+spain_laliga/2014-2015/2015-05-17 - 20-00 Espanyol 1 - 4 Real Madrid
+spain_laliga/2014-2015/2015-05-23 - 19-30 Barcelona 2 - 2 Dep. La Coruna
+spain_laliga/2015-2016/2015-08-29 - 21-30 Barcelona 1 - 0 Malaga
+spain_laliga/2015-2016/2015-09-12 - 17-00 Espanyol 0 - 6 Real Madrid
+spain_laliga/2015-2016/2015-09-23 - 22-00 Ath Bilbao 1 - 2 Real Madrid
+spain_laliga/2015-2016/2015-09-26 - 19-15 Real Madrid 0 - 0 Malaga
+spain_laliga/2015-2016/2015-10-04 - 21-30 Atl. Madrid 1 - 1 Real Madrid
+spain_laliga/2015-2016/2015-11-21 - 20-15 Real Madrid 0 - 4 Barcelona
+spain_laliga/2015-2016/2015-11-29 - 18-00 Eibar 0 - 2 Real Madrid
+spain_laliga/2015-2016/2016-01-24 - 22-30 Betis 1 - 1 Real Madrid
+spain_laliga/2015-2016/2016-01-31 - 22-30 Real Madrid 6 - 0 Espanyol
+spain_laliga/2015-2016/2016-02-07 - 22-30 Granada CF 1 - 2 Real Madrid

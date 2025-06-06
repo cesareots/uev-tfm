@@ -439,7 +439,21 @@ if __name__ == "__main__":
     else:
         # Valores por defecto si no se proporcionan argumentos desde la línea de comandos
         class Args:
-            partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[2])
+            #partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[0])  # TODO lote 0
+            #partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[1])  # TODO lote 1
+            #partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[2])  # TODO lote 2
+            #partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[3])  # TODO lote 3
+            #partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[4])  # TODO lote 4
+            #partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[5])  # TODO lote 5
+            #partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[6])  # TODO lote 6
+            #partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[7])  # TODO lote 7
+            partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[8])  # TODO lote 8
+            #partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[9])  # TODO lote 9
+            #partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[10])  # TODO lote 10
+            #partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[11])  # TODO lote 11
+            #partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[12])  # TODO lote 12
+            #partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[13])  # TODO lote 13
+            #partidos_indice = ut.obtener_numeros(PARTIDOS_INDICE_LOTE[14])  # TODO lote 14
             # calidad_video = "224p"
             calidad_video = "720p"
             omitir_descarga = 0

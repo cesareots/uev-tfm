@@ -1,0 +1,50 @@
+germany_bundesliga/2014-2015/2015-05-09 - 16-30 Dortmund 2 - 0 Hertha Berlin
+germany_bundesliga/2014-2015/2015-05-16 - 16-30 Wolfsburg 2 - 1 Dortmund
+germany_bundesliga/2015-2016/2015-08-22 - 16-30 Hoffenheim 1 - 2 Bayern Munich
+germany_bundesliga/2015-2016/2015-08-30 - 16-30 Dortmund 3 - 1 Hertha Berlin
+germany_bundesliga/2015-2016/2015-09-19 - 16-30 Darmstadt 0 - 3 Bayern Munich
+germany_bundesliga/2015-2016/2015-09-22 - 21-00 Bayern Munich 5 - 1 Wolfsburg
+germany_bundesliga/2015-2016/2015-09-26 - 16-30 1. FSV Mainz 05 0 - 3 Bayern Munich
+germany_bundesliga/2015-2016/2015-12-12 - 17-30 Bayern Munich 2 - 0 Ingolstadt
+germany_bundesliga/2015-2016/2016-01-31 - 19-30 Bayern Munich 2 - 0 Hoffenheim
+germany_bundesliga/2015-2016/2016-04-02 - 16-30 Bayern Munich 1 - 0 Eintracht Frankfurt
+germany_bundesliga/2015-2016/2016-04-09 - 16-30 VfB Stuttgart 1 - 3 Bayern Munich
+germany_bundesliga/2015-2016/2016-04-16 - 19-30 Bayern Munich 3 - 0 Schalke
+germany_bundesliga/2016-2017/2016-09-17 - 16-30 Dortmund 6 - 0 Darmstadt
+germany_bundesliga/2016-2017/2016-09-20 - 21-00 Wolfsburg 1 - 5 Dortmund
+germany_bundesliga/2016-2017/2016-09-23 - 21-30 Dortmund 3 - 1 SC Freiburg
+germany_bundesliga/2016-2017/2016-10-14 - 21-30 Dortmund 1 - 1 Hertha Berlin
+germany_bundesliga/2016-2017/2016-10-22 - 16-30 Ingolstadt 3 - 3 Dortmund
+germany_bundesliga/2016-2017/2016-10-29 - 19-30 Dortmund 0 - 0 Schalke
+germany_bundesliga/2016-2017/2016-11-26 - 17-30 Eintracht Frankfurt 2 - 1 Dortmund
+germany_bundesliga/2016-2017/2016-12-10 - 17-30 FC Koln 1 - 1 Dortmund
+germany_bundesliga/2016-2017/2016-12-20 - 22-00 Dortmund 1 - 1 FC Augsburg
+germany_bundesliga/2016-2017/2017-02-04 - 20-30 Dortmund 1 - 0 RB Leipzig
+germany_bundesliga/2016-2017/2017-02-11 - 17-30 Darmstadt 2 - 1 Dortmund
+germany_bundesliga/2016-2017/2017-02-18 - 17-30 Dortmund 3 - 0 Wolfsburg
+germany_bundesliga/2016-2017/2017-03-17 - 22-30 Dortmund 1 - 0 Ingolstadt
+germany_bundesliga/2016-2017/2017-04-01 - 16-30 Schalke 1 - 1 Dortmund
+germany_bundesliga/2016-2017/2017-04-15 - 16-30 Dortmund 3 - 1 Eintracht Frankfurt
+germany_bundesliga/2016-2017/2017-05-13 - 16-30 FC Augsburg 1 - 1 Dortmund
+italy_serie-a/2014-2015/2015-02-15 - 14-30 AC Milan 1 - 1 Empoli
+italy_serie-a/2014-2015/2015-04-11 - 21-45 Verona 0 - 3 Inter
+italy_serie-a/2014-2015/2015-04-19 - 21-45 Inter 0 - 0 AC Milan
+italy_serie-a/2014-2015/2015-04-25 - 21-45 Inter 2 - 1 AS Roma
+italy_serie-a/2014-2015/2015-04-26 - 16-00 Torino 2 - 1 Juventus
+italy_serie-a/2014-2015/2015-05-03 - 21-45 Napoli 3 - 0 AC Milan
+italy_serie-a/2014-2015/2015-05-16 - 19-00 Inter 1 - 2 Juventus
+italy_serie-a/2015-2016/2015-09-20 - 13-30 Chievo 0 - 1 Inter
+italy_serie-a/2015-2016/2015-09-22 - 21-45 Udinese 2 - 3 AC Milan
+italy_serie-a/2015-2016/2015-11-01 - 22-45 Lazio 1 - 3 AC Milan
+italy_serie-a/2015-2016/2015-11-07 - 22-45 AC Milan 0 - 0 Atalanta
+italy_serie-a/2015-2016/2015-11-22 - 22-45 Inter 4 - 0 Frosinone
+italy_serie-a/2016-2017/2016-08-21 - 21-45 Pescara 2 - 2 Napoli
+italy_serie-a/2016-2017/2016-08-28 - 21-45 Cagliari 2 - 2 AS Roma
+italy_serie-a/2016-2017/2016-09-10 - 21-45 Palermo 0 - 3 Napoli
+italy_serie-a/2016-2017/2016-09-16 - 21-45 Sampdoria 0 - 1 AC Milan
+italy_serie-a/2016-2017/2016-09-17 - 21-45 Napoli 3 - 1 Bologna
+italy_serie-a/2016-2017/2016-09-21 - 21-45 AS Roma 4 - 0 Crotone
+italy_serie-a/2016-2017/2016-10-15 - 16-00 Napoli 1 - 3 AS Roma
+italy_serie-a/2016-2017/2016-10-23 - 16-00 Crotone 1 - 2 Napoli
+italy_serie-a/2016-2017/2016-10-23 - 21-45 AS Roma 4 - 1 Palermo
+italy_serie-a/2016-2017/2016-10-25 - 21-45 Genoa 3 - 0 AC Milan

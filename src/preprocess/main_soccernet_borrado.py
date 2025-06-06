@@ -101,8 +101,21 @@ def parse_arguments():
     parser.add_argument(
         "--dir",
         #default="prueba_de_borrado.txt",
-        #default="SoccerNet_list_games_requested_1748594477.9772956.txt",  # TODO
-        default="SoccerNet_list_games_requested_1748596402.292449.txt",  # TODO
+        #default="SoccerNet_list_games_requested_1748594477.9772956.txt",  # TODO lote 0
+        #default="SoccerNet_list_games_requested_1748596402.292449.txt",  # TODO lote 1
+        #default="SoccerNet_list_games_requested_1749074829.8473907.txt",  # TODO lote 2
+        #default="SoccerNet_list_games_requested_1749088675.5337903.txt",  # TODO lote 3
+        #default="SoccerNet_list_games_requested_1749128377.2351687.txt",  # TODO lote 4
+        #default="SoccerNet_list_games_requested_1749137328.8384361.txt",  # TODO lote 5
+        #default="SoccerNet_list_games_requested_1749163068.419272.txt",  # TODO lote 6
+        #default="SoccerNet_list_games_requested_1749176683.4895058.txt",  # TODO lote 7
+        default=".txt",  # TODO lote 8
+        #default=".txt",  # TODO lote 9
+        #default=".txt",  # TODO lote 10
+        #default=".txt",  # TODO lote 11
+        #default=".txt",  # TODO lote 12
+        #default=".txt",  # TODO lote 13
+        #default=".txt",  # TODO lote 14
         type=str,
         help="Archivo .txt que contiene los directorios a recorrer.",
     )

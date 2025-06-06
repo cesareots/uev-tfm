@@ -8,6 +8,7 @@ dotenv.load_dotenv()
 RESULTS = "results/"
 MODELS_DIR = "models/"
 M_BASIC = f"{MODELS_DIR}CNN3D/"
+M_RESNET = f"{MODELS_DIR}RESNET/"
 
 # soccernet
 SOCCERNET_PASSWORD = os.getenv("SOCCERNET_PASSWORD")
@@ -26,8 +27,13 @@ PARTIDOS_INDICE_LOTE = [
     [250, 299],
     [300, 349],
     [350, 399],
-    [400, 449],
-    [450, 499],
+    [400, 416],  # 417 para inferencia, england_epl
+    [418, 435],  # 436 para inferencia, europe_uefa-champions-league
+    [437, 437],  # 438 para inferencia, france_ligue-1
+    [439, 449],
+    [450, 451],  # 452 para inferencia, germany_bundesliga
+    [453, 473],  # 474 para inferencia, italy_serie-a
+    [475, 498],  # 499 para inferencia, spain_laliga
 ]
 SOCCERNET_RESULTS = f"{RESULTS}soccernet"
 DS_SOCCERNET_RAW = os.getenv("DS_SOCCERNET_RAW")
@@ -50,6 +56,7 @@ LOG_SOCCERNET = f"{LOG_DIR}soccernet.log"
 LOG_SOCCERNET_CLIPS = f"{LOG_DIR}soccernet_clips.log"
 LOG_SOCCERNET_TENSORS = f"{LOG_DIR}soccernet_tensors.log"
 LOG_MODEL_CNN3D = f"{LOG_DIR}model_cnn3d.log"
+LOG_MODEL_RESNET = f"{LOG_DIR}model_resnet.log"
 
 #
 EXT_TXT = ".txt"
