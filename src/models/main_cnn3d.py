@@ -1,6 +1,7 @@
 import argparse
 import logging
 import random
+import sys
 
 import numpy as np
 import torch
@@ -10,7 +11,8 @@ import torchvision.transforms.v2 as T_v2
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 
 from src.models.engine_training import train_model, evaluate_model, extras
-from src.preprocess.dataset_soccernet import NUM_CLASSES, CLIP_DURATION_SEC, crear_dividir_dataset_t_v_t
+from src.preprocess.dataset_soccernet import NUM_CLASSES, CLIP_DURATION_SEC, get_output_size_from_transforms, \
+    crear_dividir_dataset_t_v_t
 from src.utils import utils as ut
 from src.utils.constants import *
 
@@ -18,6 +20,7 @@ logger = logging.getLogger(__name__)
 
 # Hiperparámetros de entrenamiento
 BATCH_SIZE = 8  # segun VRAM
+#BATCH_SIZE = 16
 INITIAL_LEARNING_RATE = 0.001
 
 # frames deseados por clip para el modelo (muestreados)
@@ -30,11 +33,11 @@ FRAMES_PER_CLIP = 32
 TARGET_FPS = float(FRAMES_PER_CLIP / CLIP_DURATION_SEC)
 
 # Tamaño final de los frames que entrarán al modelo después de las transformaciones
-# Esto debe coincidir con lo que producen tus transformaciones (ej. RandomResizedCrop)
-TARGET_SIZE_DATASET = (256, 256)
+TARGET_SIZE_DATASET = (128, 128)
+# TARGET_SIZE_DATASET = (256, 256)
 
 # Guardar checkpoint de época cada N épocas
-EPOCAS_CHECKPOINT_SAVE_INTERVAL = 5  # TODO
+EPOCAS_CHECKPOINT_SAVE_INTERVAL = 1  # TODO
 # Métrica para 'model_best.pth': 'loss' o 'accuracy'
 SAVE_BEST_METRIC_TYPE = "loss"
 
@@ -67,7 +70,7 @@ def config_log() -> None:
 
 
 class SimpleCNN3D(nn.Module):
-    def __init__(self, num_classes, input_channels=3, input_frames=FRAMES_PER_CLIP, input_size=TARGET_SIZE_DATASET):
+    def __init__(self, num_classes, input_channels=3, input_frames=None, input_size=None):
         super(SimpleCNN3D, self).__init__()
 
         self.features = nn.Sequential(
@@ -161,7 +164,7 @@ class SimpleCNN3D(nn.Module):
 def main(args):
     logger.info("Iniciando arquitectura de modelo CNN3D.")
     logger.info(f"Frames por clip: {FRAMES_PER_CLIP}, Duración clip: {CLIP_DURATION_SEC}s")
-    logger.info(f"Modelo esperará frames de tamaño HxW: {TARGET_SIZE_DATASET[0]}x{TARGET_SIZE_DATASET[1]}")
+    logger.info(f"Modelo esperará frames de tamaño HxW: {TARGET_SIZE_DATASET}")
 
     start_epoch = 0
     initial_best_val_metric = None
@@ -185,7 +188,7 @@ def main(args):
             expand=False,  # evita cambios en el tamaño del frame.
         ),
         T_v2.RandomResizedCrop(
-            size=(TARGET_SIZE_DATASET[0], TARGET_SIZE_DATASET[1]),
+            size=TARGET_SIZE_DATASET,
             scale=(0.8, 1.0),
             ratio=(0.9, 1.1),
             antialias=True,
@@ -198,7 +201,7 @@ def main(args):
     ])
     val_transforms = T_v2.Compose([
         T_v2.Resize(
-            size=(TARGET_SIZE_DATASET[0], TARGET_SIZE_DATASET[1]),
+            size=TARGET_SIZE_DATASET,
             antialias=True,
         ),
         # Convertir a float y escalar a [0,1] antes de normalizar
@@ -208,12 +211,18 @@ def main(args):
         ),
     ])
 
+    expected_size = get_output_size_from_transforms(val_transforms)
+    if expected_size is None:
+        logger.error("No se pudo determinar el tamaño de salida de las transformaciones. Saliendo.")
+        sys.exit(1)
+
     # Creación y División del Dataset
     train_dataloader, val_dataloader, test_dataloader = crear_dividir_dataset_t_v_t(
         frames_per_clip=FRAMES_PER_CLIP,
         target_fps=TARGET_FPS,
         train_transforms=train_transforms,
         validation_test_transforms=val_transforms,
+        expected_output_size=expected_size,
         batch_size=BATCH_SIZE,
         train_split=0.7,
         val_split=0.15,
@@ -225,7 +234,7 @@ def main(args):
         num_classes=NUM_CLASSES,
         input_channels=3,  # RGB
         input_frames=FRAMES_PER_CLIP,
-        input_size=(TARGET_SIZE_DATASET[0], TARGET_SIZE_DATASET[1])  # Tamaño final tras transformaciones
+        input_size=expected_size,  # Tamaño final tras transformaciones
     ).to(device)
 
     criterion = nn.CrossEntropyLoss()
@@ -311,8 +320,8 @@ def parse_arguments():
     )
     parser.add_argument(
         "--resume_checkpoint_file",
-        # default="20250603-233152/model_CNN3D_best.pth",  # TODO
         default=None,  # empezará un nuevo entrenamiento
+        # default="20250603-233152/model_CNN3D_best.pth",  # TODO
         type=str,
         help="Reanudar entrenamiento desde un checkpoint.",
     )

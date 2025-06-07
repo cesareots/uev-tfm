@@ -1,15 +1,30 @@
-2025-06-06 00:17:28 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
-2025-06-06 00:17:28 - __main__ - INFO - Iniciando arquitectura  de modelo RESNET - Transfer Learning con R(2+1)D_18.
-2025-06-06 00:17:28 - __main__ - INFO - Frames por clip: 16, Duración clip: 3.0s
-2025-06-06 00:17:28 - src.models.engine_training - INFO - Iniciando nuevo entrenamiento: 20250606-001728
-2025-06-06 00:17:28 - __main__ - INFO - Cargando modelo R(2+1)D_18 pre-entrenado con pesos Kinetics-400...
-2025-06-06 00:17:28 - __main__ - INFO - Congelando pesos del backbone pre-entrenado.
-2025-06-06 00:17:28 - __main__ - INFO - Cabeza de clasificación reemplazada: 512 -> 4 clases.
-2025-06-06 00:17:28 - __main__ - INFO - Transformaciones de vídeo para el modelo pre-entrenado:
-2025-06-06 00:17:28 - __main__ - INFO - VideoClassification(
+2025-06-07 00:56:04 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-07 00:56:04 - __main__ - INFO - Iniciando arquitectura  de modelo RESNET - Transfer Learning con R(2+1)D_18.
+2025-06-07 00:56:04 - __main__ - INFO - Frames por clip: 16, Duración clip: 3.0s
+2025-06-07 00:56:04 - src.models.engine_training - INFO - Iniciando nuevo entrenamiento: 20250607-005604
+2025-06-07 00:56:04 - __main__ - INFO - Cargando modelo R(2+1)D_18 pre-entrenado con pesos Kinetics-400...
+2025-06-07 00:56:05 - __main__ - INFO - Congelando pesos del backbone pre-entrenado.
+2025-06-07 00:56:05 - __main__ - INFO - Cabeza de clasificación reemplazada: 512 -> 4 clases.
+2025-06-07 00:56:05 - __main__ - INFO - Transformaciones deterministas que acepta el modelo:
+2025-06-07 00:56:05 - __main__ - INFO - VideoClassification(
     crop_size=[112, 112]
     resize_size=[128, 171]
     mean=[0.43216, 0.394666, 0.37645]
     std=[0.22803, 0.22145, 0.216989]
     interpolation=InterpolationMode.BILINEAR
 )
+2025-06-07 00:56:05 - src.preprocess.dataset_soccernet - INFO - 1. Creando dataset base para obtener la lista de todos los vídeos.
+2025-06-07 00:56:05 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 11132 videos en dataset/soccernet_actions.
+2025-06-07 00:56:05 - src.preprocess.dataset_soccernet - INFO - 2. Extraer los paths (X) y las etiquetas (y) para la estratificación.
+2025-06-07 00:56:05 - src.preprocess.dataset_soccernet - INFO - 3. Primera división: separar el conjunto de Test
+2025-06-07 00:56:05 - src.preprocess.dataset_soccernet - INFO - 4. Segunda división: separar Train y Validation del conjunto temporal
+2025-06-07 00:56:05 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet inicializado con 7792 videos predefinidos.
+2025-06-07 00:56:05 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet inicializado con 1670 videos predefinidos.
+2025-06-07 00:56:05 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet inicializado con 1670 videos predefinidos.
+2025-06-07 00:56:05 - src.preprocess.dataset_soccernet - INFO - 5. Datasets y DataLoaders creados. Train (7792 videos). Validation (1670 videos). Test (1670 videos).
+2025-06-07 00:56:05 - __main__ - INFO - Optimizando parámetros de: model.fc
+2025-06-07 00:56:05 - __main__ - INFO - Iniciando nuevo entrenamiento desde época 1.
+2025-06-07 00:56:05 - src.models.engine_training - INFO - Entrenamiento iniciado (model_RESNET)... Número de épocas: 1 (desde 1 hasta 1)
+2025-06-07 00:56:05 - src.models.engine_training - INFO - Guardando checkpoints en: models\RESNET\20250607-005604 con base 'model_RESNET'
+2025-06-07 01:31:43 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video dataset\soccernet_actions\Corner\Corner_2919_720p_1_0436.mkv: index 33554433 is out of bounds for dimension 0 with size 6
+2025-06-07 01:31:43 - src.preprocess.dataset_soccernet - WARNING - Creando tensor dummy con tamaño post-transformación (256,256) estimado.

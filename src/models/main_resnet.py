@@ -1,6 +1,7 @@
 import argparse
 import logging
 import random
+import sys
 
 import numpy as np
 import torch
@@ -11,14 +12,16 @@ from torch.optim.lr_scheduler import ReduceLROnPlateau
 from torchvision.models.video import r2plus1d_18, R2Plus1D_18_Weights
 
 from src.models.engine_training import train_model, evaluate_model, extras
-from src.preprocess.dataset_soccernet import NUM_CLASSES, CLIP_DURATION_SEC, crear_dividir_dataset_t_v_t
+from src.preprocess.dataset_soccernet import NUM_CLASSES, CLIP_DURATION_SEC, get_output_size_from_transforms, \
+    crear_dividir_dataset_t_v_t
 from src.utils import utils as ut
 from src.utils.constants import *
 
 logger = logging.getLogger(__name__)
 
-# Configuración para Transfer Learning
-BATCH_SIZE = 8  # Ajustar según VRAM
+# Hiperparámetros y configuración para Transfer Learning
+#BATCH_SIZE = 8  # Ajustar según VRAM
+BATCH_SIZE = 16
 INITIAL_LEARNING_RATE = 0.001  # Tasa de aprendizaje para la nueva capa clasificadora
 # LEARNING_RATE_FINETUNE = 0.0001 # Tasa de aprendizaje más baja si se hace fine-tuning de todo el modelo después
 
@@ -172,12 +175,22 @@ def main(args):
         ),
     ])
 
+    # Es mejor usar val_transforms para esto, ya que es más simple y determinista. El tamaño de salida de train_transforms debería ser el mismo.
+    expected_size = get_output_size_from_transforms(val_transforms)
+
+    if expected_size is None:
+        # logger.warning("No se pudo determinar el tamaño de salida de las transformaciones. En este modelo 'r2plus1d_18' se conoce el tamaño esperado (112, 112)")
+        # expected_size=(112, 112)
+        logger.error("No se pudo determinar el tamaño de salida de las transformaciones. Saliendo.")
+        sys.exit(1)
+
     # Creación y División del Dataset
     train_dataloader, val_dataloader, test_dataloader = crear_dividir_dataset_t_v_t(
         frames_per_clip=TRANSFER_MODEL_FRAMES_PER_CLIP,
         target_fps=TARGET_FPS,
         train_transforms=train_transforms,
-        val_transforms=val_transforms,
+        validation_test_transforms=val_transforms,
+        expected_output_size=expected_size,
         batch_size=BATCH_SIZE,
         train_split=0.7,
         val_split=0.15,

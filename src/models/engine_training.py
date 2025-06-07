@@ -75,7 +75,7 @@ def train_model(
             if (i + 1) % 20 == 0:
                 log_con = f"Epoch [{current_epoch_display}/{num_epochs}], Step [{i + 1}/{len(train_dataloader)}], Loss: {loss.item():.4f}"
                 print(log_con)
-                # logger.info(log_con)
+                logger.info(log_con)
 
         epoch_train_loss = running_loss / total_samples if total_samples > 0 else 0
         epoch_train_acc = correct_predictions / total_samples if total_samples > 0 else 0
