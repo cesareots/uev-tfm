@@ -56,3 +56,5 @@
 2025-06-07 03:08:13 - src.preprocess.dataset_soccernet - WARNING - Creando tensor dummy: (3, 32, 128, 128)
 2025-06-07 03:09:48 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Corner\Corner_2252_720p_1_0040.mkv': index 33554435 is out of bounds for dimension 1 with size 4
 2025-06-07 03:09:48 - src.preprocess.dataset_soccernet - WARNING - Creando tensor dummy: (3, 32, 128, 128)
+2025-06-07 03:10:28 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Goal\Goal_0317_720p_2_2924.mkv': index 33554432 is out of bounds for dimension 1 with size 4
+2025-06-07 03:10:28 - src.preprocess.dataset_soccernet - WARNING - Creando tensor dummy: (3, 32, 128, 128)

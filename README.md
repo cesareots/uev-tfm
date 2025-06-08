@@ -2,6 +2,7 @@
 - Detector de eventos clave en partidos de futbol
 - Computer Vision
 - Artificial Intelligence
+- Tuve que bajar a 95% la capacidad máxima del CPU (ThinkPad P16s Gen3) para que no salga pantalla azul y se reinicie el sistema operativo, este cambio lo hize desde 'control panel/power options/edit plan settings/change advanced power settings'
 
 ### variables de entorno
 - Se maneja un único .env para todo el proyecto. Estas variables son leídas mediante el archivo 'constants.py' y luego utilizadas en cualquier punto.

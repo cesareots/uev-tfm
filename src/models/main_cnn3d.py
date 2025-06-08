@@ -7,10 +7,10 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
-import torchvision.transforms.v2 as T_v2
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 
 from src.models.engine_training import train_model, evaluate_model, extras
+from src.models.transforms import get_transforms_cnn3d
 from src.preprocess.dataset_soccernet import NUM_CLASSES, CLIP_DURATION_SEC, get_output_size_from_transforms, \
     crear_dividir_dataset_t_v_t
 from src.utils import utils as ut
@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 
 # Hiperparámetros de entrenamiento
 BATCH_SIZE = 8  # segun VRAM
-#BATCH_SIZE = 16
+# BATCH_SIZE = 16
 INITIAL_LEARNING_RATE = 0.001
 
 # frames deseados por clip para el modelo (muestreados)
@@ -170,48 +170,14 @@ def main(args):
     initial_best_val_metric = None
 
     # actual_checkpoint_to_load: ruta definitiva del checkpoint
-    actual_checkpoint_to_load, run_name_to_use, checkpoint_dir_run = extras(
+    actual_checkpoint_to_load, run_name_to_use, checkpoint_dir_run = extras(  # TODO en que usaba run_name_to_use?
         args.resume_checkpoint_file,
         M_BASIC,
     )
 
-    train_transforms = T_v2.Compose([
-        T_v2.RandomHorizontalFlip(p=0.5),  # volteo horizontal aleatorio
-        T_v2.ColorJitter(
-            brightness=0.1,
-            contrast=0.1,
-            saturation=0.1,
-            hue=0.05,
-        ),
-        T_v2.RandomRotation(
-            degrees=5,  # grados
-            expand=False,  # evita cambios en el tamaño del frame.
-        ),
-        T_v2.RandomResizedCrop(
-            size=TARGET_SIZE_DATASET,
-            scale=(0.8, 1.0),
-            ratio=(0.9, 1.1),
-            antialias=True,
-        ),
-        # Convertir a float y escalar a [0,1] antes de normalizar
-        T_v2.ToDtype(
-            torch.float32,
-            scale=True,
-        ),
-    ])
-    val_transforms = T_v2.Compose([
-        T_v2.Resize(
-            size=TARGET_SIZE_DATASET,
-            antialias=True,
-        ),
-        # Convertir a float y escalar a [0,1] antes de normalizar
-        T_v2.ToDtype(
-            torch.float32,
-            scale=True,
-        ),
-    ])
-
+    train_transforms, val_transforms = get_transforms_cnn3d(TARGET_SIZE_DATASET)
     expected_size = get_output_size_from_transforms(val_transforms)
+
     if expected_size is None:
         logger.error("No se pudo determinar el tamaño de salida de las transformaciones. Saliendo.")
         sys.exit(1)
@@ -295,7 +261,7 @@ def main(args):
         logger.warning(
             f"No se encontró archivo del mejor modelo. Evaluando con el último estado del modelo, en 'TEST'.")
 
-    logger.info("Iniciando evaluación final, en 'TEST' (NO VISTO)")
+    logger.info("Iniciando evaluación final, en 'TEST' (datos no vistos)")
     evaluate_model(
         model=model,
         dataloader=test_dataloader,
@@ -304,7 +270,7 @@ def main(args):
         per_epoch_eval=False,  # Para obtener el log completo y detallado
     )
 
-    logger.info(f"Checkpoints de '{run_name_to_use}' se encuentran en '{checkpoint_dir_run}'")
+    logger.info(f"Proceso total finalizado... Checkpoints se encuentran en '{checkpoint_dir_run}'")
 
 
 def parse_arguments():

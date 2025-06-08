@@ -30,6 +30,7 @@ def verify_system() -> None:
             LOG_DIR,
             DS_SOCCERNET_ACTIONS,
             DS_SOCCERNET_TENSORS,
+            INFE_PATH,
         ]
 
         for path in list_path:
@@ -171,9 +172,12 @@ def get_time_employed(
         t_start: time,
         message: str,
 ) -> None:
+    logger.info(f"Tiempo total: {time_in_minutes(t_start)} minutos. Tarea: {message}")
+
+def time_in_minutes(t_start: time):
     t_end = time.time() - t_start
-    min = np.round(t_end / 60.0, decimals=2)
-    logger.info(f"Tiempo total: {min} minutos. Tarea: {message}")
+    
+    return np.round(t_end / 60.0, decimals=2)
 
 
 def write_soccernet_games_in_txt(

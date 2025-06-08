@@ -59,6 +59,7 @@ LOG_SOCCERNET_CLIPS = f"{LOG_DIR}soccernet_clips.log"
 LOG_SOCCERNET_TENSORS = f"{LOG_DIR}soccernet_tensors.log"
 LOG_MODEL_CNN3D = f"{LOG_DIR}model_cnn3d.log"
 LOG_MODEL_RESNET = f"{LOG_DIR}model_resnet.log"
+LOG_INFERENCE = f"{LOG_DIR}inference.log"
 
 #
 EXT_TXT = ".txt"
@@ -71,3 +72,7 @@ DEBUG = 1
 YOLO_MODEL = os.getenv("YOLO_MODEL")
 YOLO_MODEL_NAMES = "model_names_"
 YOLO_PATH_RESULTS = f"{RESULTS}yolo"
+
+# inferencia
+INFE_PATH = "inference/"
+VIDEO_PATH_TEMP = ""

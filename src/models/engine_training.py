@@ -79,9 +79,9 @@ def train_model(
 
         epoch_train_loss = running_loss / total_samples if total_samples > 0 else 0
         epoch_train_acc = correct_predictions / total_samples if total_samples > 0 else 0
-        epoch_duration = time.time() - epoch_t_start
+        epoch_duration = ut.time_in_minutes(epoch_t_start)
 
-        log_con_epoch = f"Epoch [{current_epoch_display}/{num_epochs}] ({checkpoint_base_name} Entrenamiento), Loss: {epoch_train_loss:.4f}, Accuracy: {epoch_train_acc:.4f}, Duración {epoch_duration:.2f}s"
+        log_con_epoch = f"Epoch [{current_epoch_display}/{num_epochs}] ({checkpoint_base_name} Entrenamiento), Loss: {epoch_train_loss:.4f}, Accuracy: {epoch_train_acc:.4f}, Duración {epoch_duration:.2f} minutos"
         print(log_con_epoch)
         logger.info(log_con_epoch)
 

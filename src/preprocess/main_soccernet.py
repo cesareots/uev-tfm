@@ -444,6 +444,12 @@ def parse_arguments():
         # default=ut.obtener_numeros(PARTIDOS_INDICE_LOTE[13])  # TODO lote 13
         # default=ut.obtener_numeros(PARTIDOS_INDICE_LOTE[14])  # TODO lote 14
         # default=ut.obtener_numeros(PARTIDOS_INDICE_LOTE[15])  # TODO lote 15
+        #default=[417],  # para inferencia, england_epl
+        #default=[436],  # para inferencia, europe_uefa-champions-league
+        #default=[438],  # para inferencia, france_ligue-1
+        #default=[452],  # para inferencia, germany_bundesliga
+        #default=[474],  # para inferencia, italy_serie-a
+        #default=[499],  # para inferencia, spain_laliga
         type=ut.non_negative_int,
         nargs="+",
         help="Índice de cada partido que desea descargar, valores enteros entre 0 y 500.",
@@ -465,7 +471,7 @@ def parse_arguments():
     )
     parser.add_argument(
         "--omitir_recorte",
-        default=0,
+        default=1,
         type=int,
         choices=[0, 1],
         help="Omite el proceso de recortar las acciones en los videos de SoccerNet. 0: apagado, 1: prendido.",

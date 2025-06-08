@@ -7,11 +7,11 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
-import torchvision.transforms.v2 as T_v2
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from torchvision.models.video import r2plus1d_18, R2Plus1D_18_Weights
 
 from src.models.engine_training import train_model, evaluate_model, extras
+from src.models.transforms import get_transforms_resnet
 from src.preprocess.dataset_soccernet import NUM_CLASSES, CLIP_DURATION_SEC, get_output_size_from_transforms, \
     crear_dividir_dataset_t_v_t
 from src.utils import utils as ut
@@ -20,7 +20,7 @@ from src.utils.constants import *
 logger = logging.getLogger(__name__)
 
 # Hiperparámetros y configuración para Transfer Learning
-#BATCH_SIZE = 8  # Ajustar según VRAM
+# BATCH_SIZE = 8  # Ajustar según VRAM
 BATCH_SIZE = 16
 INITIAL_LEARNING_RATE = 0.001  # Tasa de aprendizaje para la nueva capa clasificadora
 # LEARNING_RATE_FINETUNE = 0.0001 # Tasa de aprendizaje más baja si se hace fine-tuning de todo el modelo después
@@ -111,69 +111,7 @@ def main(args):
     model = model.to(device)
     logger.info("Transformaciones deterministas que acepta el modelo:")
     logger.info(weights.transforms())
-
-    # pipeline de transformaciones para ENTRENAMIENTO
-    train_transforms = T_v2.Compose([
-        # Los modelos de torchvision esperan uint8 en el rango [0, 255] al inicio
-        T_v2.ToDtype(
-            torch.uint8,
-            scale=False,
-        ),
-        T_v2.RandomHorizontalFlip(p=0.5),
-        T_v2.ColorJitter(
-            brightness=0.1,
-            contrast=0.1,
-            saturation=0.1,
-            hue=0.05,
-        ),
-        T_v2.RandomRotation(
-            degrees=5,  # grados
-            expand=False,  # evita cambios en el tamaño del frame.
-        ),
-        # Redimensionar el lado más corto a 128
-        T_v2.Resize(
-            size=(128),
-            antialias=True,
-        ),
-        # En lugar de CenterCrop, para entrenamiento se suele usar RandomCrop para que el modelo vea diferentes partes de la imagen.
-        T_v2.RandomCrop(size=(112, 112)),
-        # Convertir a float y escalar a [0,1] antes de normalizar
-        T_v2.ToDtype(
-            torch.float32,
-            scale=True,
-        ),
-        # Normalizar con la media y std específicas del modelo
-        T_v2.Normalize(
-            mean=weights.transforms().mean,
-            std=weights.transforms().std,
-        ),
-    ])
-
-    # pipeline de transformaciones para VALIDACIÓN, solo contiene el pre-procesamiento determinista.
-    val_transforms = T_v2.Compose([
-        # Los modelos de torchvision esperan uint8 en el rango [0, 255] al inicio
-        T_v2.ToDtype(
-            torch.uint8,
-            scale=False,
-        ),
-        # Redimensionar el lado más corto a 128 (ejemplo de torchvision)
-        T_v2.Resize(
-            size=(128),
-            antialias=True,
-        ),
-        # Recortar el centro a 112x112
-        T_v2.CenterCrop(size=(112, 112)),
-        # Convertir a float y escalar a [0,1] antes de normalizar
-        T_v2.ToDtype(
-            torch.float32,
-            scale=True,
-        ),
-        # Normalizar con la media y std específicas del modelo
-        T_v2.Normalize(
-            mean=weights.transforms().mean,
-            std=weights.transforms().std,
-        ),
-    ])
+    train_transforms, val_transforms = get_transforms_resnet(weights)
 
     # Es mejor usar val_transforms para esto, ya que es más simple y determinista. El tamaño de salida de train_transforms debería ser el mismo.
     expected_size = get_output_size_from_transforms(val_transforms)
@@ -270,7 +208,7 @@ def main(args):
         logger.warning(
             f"No se encontró archivo del mejor modelo. Evaluando con el último estado del modelo, en 'TEST'.")
 
-    logger.info("Iniciando evaluación final, en 'TEST' (NO VISTO)")
+    logger.info("Iniciando evaluación final, en 'TEST' (datos no vistos)")
     evaluate_model(
         model=model,
         dataloader=test_dataloader,
@@ -279,7 +217,7 @@ def main(args):
         per_epoch_eval=False,  # Para obtener el log completo y detallado
     )
 
-    logger.info(f"Checkpoints de '{run_name_to_use}' se encuentran en '{checkpoint_dir_run}'")
+    logger.info(f"Proceso total finalizado... Checkpoints se encuentran en '{checkpoint_dir_run}'")
 
 
 def parse_arguments():
@@ -295,8 +233,8 @@ def parse_arguments():
     )
     parser.add_argument(
         "--resume_checkpoint_file",
-        # default="20250605-233152/model_RESNET_best.pth",  # TODO
         default=None,  # empezará un nuevo entrenamiento
+        # default="20250605-233152/model_RESNET_best.pth",  # TODO
         type=str,
         help="Ruta relativa o absoluta para reanudar entrenamiento desde un .pth.",
     )

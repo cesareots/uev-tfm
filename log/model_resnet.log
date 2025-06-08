@@ -28,3 +28,78 @@
 2025-06-07 00:56:05 - src.models.engine_training - INFO - Guardando checkpoints en: models\RESNET\20250607-005604 con base 'model_RESNET'
 2025-06-07 01:31:43 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video dataset\soccernet_actions\Corner\Corner_2919_720p_1_0436.mkv: index 33554433 is out of bounds for dimension 0 with size 6
 2025-06-07 01:31:43 - src.preprocess.dataset_soccernet - WARNING - Creando tensor dummy con tamaño post-transformación (256,256) estimado.
+2025-06-07 03:20:43 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-07 03:20:43 - __main__ - INFO - Iniciando arquitectura  de modelo RESNET - Transfer Learning con R(2+1)D_18.
+2025-06-07 03:20:43 - __main__ - INFO - Frames por clip: 16, Duración clip: 3.0s
+2025-06-07 03:20:43 - src.models.engine_training - INFO - Iniciando nuevo entrenamiento: 20250607-032043
+2025-06-07 03:20:43 - __main__ - INFO - Cargando modelo R(2+1)D_18 pre-entrenado con pesos Kinetics-400...
+2025-06-07 03:20:44 - __main__ - INFO - Congelando pesos del backbone pre-entrenado.
+2025-06-07 03:20:44 - __main__ - INFO - Cabeza de clasificación reemplazada: 512 -> 4 clases.
+2025-06-07 03:20:44 - __main__ - INFO - Transformaciones deterministas que acepta el modelo:
+2025-06-07 03:20:44 - __main__ - INFO - VideoClassification(
+    crop_size=[112, 112]
+    resize_size=[128, 171]
+    mean=[0.43216, 0.394666, 0.37645]
+    std=[0.22803, 0.22145, 0.216989]
+    interpolation=InterpolationMode.BILINEAR
+)
+2025-06-07 03:20:44 - src.preprocess.dataset_soccernet - INFO - Tamaño de salida detectado de la transformación 'CenterCrop': (112, 112)
+2025-06-07 03:20:44 - src.preprocess.dataset_soccernet - INFO - 1. Creando dataset base para obtener la lista de todos los vídeos.
+2025-06-07 03:20:44 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 11132 videos en dataset/soccernet_actions.
+2025-06-07 03:20:44 - src.preprocess.dataset_soccernet - INFO - 2. Extraer los paths (X) y las etiquetas (y) para la estratificación.
+2025-06-07 03:20:44 - src.preprocess.dataset_soccernet - INFO - 3. Primera división: separar el conjunto de Test
+2025-06-07 03:20:44 - src.preprocess.dataset_soccernet - INFO - 4. Segunda división: separar Train y Validation del conjunto temporal
+2025-06-07 03:20:44 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet inicializado con 7792 videos predefinidos.
+2025-06-07 03:20:44 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet inicializado con 1670 videos predefinidos.
+2025-06-07 03:20:44 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet inicializado con 1670 videos predefinidos.
+2025-06-07 03:20:44 - src.preprocess.dataset_soccernet - INFO - 5. Datasets y DataLoaders creados. Train (7792 videos). Validation (1670 videos). Test (1670 videos).
+2025-06-07 03:20:44 - __main__ - INFO - Optimizando parámetros de: model.fc
+2025-06-07 03:20:44 - __main__ - INFO - Iniciando nuevo entrenamiento desde época 1.
+2025-06-07 03:20:44 - src.models.engine_training - INFO - Entrenamiento iniciado (model_RESNET)... Número de épocas: 1 (desde 1 hasta 1)
+2025-06-07 03:20:44 - src.models.engine_training - INFO - Guardando checkpoints en: models\RESNET\20250607-032043 con base 'model_RESNET'
+2025-06-07 03:28:20 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Yellow card\Yellow card_1807_720p_2_3838.mkv': index 33554435 is out of bounds for dimension 1 with size 4
+2025-06-07 03:28:20 - src.preprocess.dataset_soccernet - WARNING - Creando tensor dummy: (3, 16, 112, 112)
+2025-06-07 03:28:59 - src.models.engine_training - INFO - Epoch [1/1], Step [20/487], Loss: 1.2349
+2025-06-07 03:29:47 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Corner\Corner_1020_720p_1_2229.mkv': index 33554432 is out of bounds for dimension 1 with size 4
+2025-06-07 03:29:47 - src.preprocess.dataset_soccernet - WARNING - Creando tensor dummy: (3, 16, 112, 112)
+2025-06-07 03:38:01 - src.models.engine_training - INFO - Epoch [1/1], Step [40/487], Loss: 0.8276
+2025-06-07 03:38:54 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Goal\Goal_0809_720p_2_2121.mkv': index 33554433 is out of bounds for dimension 1 with size 4
+2025-06-07 03:38:54 - src.preprocess.dataset_soccernet - WARNING - Creando tensor dummy: (3, 16, 112, 112)
+2025-06-07 03:47:03 - src.models.engine_training - INFO - Epoch [1/1], Step [60/487], Loss: 0.8470
+2025-06-07 03:57:05 - src.models.engine_training - INFO - Epoch [1/1], Step [80/487], Loss: 0.7958
+2025-06-07 04:07:08 - src.models.engine_training - INFO - Epoch [1/1], Step [100/487], Loss: 0.7809
+2025-06-07 04:17:09 - src.models.engine_training - INFO - Epoch [1/1], Step [120/487], Loss: 0.8118
+2025-06-07 04:27:10 - src.models.engine_training - INFO - Epoch [1/1], Step [140/487], Loss: 0.8176
+2025-06-07 04:37:14 - src.models.engine_training - INFO - Epoch [1/1], Step [160/487], Loss: 0.6632
+2025-06-07 04:47:17 - src.models.engine_training - INFO - Epoch [1/1], Step [180/487], Loss: 0.5942
+2025-06-07 04:54:44 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Corner\Corner_1628_720p_2_2841.mkv': index 33554432 is out of bounds for dimension 1 with size 4
+2025-06-07 04:54:44 - src.preprocess.dataset_soccernet - WARNING - Creando tensor dummy: (3, 16, 112, 112)
+2025-06-07 04:57:21 - src.models.engine_training - INFO - Epoch [1/1], Step [200/487], Loss: 0.6840
+2025-06-07 05:07:20 - src.models.engine_training - INFO - Epoch [1/1], Step [220/487], Loss: 0.8625
+2025-06-07 05:17:24 - src.models.engine_training - INFO - Epoch [1/1], Step [240/487], Loss: 0.7646
+2025-06-07 05:27:26 - src.models.engine_training - INFO - Epoch [1/1], Step [260/487], Loss: 0.5453
+2025-06-07 05:37:31 - src.models.engine_training - INFO - Epoch [1/1], Step [280/487], Loss: 0.8362
+2025-06-07 05:47:30 - src.models.engine_training - INFO - Epoch [1/1], Step [300/487], Loss: 0.7578
+2025-06-07 05:57:32 - src.models.engine_training - INFO - Epoch [1/1], Step [320/487], Loss: 0.7331
+2025-06-07 06:07:33 - src.models.engine_training - INFO - Epoch [1/1], Step [340/487], Loss: 0.7032
+2025-06-07 06:17:37 - src.models.engine_training - INFO - Epoch [1/1], Step [360/487], Loss: 1.0389
+2025-06-07 06:27:40 - src.models.engine_training - INFO - Epoch [1/1], Step [380/487], Loss: 0.5617
+2025-06-07 06:37:45 - src.models.engine_training - INFO - Epoch [1/1], Step [400/487], Loss: 0.7176
+2025-06-07 06:47:53 - src.models.engine_training - INFO - Epoch [1/1], Step [420/487], Loss: 0.4424
+2025-06-07 06:58:00 - src.models.engine_training - INFO - Epoch [1/1], Step [440/487], Loss: 0.4982
+2025-06-07 07:08:03 - src.models.engine_training - INFO - Epoch [1/1], Step [460/487], Loss: 0.6211
+2025-06-07 07:18:09 - src.models.engine_training - INFO - Epoch [1/1], Step [480/487], Loss: 0.3763
+2025-06-07 07:19:40 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Corner\Corner_1163_720p_2_4451.mkv': index 33554433 is out of bounds for dimension 0 with size 6
+2025-06-07 07:19:40 - src.preprocess.dataset_soccernet - WARNING - Creando tensor dummy: (3, 16, 112, 112)
+2025-06-07 07:21:40 - src.models.engine_training - INFO - Epoch [1/1] (model_RESNET Entrenamiento), Loss: 0.7474, Accuracy: 0.7231, Duración 14456.72s
+2025-06-07 07:41:12 - src.models.engine_training - INFO - Epoch [1/1] (model_RESNET Validación), Loss: 0.5943, Accuracy: 0.7952
+2025-06-07 07:41:12 - src.models.engine_training - INFO - LR para la próxima época (model_RESNET): 0.0010000
+2025-06-07 07:41:13 - src.models.engine_training - INFO - Checkpoint guardado: 'models\RESNET\20250607-032043\model_RESNET_epoch_1.pth'
+2025-06-07 07:41:13 - src.models.engine_training - INFO - Nuevo mejor checkpoint guardado (Val loss: 0.5943): 'models\RESNET\20250607-032043\model_RESNET_best.pth'
+2025-06-07 07:41:13 - src.utils.utils - INFO - Tiempo total: 260.49 minutos. Tarea: Entrenamiento finalizado (model_RESNET).
+2025-06-07 07:41:13 - __main__ - INFO - Mejor modelo 'models\RESNET\20250607-032043\model_RESNET_best.pth' para evaluación final, en 'TEST'.
+2025-06-07 07:41:13 - __main__ - INFO - Iniciando evaluación final, en 'TEST' (NO VISTO)
+2025-06-07 07:41:13 - src.models.engine_training - INFO - Evaluación final iniciada...
+2025-06-07 08:00:45 - src.utils.utils - INFO - Tiempo total: 19.53 minutos. Tarea: Evaluación final.
+2025-06-07 08:00:45 - src.models.engine_training - INFO - Evaluación final - Loss: 0.6199, Accuracy: 0.7898
+2025-06-07 08:00:45 - __main__ - INFO - Checkpoints de '20250607-032043' se encuentran en 'models\RESNET\20250607-032043'
