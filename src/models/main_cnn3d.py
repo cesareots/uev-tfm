@@ -19,8 +19,9 @@ from src.utils.constants import *
 logger = logging.getLogger(__name__)
 
 # Hiperparámetros de entrenamiento
-BATCH_SIZE = 8  # segun VRAM
-# BATCH_SIZE = 16
+# BATCH_SIZE = 8  # según VRAM (en cuda)
+BATCH_SIZE = 16
+# BATCH_SIZE = 32
 INITIAL_LEARNING_RATE = 0.001
 
 # frames deseados por clip para el modelo (muestreados)
@@ -37,16 +38,15 @@ TARGET_SIZE_DATASET = (128, 128)
 # TARGET_SIZE_DATASET = (256, 256)
 
 # Guardar checkpoint de época cada N épocas
-EPOCAS_CHECKPOINT_SAVE_INTERVAL = 1  # TODO
+EPOCAS_CHECKPOINT_SAVE_INTERVAL = 1  # para tener todas las metricas y poder graficarlas a gusto
 # Métrica para 'model_best.pth': 'loss' o 'accuracy'
 SAVE_BEST_METRIC_TYPE = "loss"
 
 # Parámetros para el LR Scheduler (ReduceLROnPlateau)
-LR_SCHEDULER_PATIENCE = 2  # Paciencia para reducir el LR (en épocas)
+LR_SCHEDULER_PATIENCE = 5  # Paciencia para reducir el LR (en épocas)
 LR_SCHEDULER_FACTOR = 0.5  # Factor por el cual se reduce el LR
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-logger.info(f"Usando dispositivo: {device}")
 
 torch.manual_seed(SEMILLA)
 if torch.cuda.is_available():
@@ -163,6 +163,7 @@ class SimpleCNN3D(nn.Module):
 
 def main(args):
     logger.info("Iniciando arquitectura de modelo CNN3D.")
+    logger.info(f"Usando dispositivo: {device}")
     logger.info(f"Frames por clip: {FRAMES_PER_CLIP}, Duración clip: {CLIP_DURATION_SEC}s")
     logger.info(f"Modelo esperará frames de tamaño HxW: {TARGET_SIZE_DATASET}")
 
@@ -170,10 +171,7 @@ def main(args):
     initial_best_val_metric = None
 
     # actual_checkpoint_to_load: ruta definitiva del checkpoint
-    actual_checkpoint_to_load, run_name_to_use, checkpoint_dir_run = extras(  # TODO en que usaba run_name_to_use?
-        args.resume_checkpoint_file,
-        M_BASIC,
-    )
+    actual_checkpoint_to_load, checkpoint_dir_run = extras(M_BASIC, args.resume_checkpoint_file)
 
     train_transforms, val_transforms = get_transforms_cnn3d(TARGET_SIZE_DATASET)
     expected_size = get_output_size_from_transforms(val_transforms)
@@ -267,7 +265,7 @@ def main(args):
         dataloader=test_dataloader,
         criterion=criterion,
         device=device,
-        per_epoch_eval=False,  # Para obtener el log completo y detallado
+        per_epoch_eval=False,
     )
 
     logger.info(f"Proceso total finalizado... Checkpoints se encuentran en '{checkpoint_dir_run}'")

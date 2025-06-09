@@ -20,8 +20,9 @@ from src.utils.constants import *
 logger = logging.getLogger(__name__)
 
 # Hiperparámetros y configuración para Transfer Learning
-# BATCH_SIZE = 8  # Ajustar según VRAM
+# BATCH_SIZE = 8  # según VRAM (en cuda)
 BATCH_SIZE = 16
+# BATCH_SIZE = 32
 INITIAL_LEARNING_RATE = 0.001  # Tasa de aprendizaje para la nueva capa clasificadora
 # LEARNING_RATE_FINETUNE = 0.0001 # Tasa de aprendizaje más baja si se hace fine-tuning de todo el modelo después
 
@@ -37,15 +38,14 @@ TARGET_FPS = float(TRANSFER_MODEL_FRAMES_PER_CLIP / CLIP_DURATION_SEC)
 # No necesitamos TARGET_SIZE_DATASET, ya que las transformaciones lo dictarán.
 
 # Checkpointing
-EPOCAS_CHECKPOINT_SAVE_INTERVAL = 1  # TODO ¿Guardar cada época es bueno para transfer learning?
+EPOCAS_CHECKPOINT_SAVE_INTERVAL = 1  # para tener todas las metricas y poder graficarlas a gusto
 SAVE_BEST_METRIC_TYPE = "loss"
 
 # LR Scheduler
-LR_SCHEDULER_PATIENCE = 2  # Paciencia para reducir el LR (en épocas)
+LR_SCHEDULER_PATIENCE = 5  # Paciencia para reducir el LR (en épocas)
 LR_SCHEDULER_FACTOR = 0.5  # Factor por el cual se reduce el LR
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-logger.info(f"Usando dispositivo: {device}")
 
 torch.manual_seed(SEMILLA)
 if torch.cuda.is_available():
@@ -62,7 +62,8 @@ def config_log() -> None:
         filemode="a",
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
-        level=logging.INFO,
+        # https://docs.python.org/3/library/logging.html
+        level=logging.INFO,  # NOTSET, DEBUG, INFO, WARNING, ERROR, CRITICAL
         encoding="utf-8",
     )
 
@@ -89,31 +90,75 @@ def get_pretrained_r2plus1d_model(
     return model, weights
 
 
+def model_r2plus1d_fine_tuning_granular(
+        num_classes_output: int,
+        granular: bool = True,
+):
+    logger.info("Cargando modelo R(2+1)D_18 pre-entrenado con pesos Kinetics-400.")
+    weights = R2Plus1D_18_Weights.KINETICS400_V1
+    model = r2plus1d_18(weights=weights)
+
+    logger.info("Congelando pesos del backbone pre-entrenado.")
+    for param in model.parameters():
+        param.requires_grad = False
+
+    # Reemplazar la cabeza de clasificación (model.fc)
+    num_original_features = model.fc.in_features
+    model.fc = nn.Linear(num_original_features, num_classes_output)
+    logger.info(f"Cabeza de clasificación reemplazada: {num_original_features} -> {num_classes_output} clases.")
+
+    if granular:
+        logger.info("Descongelando el último bloque (BasicBlock) de model.layer4 y model.fc")
+
+        for name, param in model.named_parameters():
+            # Descongelar si el nombre del parámetro contiene "layer4.1." (el segundo BasicBlock)
+            # if "layer4.1." in name or "fc." in name:
+            if "layer4.1." in name:
+                param.requires_grad = True
+                logger.info(f"  > Descongelando: {name}")  # ver qué se descongela
+            else:
+                param.requires_grad = False
+
+        # Configurar Optimizador con Tasa de Aprendizaje Diferencial
+        learning_rate_backbone_finetune = 0.00001  # Tasa de aprendizaje 'muy baja' para las capas de ResNet
+        learning_rate_head_finetune = 0.001  # Tasa de aprendizaje 'media' para la capa clasificadora
+
+        params_to_optimize = [
+            {"params": model.layer4[1].parameters(), "lr": learning_rate_backbone_finetune},
+            {"params": model.fc.parameters(), "lr": learning_rate_head_finetune},
+        ]
+
+        logger.info(
+            f"Optimizador configurado con LR diferencial: último bloque de layer4={learning_rate_backbone_finetune}, fc={learning_rate_head_finetune}")
+    else:
+        params_to_optimize = model.fc.parameters()
+
+    return model, weights, params_to_optimize
+
+
 def main(args):
     logger.info("Iniciando arquitectura  de modelo RESNET - Transfer Learning con R(2+1)D_18.")
+    logger.info(f"Usando dispositivo: {device}")
     logger.info(f"Frames por clip: {TRANSFER_MODEL_FRAMES_PER_CLIP}, Duración clip: {CLIP_DURATION_SEC}s")
-    # logger.info(f"Modelo esperará frames de tamaño HxW: {TARGET_SIZE_DATASET[0]}x{TARGET_SIZE_DATASET[1]}")
 
     start_epoch = 0
     initial_best_val_metric = None
 
     # actual_checkpoint_to_load: ruta definitiva del checkpoint
-    actual_checkpoint_to_load, run_name_to_use, checkpoint_dir_run = extras(
-        args.resume_checkpoint_file,
-        M_RESNET,
-    )
+    actual_checkpoint_to_load, checkpoint_dir_run = extras(M_RESNET, args.resume_checkpoint_file)
 
     #
-    model, weights = get_pretrained_r2plus1d_model(
+    model, weights, params_to_optimize = model_r2plus1d_fine_tuning_granular(
         num_classes_output=NUM_CLASSES,
-        freeze_backbone=True,
+        granular=True,  # TODO sera granular o solo la capa clasificadora?
     )
     model = model.to(device)
+
     logger.info("Transformaciones deterministas que acepta el modelo:")
     logger.info(weights.transforms())
     train_transforms, val_transforms = get_transforms_resnet(weights)
 
-    # Es mejor usar val_transforms para esto, ya que es más simple y determinista. El tamaño de salida de train_transforms debería ser el mismo.
+    # es mejor usar val_transforms para el tamaño de tensores dummy, ya que es más simple y determinista.
     expected_size = get_output_size_from_transforms(val_transforms)
 
     if expected_size is None:
@@ -138,7 +183,6 @@ def main(args):
     # Optimizador y Scheduler
     # Entrenar solo la cabeza clasificadora nueva si freeze_backbone=True
     criterion = nn.CrossEntropyLoss()
-    params_to_optimize = model.fc.parameters() if model.fc.weight.requires_grad else model.parameters()
     optimizer = optim.Adam(params_to_optimize, lr=INITIAL_LEARNING_RATE)
     scheduler = ReduceLROnPlateau(
         optimizer,
@@ -214,7 +258,7 @@ def main(args):
         dataloader=test_dataloader,
         criterion=criterion,
         device=device,
-        per_epoch_eval=False,  # Para obtener el log completo y detallado
+        per_epoch_eval=False,
     )
 
     logger.info(f"Proceso total finalizado... Checkpoints se encuentran en '{checkpoint_dir_run}'")
@@ -227,14 +271,14 @@ def parse_arguments():
     )
     parser.add_argument(
         "--epocas",
-        default=1,  # TODO
+        default=2,  # TODO
         type=ut.non_negative_int,
         help="Número de épocas para el entrenamiento.",
     )
     parser.add_argument(
         "--resume_checkpoint_file",
-        default=None,  # empezará un nuevo entrenamiento
-        # default="20250605-233152/model_RESNET_best.pth",  # TODO
+        # default=None,  # empezará un nuevo entrenamiento
+        default="20250607-032043/model_RESNET_best.pth",  # TODO
         type=str,
         help="Ruta relativa o absoluta para reanudar entrenamiento desde un .pth.",
     )

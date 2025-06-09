@@ -36,7 +36,7 @@ def train_model(
     best_val_metric_value = initial_best_val_metric if initial_best_val_metric is not None \
         else (float('inf') if save_best_metric_type == "loss" else float('-inf'))
 
-    logger.info(f"Guardando checkpoints en: {checkpoint_dir_run} con base '{checkpoint_base_name}'")
+    logger.info(f"Se guardarán los checkpoints en: '{checkpoint_dir_run}'")
 
     for epoch in range(start_epoch, num_epochs):
         model.train()
@@ -204,8 +204,8 @@ def evaluate_model(
 
 
 def extras(
-        resume_checkpoint_file_path_from_arg: str,
         model_name_dir: str,
+        resume_checkpoint_file_path_from_arg: str,
 ):
     actual_checkpoint_to_load = None
 
@@ -237,4 +237,4 @@ def extras(
     checkpoint_dir_run = Path(model_name_dir) / run_name_to_use
     checkpoint_dir_run.mkdir(parents=True, exist_ok=True)
 
-    return actual_checkpoint_to_load, run_name_to_use, checkpoint_dir_run
+    return actual_checkpoint_to_load, checkpoint_dir_run
