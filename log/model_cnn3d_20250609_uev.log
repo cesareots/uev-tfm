@@ -1,0 +1,337 @@
+2025-06-09 19:21:31 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-09 19:21:31 - __main__ - INFO - Iniciando arquitectura de modelo CNN3D.
+2025-06-09 19:21:31 - __main__ - INFO - Frames por clip: 32, Duración clip: 3.0s
+2025-06-09 19:21:31 - __main__ - INFO - Modelo esperará frames de tamaño HxW: (128, 128)
+2025-06-09 19:21:31 - src.models.engine_training - INFO - Iniciando nuevo entrenamiento: 20250609-192131
+2025-06-09 19:21:31 - src.preprocess.dataset_soccernet - INFO - Tamaño de salida detectado de la transformación 'Resize': (128, 128)
+2025-06-09 19:21:31 - src.preprocess.dataset_soccernet - INFO - 1. Creando dataset base para obtener la lista de todos los vídeos.
+2025-06-09 19:21:31 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 11132 videos en dataset/soccernet_actions.
+2025-06-09 19:21:31 - src.preprocess.dataset_soccernet - INFO - 2. Extraer los paths (X) y las etiquetas (y) para la estratificación.
+2025-06-09 19:21:31 - src.preprocess.dataset_soccernet - INFO - 3. Primera división: separar el conjunto de Test
+2025-06-09 19:21:31 - src.preprocess.dataset_soccernet - INFO - 4. Segunda división: separar Train y Validation del conjunto temporal
+2025-06-09 19:21:31 - src.preprocess.dataset_soccernet - INFO - 5. Datasets y DataLoaders creados. Train (7792 videos). Validation (1670 videos). Test (1670 videos).
+2025-06-09 19:21:31 - __main__ - INFO - Dimensiones de entrada al modelo (C, T, H, W): (3, 32, 128, 128)
+2025-06-09 19:21:31 - __main__ - INFO - Dimensiones tras self.features (antes de adaptive_pool): torch.Size([1, 256, 2, 8, 8])
+2025-06-09 19:21:31 - __main__ - INFO - Después de adaptive_pool, las dimensiones espaciales/temporales se reducen a (1,1,1).
+2025-06-09 19:21:31 - __main__ - INFO - Número de características para la capa lineal (FC): 256
+2025-06-09 19:21:31 - __main__ - INFO - Scheduler ReduceLROnPlateau activado: paciencia=5, factor=0.5, monitoreando val_loss.
+2025-06-09 19:21:31 - __main__ - INFO - Iniciando nuevo entrenamiento desde época 1.
+2025-06-09 19:21:31 - src.models.engine_training - INFO - Entrenamiento iniciado (model_CNN3D)... Número de épocas: 10 (desde 1 hasta 10)
+2025-06-09 19:21:31 - src.models.engine_training - INFO - Guardando checkpoints en: models/CNN3D/20250609-192131 con base 'model_CNN3D'
+2025-06-09 19:25:46 - src.models.engine_training - INFO - Epoch [1/10], Step [20/974], Loss: 1.8468
+2025-06-09 19:30:00 - src.models.engine_training - INFO - Epoch [1/10], Step [40/974], Loss: 1.4169
+2025-06-09 19:34:15 - src.models.engine_training - INFO - Epoch [1/10], Step [60/974], Loss: 1.1718
+2025-06-09 19:38:29 - src.models.engine_training - INFO - Epoch [1/10], Step [80/974], Loss: 2.1641
+2025-06-09 19:42:44 - src.models.engine_training - INFO - Epoch [1/10], Step [100/974], Loss: 1.5239
+2025-06-09 19:46:59 - src.models.engine_training - INFO - Epoch [1/10], Step [120/974], Loss: 1.4432
+2025-06-09 19:51:12 - src.models.engine_training - INFO - Epoch [1/10], Step [140/974], Loss: 1.0073
+2025-06-09 19:55:27 - src.models.engine_training - INFO - Epoch [1/10], Step [160/974], Loss: 1.1585
+2025-06-09 19:59:40 - src.models.engine_training - INFO - Epoch [1/10], Step [180/974], Loss: 1.6291
+2025-06-09 20:03:53 - src.models.engine_training - INFO - Epoch [1/10], Step [200/974], Loss: 1.1788
+2025-06-09 20:08:06 - src.models.engine_training - INFO - Epoch [1/10], Step [220/974], Loss: 0.8649
+2025-06-09 20:12:18 - src.models.engine_training - INFO - Epoch [1/10], Step [240/974], Loss: 1.2751
+2025-06-09 20:16:30 - src.models.engine_training - INFO - Epoch [1/10], Step [260/974], Loss: 0.8178
+2025-06-09 20:20:43 - src.models.engine_training - INFO - Epoch [1/10], Step [280/974], Loss: 1.0264
+2025-06-09 20:24:54 - src.models.engine_training - INFO - Epoch [1/10], Step [300/974], Loss: 1.3080
+2025-06-09 20:29:07 - src.models.engine_training - INFO - Epoch [1/10], Step [320/974], Loss: 1.2179
+2025-06-09 20:33:19 - src.models.engine_training - INFO - Epoch [1/10], Step [340/974], Loss: 0.5990
+2025-06-09 20:37:30 - src.models.engine_training - INFO - Epoch [1/10], Step [360/974], Loss: 0.8358
+2025-06-09 20:41:40 - src.models.engine_training - INFO - Epoch [1/10], Step [380/974], Loss: 0.5433
+2025-06-09 20:45:50 - src.models.engine_training - INFO - Epoch [1/10], Step [400/974], Loss: 1.4773
+2025-06-09 20:50:01 - src.models.engine_training - INFO - Epoch [1/10], Step [420/974], Loss: 1.3000
+2025-06-09 20:54:11 - src.models.engine_training - INFO - Epoch [1/10], Step [440/974], Loss: 1.0251
+2025-06-09 20:58:22 - src.models.engine_training - INFO - Epoch [1/10], Step [460/974], Loss: 0.8613
+2025-06-09 21:02:32 - src.models.engine_training - INFO - Epoch [1/10], Step [480/974], Loss: 1.0309
+2025-06-09 21:06:42 - src.models.engine_training - INFO - Epoch [1/10], Step [500/974], Loss: 0.9335
+2025-06-09 21:10:51 - src.models.engine_training - INFO - Epoch [1/10], Step [520/974], Loss: 1.0814
+2025-06-09 21:15:02 - src.models.engine_training - INFO - Epoch [1/10], Step [540/974], Loss: 1.5362
+2025-06-09 21:19:12 - src.models.engine_training - INFO - Epoch [1/10], Step [560/974], Loss: 0.7411
+2025-06-09 21:23:22 - src.models.engine_training - INFO - Epoch [1/10], Step [580/974], Loss: 0.8442
+2025-06-09 21:27:32 - src.models.engine_training - INFO - Epoch [1/10], Step [600/974], Loss: 0.8175
+2025-06-09 21:31:42 - src.models.engine_training - INFO - Epoch [1/10], Step [620/974], Loss: 1.0506
+2025-06-09 21:35:52 - src.models.engine_training - INFO - Epoch [1/10], Step [640/974], Loss: 0.7922
+2025-06-09 21:40:01 - src.models.engine_training - INFO - Epoch [1/10], Step [660/974], Loss: 0.8510
+2025-06-09 21:44:11 - src.models.engine_training - INFO - Epoch [1/10], Step [680/974], Loss: 0.9775
+2025-06-09 21:48:20 - src.models.engine_training - INFO - Epoch [1/10], Step [700/974], Loss: 0.9328
+2025-06-09 21:52:30 - src.models.engine_training - INFO - Epoch [1/10], Step [720/974], Loss: 0.8005
+2025-06-09 21:56:39 - src.models.engine_training - INFO - Epoch [1/10], Step [740/974], Loss: 0.8775
+2025-06-09 22:00:49 - src.models.engine_training - INFO - Epoch [1/10], Step [760/974], Loss: 0.9307
+2025-06-09 22:04:59 - src.models.engine_training - INFO - Epoch [1/10], Step [780/974], Loss: 1.5233
+2025-06-09 22:09:09 - src.models.engine_training - INFO - Epoch [1/10], Step [800/974], Loss: 0.8377
+2025-06-09 22:13:19 - src.models.engine_training - INFO - Epoch [1/10], Step [820/974], Loss: 1.6442
+2025-06-09 22:17:27 - src.models.engine_training - INFO - Epoch [1/10], Step [840/974], Loss: 1.0096
+2025-06-09 22:21:35 - src.models.engine_training - INFO - Epoch [1/10], Step [860/974], Loss: 0.7594
+2025-06-09 22:25:44 - src.models.engine_training - INFO - Epoch [1/10], Step [880/974], Loss: 0.8752
+2025-06-09 22:29:52 - src.models.engine_training - INFO - Epoch [1/10], Step [900/974], Loss: 0.5718
+2025-06-09 22:34:01 - src.models.engine_training - INFO - Epoch [1/10], Step [920/974], Loss: 0.8701
+2025-06-09 22:38:10 - src.models.engine_training - INFO - Epoch [1/10], Step [940/974], Loss: 0.9178
+2025-06-09 22:42:18 - src.models.engine_training - INFO - Epoch [1/10], Step [960/974], Loss: 1.3486
+2025-06-09 22:45:13 - src.models.engine_training - INFO - Epoch [1/10] (model_CNN3D Entrenamiento), Loss: 1.1040, Accuracy: 0.5371, Duración 203.70 minutos
+2025-06-09 22:52:55 - src.models.engine_training - INFO - Epoch [1/10] (model_CNN3D Validación), Loss: 0.9185, Accuracy: 0.6431
+2025-06-09 22:52:55 - src.models.engine_training - INFO - LR para la próxima época (model_CNN3D): 0.0010000
+2025-06-09 22:52:55 - src.models.engine_training - INFO - Checkpoint guardado: 'models/CNN3D/20250609-192131/model_CNN3D_epoch_1.pth'
+2025-06-09 22:52:55 - src.models.engine_training - INFO - Nuevo mejor checkpoint guardado (Val loss: 0.9185): 'models/CNN3D/20250609-192131/model_CNN3D_best.pth'
+2025-06-09 22:56:58 - src.models.engine_training - INFO - Epoch [2/10], Step [20/974], Loss: 0.4647
+2025-06-09 23:01:03 - src.models.engine_training - INFO - Epoch [2/10], Step [40/974], Loss: 1.3418
+2025-06-09 23:05:09 - src.models.engine_training - INFO - Epoch [2/10], Step [60/974], Loss: 1.6041
+2025-06-09 23:09:15 - src.models.engine_training - INFO - Epoch [2/10], Step [80/974], Loss: 0.9239
+2025-06-09 23:13:21 - src.models.engine_training - INFO - Epoch [2/10], Step [100/974], Loss: 1.1103
+2025-06-09 23:17:26 - src.models.engine_training - INFO - Epoch [2/10], Step [120/974], Loss: 1.0824
+2025-06-09 23:21:32 - src.models.engine_training - INFO - Epoch [2/10], Step [140/974], Loss: 1.2133
+2025-06-09 23:25:38 - src.models.engine_training - INFO - Epoch [2/10], Step [160/974], Loss: 1.1765
+2025-06-09 23:29:44 - src.models.engine_training - INFO - Epoch [2/10], Step [180/974], Loss: 0.8994
+2025-06-09 23:33:49 - src.models.engine_training - INFO - Epoch [2/10], Step [200/974], Loss: 1.0188
+2025-06-09 23:37:55 - src.models.engine_training - INFO - Epoch [2/10], Step [220/974], Loss: 1.1969
+2025-06-09 23:42:00 - src.models.engine_training - INFO - Epoch [2/10], Step [240/974], Loss: 0.6147
+2025-06-09 23:46:05 - src.models.engine_training - INFO - Epoch [2/10], Step [260/974], Loss: 1.0327
+2025-06-09 23:50:09 - src.models.engine_training - INFO - Epoch [2/10], Step [280/974], Loss: 0.9168
+2025-06-09 23:54:15 - src.models.engine_training - INFO - Epoch [2/10], Step [300/974], Loss: 1.1442
+2025-06-09 23:58:21 - src.models.engine_training - INFO - Epoch [2/10], Step [320/974], Loss: 0.7226
+2025-06-10 00:02:27 - src.models.engine_training - INFO - Epoch [2/10], Step [340/974], Loss: 0.8976
+2025-06-10 00:06:33 - src.models.engine_training - INFO - Epoch [2/10], Step [360/974], Loss: 0.8618
+2025-06-10 00:10:39 - src.models.engine_training - INFO - Epoch [2/10], Step [380/974], Loss: 0.6063
+2025-06-10 00:14:45 - src.models.engine_training - INFO - Epoch [2/10], Step [400/974], Loss: 1.3731
+2025-06-10 00:18:52 - src.models.engine_training - INFO - Epoch [2/10], Step [420/974], Loss: 1.0601
+2025-06-10 00:22:57 - src.models.engine_training - INFO - Epoch [2/10], Step [440/974], Loss: 0.6509
+2025-06-10 00:27:02 - src.models.engine_training - INFO - Epoch [2/10], Step [460/974], Loss: 0.9650
+2025-06-10 00:31:08 - src.models.engine_training - INFO - Epoch [2/10], Step [480/974], Loss: 0.6750
+2025-06-10 00:35:15 - src.models.engine_training - INFO - Epoch [2/10], Step [500/974], Loss: 1.0736
+2025-06-10 00:39:20 - src.models.engine_training - INFO - Epoch [2/10], Step [520/974], Loss: 1.0690
+2025-06-10 00:43:25 - src.models.engine_training - INFO - Epoch [2/10], Step [540/974], Loss: 1.1126
+2025-06-10 00:47:31 - src.models.engine_training - INFO - Epoch [2/10], Step [560/974], Loss: 0.7498
+2025-06-10 00:51:36 - src.models.engine_training - INFO - Epoch [2/10], Step [580/974], Loss: 0.5146
+2025-06-10 00:55:42 - src.models.engine_training - INFO - Epoch [2/10], Step [600/974], Loss: 0.7641
+2025-06-10 00:59:48 - src.models.engine_training - INFO - Epoch [2/10], Step [620/974], Loss: 0.9230
+2025-06-10 01:03:54 - src.models.engine_training - INFO - Epoch [2/10], Step [640/974], Loss: 1.0836
+2025-06-10 01:08:01 - src.models.engine_training - INFO - Epoch [2/10], Step [660/974], Loss: 0.9968
+2025-06-10 01:12:06 - src.models.engine_training - INFO - Epoch [2/10], Step [680/974], Loss: 1.0909
+2025-06-10 01:16:13 - src.models.engine_training - INFO - Epoch [2/10], Step [700/974], Loss: 0.5172
+2025-06-10 01:20:19 - src.models.engine_training - INFO - Epoch [2/10], Step [720/974], Loss: 0.5418
+2025-06-10 01:24:25 - src.models.engine_training - INFO - Epoch [2/10], Step [740/974], Loss: 0.5791
+2025-06-10 01:28:31 - src.models.engine_training - INFO - Epoch [2/10], Step [760/974], Loss: 0.7977
+2025-06-10 01:32:36 - src.models.engine_training - INFO - Epoch [2/10], Step [780/974], Loss: 0.7600
+2025-06-10 01:36:41 - src.models.engine_training - INFO - Epoch [2/10], Step [800/974], Loss: 0.9786
+2025-06-10 01:40:47 - src.models.engine_training - INFO - Epoch [2/10], Step [820/974], Loss: 0.7515
+2025-06-10 01:44:52 - src.models.engine_training - INFO - Epoch [2/10], Step [840/974], Loss: 1.2527
+2025-06-10 01:48:58 - src.models.engine_training - INFO - Epoch [2/10], Step [860/974], Loss: 1.0151
+2025-06-10 01:53:03 - src.models.engine_training - INFO - Epoch [2/10], Step [880/974], Loss: 0.5371
+2025-06-10 01:57:08 - src.models.engine_training - INFO - Epoch [2/10], Step [900/974], Loss: 0.7129
+2025-06-10 02:01:14 - src.models.engine_training - INFO - Epoch [2/10], Step [920/974], Loss: 1.4489
+2025-06-10 02:05:21 - src.models.engine_training - INFO - Epoch [2/10], Step [940/974], Loss: 0.5223
+2025-06-10 02:09:27 - src.models.engine_training - INFO - Epoch [2/10], Step [960/974], Loss: 0.5000
+2025-06-10 02:12:19 - src.models.engine_training - INFO - Epoch [2/10] (model_CNN3D Entrenamiento), Loss: 0.9540, Accuracy: 0.6213, Duración 199.40 minutos
+2025-06-10 02:19:59 - src.models.engine_training - INFO - Epoch [2/10] (model_CNN3D Validación), Loss: 0.7935, Accuracy: 0.7102
+2025-06-10 02:19:59 - src.models.engine_training - INFO - LR para la próxima época (model_CNN3D): 0.0010000
+2025-06-10 02:19:59 - src.models.engine_training - INFO - Checkpoint guardado: 'models/CNN3D/20250609-192131/model_CNN3D_epoch_2.pth'
+2025-06-10 02:19:59 - src.models.engine_training - INFO - Nuevo mejor checkpoint guardado (Val loss: 0.7935): 'models/CNN3D/20250609-192131/model_CNN3D_best.pth'
+2025-06-10 02:24:04 - src.models.engine_training - INFO - Epoch [3/10], Step [20/974], Loss: 0.7996
+2025-06-10 02:28:08 - src.models.engine_training - INFO - Epoch [3/10], Step [40/974], Loss: 0.8538
+2025-06-10 02:32:14 - src.models.engine_training - INFO - Epoch [3/10], Step [60/974], Loss: 0.4693
+2025-06-10 02:36:20 - src.models.engine_training - INFO - Epoch [3/10], Step [80/974], Loss: 1.1490
+2025-06-10 02:40:27 - src.models.engine_training - INFO - Epoch [3/10], Step [100/974], Loss: 0.4487
+2025-06-10 02:44:34 - src.models.engine_training - INFO - Epoch [3/10], Step [120/974], Loss: 0.9500
+2025-06-10 02:48:40 - src.models.engine_training - INFO - Epoch [3/10], Step [140/974], Loss: 1.2463
+2025-06-10 02:52:46 - src.models.engine_training - INFO - Epoch [3/10], Step [160/974], Loss: 1.2395
+2025-06-10 02:56:54 - src.models.engine_training - INFO - Epoch [3/10], Step [180/974], Loss: 0.7659
+2025-06-10 03:01:02 - src.models.engine_training - INFO - Epoch [3/10], Step [200/974], Loss: 0.8962
+2025-06-10 03:05:10 - src.models.engine_training - INFO - Epoch [3/10], Step [220/974], Loss: 0.9548
+2025-06-10 03:09:19 - src.models.engine_training - INFO - Epoch [3/10], Step [240/974], Loss: 1.0029
+2025-06-10 03:13:27 - src.models.engine_training - INFO - Epoch [3/10], Step [260/974], Loss: 1.1746
+2025-06-10 03:17:35 - src.models.engine_training - INFO - Epoch [3/10], Step [280/974], Loss: 0.4655
+2025-06-10 03:21:44 - src.models.engine_training - INFO - Epoch [3/10], Step [300/974], Loss: 1.2384
+2025-06-10 03:25:52 - src.models.engine_training - INFO - Epoch [3/10], Step [320/974], Loss: 0.6997
+2025-06-10 03:30:00 - src.models.engine_training - INFO - Epoch [3/10], Step [340/974], Loss: 1.3384
+2025-06-10 03:34:09 - src.models.engine_training - INFO - Epoch [3/10], Step [360/974], Loss: 0.5871
+2025-06-10 03:38:17 - src.models.engine_training - INFO - Epoch [3/10], Step [380/974], Loss: 0.8178
+2025-06-10 03:42:25 - src.models.engine_training - INFO - Epoch [3/10], Step [400/974], Loss: 0.9286
+2025-06-10 03:46:32 - src.models.engine_training - INFO - Epoch [3/10], Step [420/974], Loss: 0.7996
+2025-06-10 03:50:40 - src.models.engine_training - INFO - Epoch [3/10], Step [440/974], Loss: 0.6740
+2025-06-10 03:54:49 - src.models.engine_training - INFO - Epoch [3/10], Step [460/974], Loss: 0.6395
+2025-06-10 03:58:57 - src.models.engine_training - INFO - Epoch [3/10], Step [480/974], Loss: 0.7114
+2025-06-10 04:03:04 - src.models.engine_training - INFO - Epoch [3/10], Step [500/974], Loss: 0.8337
+2025-06-10 04:07:12 - src.models.engine_training - INFO - Epoch [3/10], Step [520/974], Loss: 1.2636
+2025-06-10 04:11:20 - src.models.engine_training - INFO - Epoch [3/10], Step [540/974], Loss: 1.1356
+2025-06-10 04:15:28 - src.models.engine_training - INFO - Epoch [3/10], Step [560/974], Loss: 0.7291
+2025-06-10 04:19:36 - src.models.engine_training - INFO - Epoch [3/10], Step [580/974], Loss: 1.5350
+2025-06-10 04:23:44 - src.models.engine_training - INFO - Epoch [3/10], Step [600/974], Loss: 0.6855
+2025-06-10 04:27:52 - src.models.engine_training - INFO - Epoch [3/10], Step [620/974], Loss: 0.2924
+2025-06-10 04:32:01 - src.models.engine_training - INFO - Epoch [3/10], Step [640/974], Loss: 1.1097
+2025-06-10 04:36:10 - src.models.engine_training - INFO - Epoch [3/10], Step [660/974], Loss: 0.4524
+2025-06-10 04:40:18 - src.models.engine_training - INFO - Epoch [3/10], Step [680/974], Loss: 1.0993
+2025-06-10 04:44:25 - src.models.engine_training - INFO - Epoch [3/10], Step [700/974], Loss: 0.9771
+2025-06-10 04:48:33 - src.models.engine_training - INFO - Epoch [3/10], Step [720/974], Loss: 1.7252
+2025-06-10 04:52:42 - src.models.engine_training - INFO - Epoch [3/10], Step [740/974], Loss: 0.6093
+2025-06-10 04:56:50 - src.models.engine_training - INFO - Epoch [3/10], Step [760/974], Loss: 0.9318
+2025-06-10 05:00:58 - src.models.engine_training - INFO - Epoch [3/10], Step [780/974], Loss: 1.6666
+2025-06-10 05:05:07 - src.models.engine_training - INFO - Epoch [3/10], Step [800/974], Loss: 0.8945
+2025-06-10 05:09:15 - src.models.engine_training - INFO - Epoch [3/10], Step [820/974], Loss: 0.9522
+2025-06-10 05:13:24 - src.models.engine_training - INFO - Epoch [3/10], Step [840/974], Loss: 0.7092
+2025-06-10 05:17:32 - src.models.engine_training - INFO - Epoch [3/10], Step [860/974], Loss: 0.6275
+2025-06-10 05:21:39 - src.models.engine_training - INFO - Epoch [3/10], Step [880/974], Loss: 0.6092
+2025-06-10 05:25:47 - src.models.engine_training - INFO - Epoch [3/10], Step [900/974], Loss: 0.9641
+2025-06-10 05:29:55 - src.models.engine_training - INFO - Epoch [3/10], Step [920/974], Loss: 1.1206
+2025-06-10 05:34:04 - src.models.engine_training - INFO - Epoch [3/10], Step [940/974], Loss: 0.8490
+2025-06-10 05:38:11 - src.models.engine_training - INFO - Epoch [3/10], Step [960/974], Loss: 1.7898
+2025-06-10 05:41:05 - src.models.engine_training - INFO - Epoch [3/10] (model_CNN3D Entrenamiento), Loss: 0.8863, Accuracy: 0.6632, Duración 201.09 minutos
+2025-06-10 05:48:44 - src.models.engine_training - INFO - Epoch [3/10] (model_CNN3D Validación), Loss: 0.8140, Accuracy: 0.6743
+2025-06-10 05:48:44 - src.models.engine_training - INFO - LR para la próxima época (model_CNN3D): 0.0010000
+2025-06-10 05:48:44 - src.models.engine_training - INFO - Checkpoint guardado: 'models/CNN3D/20250609-192131/model_CNN3D_epoch_3.pth'
+2025-06-10 05:52:50 - src.models.engine_training - INFO - Epoch [4/10], Step [20/974], Loss: 0.7424
+2025-06-10 05:56:57 - src.models.engine_training - INFO - Epoch [4/10], Step [40/974], Loss: 0.6518
+2025-06-10 06:01:06 - src.models.engine_training - INFO - Epoch [4/10], Step [60/974], Loss: 0.6464
+2025-06-10 06:05:14 - src.models.engine_training - INFO - Epoch [4/10], Step [80/974], Loss: 0.5608
+2025-06-10 06:09:22 - src.models.engine_training - INFO - Epoch [4/10], Step [100/974], Loss: 0.7721
+2025-06-10 06:13:30 - src.models.engine_training - INFO - Epoch [4/10], Step [120/974], Loss: 0.9838
+2025-06-10 06:17:36 - src.models.engine_training - INFO - Epoch [4/10], Step [140/974], Loss: 1.0637
+2025-06-10 06:21:45 - src.models.engine_training - INFO - Epoch [4/10], Step [160/974], Loss: 0.7204
+2025-06-10 06:26:02 - src.models.engine_training - INFO - Epoch [4/10], Step [180/974], Loss: 0.6799
+2025-06-10 06:30:31 - src.models.engine_training - INFO - Epoch [4/10], Step [200/974], Loss: 0.7456
+2025-06-10 06:34:58 - src.models.engine_training - INFO - Epoch [4/10], Step [220/974], Loss: 1.1256
+2025-06-10 06:39:25 - src.models.engine_training - INFO - Epoch [4/10], Step [240/974], Loss: 0.7783
+2025-06-10 06:43:52 - src.models.engine_training - INFO - Epoch [4/10], Step [260/974], Loss: 0.6240
+2025-06-10 06:48:20 - src.models.engine_training - INFO - Epoch [4/10], Step [280/974], Loss: 1.0409
+2025-06-10 06:52:46 - src.models.engine_training - INFO - Epoch [4/10], Step [300/974], Loss: 0.7240
+2025-06-10 06:57:13 - src.models.engine_training - INFO - Epoch [4/10], Step [320/974], Loss: 0.6428
+2025-06-10 07:01:40 - src.models.engine_training - INFO - Epoch [4/10], Step [340/974], Loss: 0.9733
+2025-06-10 07:06:08 - src.models.engine_training - INFO - Epoch [4/10], Step [360/974], Loss: 0.4922
+2025-06-10 07:10:34 - src.models.engine_training - INFO - Epoch [4/10], Step [380/974], Loss: 0.3796
+2025-06-10 07:15:03 - src.models.engine_training - INFO - Epoch [4/10], Step [400/974], Loss: 0.4569
+2025-06-10 07:19:31 - src.models.engine_training - INFO - Epoch [4/10], Step [420/974], Loss: 0.6942
+2025-06-10 07:23:58 - src.models.engine_training - INFO - Epoch [4/10], Step [440/974], Loss: 0.7418
+2025-06-10 07:28:25 - src.models.engine_training - INFO - Epoch [4/10], Step [460/974], Loss: 1.2068
+2025-06-10 07:32:53 - src.models.engine_training - INFO - Epoch [4/10], Step [480/974], Loss: 1.1039
+2025-06-10 07:37:20 - src.models.engine_training - INFO - Epoch [4/10], Step [500/974], Loss: 0.8750
+2025-06-10 07:41:47 - src.models.engine_training - INFO - Epoch [4/10], Step [520/974], Loss: 0.4078
+2025-06-10 07:46:15 - src.models.engine_training - INFO - Epoch [4/10], Step [540/974], Loss: 0.9494
+2025-06-10 07:50:43 - src.models.engine_training - INFO - Epoch [4/10], Step [560/974], Loss: 0.8688
+2025-06-10 07:55:10 - src.models.engine_training - INFO - Epoch [4/10], Step [580/974], Loss: 0.5863
+2025-06-10 07:59:37 - src.models.engine_training - INFO - Epoch [4/10], Step [600/974], Loss: 0.4245
+2025-06-10 08:04:05 - src.models.engine_training - INFO - Epoch [4/10], Step [620/974], Loss: 0.8288
+2025-06-10 08:08:32 - src.models.engine_training - INFO - Epoch [4/10], Step [640/974], Loss: 1.1188
+2025-06-10 08:12:59 - src.models.engine_training - INFO - Epoch [4/10], Step [660/974], Loss: 1.0324
+2025-06-10 08:17:25 - src.models.engine_training - INFO - Epoch [4/10], Step [680/974], Loss: 0.7037
+2025-06-10 08:21:53 - src.models.engine_training - INFO - Epoch [4/10], Step [700/974], Loss: 0.5755
+2025-06-10 08:26:20 - src.models.engine_training - INFO - Epoch [4/10], Step [720/974], Loss: 1.7039
+2025-06-10 08:30:46 - src.models.engine_training - INFO - Epoch [4/10], Step [740/974], Loss: 1.2171
+2025-06-10 08:35:07 - src.models.engine_training - INFO - Epoch [4/10], Step [760/974], Loss: 1.1278
+2025-06-10 08:39:26 - src.models.engine_training - INFO - Epoch [4/10], Step [780/974], Loss: 0.6707
+2025-06-10 08:43:46 - src.models.engine_training - INFO - Epoch [4/10], Step [800/974], Loss: 0.7369
+2025-06-10 08:48:06 - src.models.engine_training - INFO - Epoch [4/10], Step [820/974], Loss: 0.7876
+2025-06-10 08:52:27 - src.models.engine_training - INFO - Epoch [4/10], Step [840/974], Loss: 0.5643
+2025-06-10 08:56:48 - src.models.engine_training - INFO - Epoch [4/10], Step [860/974], Loss: 0.8213
+2025-06-10 09:01:08 - src.models.engine_training - INFO - Epoch [4/10], Step [880/974], Loss: 1.2945
+2025-06-10 09:05:28 - src.models.engine_training - INFO - Epoch [4/10], Step [900/974], Loss: 0.8806
+2025-06-10 09:09:48 - src.models.engine_training - INFO - Epoch [4/10], Step [920/974], Loss: 0.4674
+2025-06-10 09:14:08 - src.models.engine_training - INFO - Epoch [4/10], Step [940/974], Loss: 0.7840
+2025-06-10 09:18:28 - src.models.engine_training - INFO - Epoch [4/10], Step [960/974], Loss: 0.8659
+2025-06-10 09:21:30 - src.models.engine_training - INFO - Epoch [4/10] (model_CNN3D Entrenamiento), Loss: 0.8171, Accuracy: 0.7017, Duración 212.76 minutos
+2025-06-10 09:29:18 - src.models.engine_training - INFO - Epoch [4/10] (model_CNN3D Validación), Loss: 0.6656, Accuracy: 0.7790
+2025-06-10 09:29:18 - src.models.engine_training - INFO - LR para la próxima época (model_CNN3D): 0.0010000
+2025-06-10 09:29:18 - src.models.engine_training - INFO - Checkpoint guardado: 'models/CNN3D/20250609-192131/model_CNN3D_epoch_4.pth'
+2025-06-10 09:29:18 - src.models.engine_training - INFO - Nuevo mejor checkpoint guardado (Val loss: 0.6656): 'models/CNN3D/20250609-192131/model_CNN3D_best.pth'
+2025-06-10 09:33:35 - src.models.engine_training - INFO - Epoch [5/10], Step [20/974], Loss: 0.6362
+2025-06-10 09:37:55 - src.models.engine_training - INFO - Epoch [5/10], Step [40/974], Loss: 0.6643
+2025-06-10 09:42:15 - src.models.engine_training - INFO - Epoch [5/10], Step [60/974], Loss: 0.8279
+2025-06-10 09:46:35 - src.models.engine_training - INFO - Epoch [5/10], Step [80/974], Loss: 0.8257
+2025-06-10 09:50:55 - src.models.engine_training - INFO - Epoch [5/10], Step [100/974], Loss: 0.6702
+2025-06-10 09:55:15 - src.models.engine_training - INFO - Epoch [5/10], Step [120/974], Loss: 0.7502
+2025-06-10 09:59:34 - src.models.engine_training - INFO - Epoch [5/10], Step [140/974], Loss: 0.4167
+2025-06-10 10:03:53 - src.models.engine_training - INFO - Epoch [5/10], Step [160/974], Loss: 0.6784
+2025-06-10 10:08:13 - src.models.engine_training - INFO - Epoch [5/10], Step [180/974], Loss: 0.5921
+2025-06-10 10:12:33 - src.models.engine_training - INFO - Epoch [5/10], Step [200/974], Loss: 0.9558
+2025-06-10 10:16:53 - src.models.engine_training - INFO - Epoch [5/10], Step [220/974], Loss: 0.6983
+2025-06-10 10:21:13 - src.models.engine_training - INFO - Epoch [5/10], Step [240/974], Loss: 0.9321
+2025-06-10 10:25:32 - src.models.engine_training - INFO - Epoch [5/10], Step [260/974], Loss: 0.5823
+2025-06-10 10:29:51 - src.models.engine_training - INFO - Epoch [5/10], Step [280/974], Loss: 0.9438
+2025-06-10 10:34:11 - src.models.engine_training - INFO - Epoch [5/10], Step [300/974], Loss: 0.7373
+2025-06-10 10:38:31 - src.models.engine_training - INFO - Epoch [5/10], Step [320/974], Loss: 0.6443
+2025-06-10 10:42:50 - src.models.engine_training - INFO - Epoch [5/10], Step [340/974], Loss: 1.0675
+2025-06-10 10:47:11 - src.models.engine_training - INFO - Epoch [5/10], Step [360/974], Loss: 0.3070
+2025-06-10 10:51:32 - src.models.engine_training - INFO - Epoch [5/10], Step [380/974], Loss: 0.3076
+2025-06-10 10:55:52 - src.models.engine_training - INFO - Epoch [5/10], Step [400/974], Loss: 0.5750
+2025-06-10 11:00:12 - src.models.engine_training - INFO - Epoch [5/10], Step [420/974], Loss: 0.6196
+2025-06-10 11:04:32 - src.models.engine_training - INFO - Epoch [5/10], Step [440/974], Loss: 0.7055
+2025-06-10 11:08:52 - src.models.engine_training - INFO - Epoch [5/10], Step [460/974], Loss: 0.5080
+2025-06-10 11:13:13 - src.models.engine_training - INFO - Epoch [5/10], Step [480/974], Loss: 0.7652
+2025-06-10 11:17:32 - src.models.engine_training - INFO - Epoch [5/10], Step [500/974], Loss: 1.1185
+2025-06-10 11:21:52 - src.models.engine_training - INFO - Epoch [5/10], Step [520/974], Loss: 0.8066
+2025-06-10 11:26:12 - src.models.engine_training - INFO - Epoch [5/10], Step [540/974], Loss: 0.3866
+2025-06-10 11:30:32 - src.models.engine_training - INFO - Epoch [5/10], Step [560/974], Loss: 0.5286
+2025-06-10 11:34:52 - src.models.engine_training - INFO - Epoch [5/10], Step [580/974], Loss: 1.3118
+2025-06-10 11:39:12 - src.models.engine_training - INFO - Epoch [5/10], Step [600/974], Loss: 0.4507
+2025-06-10 11:43:32 - src.models.engine_training - INFO - Epoch [5/10], Step [620/974], Loss: 1.1593
+2025-06-10 11:47:53 - src.models.engine_training - INFO - Epoch [5/10], Step [640/974], Loss: 0.8970
+2025-06-10 11:52:12 - src.models.engine_training - INFO - Epoch [5/10], Step [660/974], Loss: 0.7315
+2025-06-10 11:56:32 - src.models.engine_training - INFO - Epoch [5/10], Step [680/974], Loss: 0.5366
+2025-06-10 12:00:53 - src.models.engine_training - INFO - Epoch [5/10], Step [700/974], Loss: 1.3780
+2025-06-10 12:05:12 - src.models.engine_training - INFO - Epoch [5/10], Step [720/974], Loss: 1.2512
+2025-06-10 12:09:32 - src.models.engine_training - INFO - Epoch [5/10], Step [740/974], Loss: 0.4800
+2025-06-10 12:13:52 - src.models.engine_training - INFO - Epoch [5/10], Step [760/974], Loss: 0.5352
+2025-06-10 12:18:12 - src.models.engine_training - INFO - Epoch [5/10], Step [780/974], Loss: 0.8327
+2025-06-10 12:22:32 - src.models.engine_training - INFO - Epoch [5/10], Step [800/974], Loss: 0.8383
+2025-06-10 12:26:52 - src.models.engine_training - INFO - Epoch [5/10], Step [820/974], Loss: 0.4940
+2025-06-10 12:31:12 - src.models.engine_training - INFO - Epoch [5/10], Step [840/974], Loss: 1.1600
+2025-06-10 12:35:32 - src.models.engine_training - INFO - Epoch [5/10], Step [860/974], Loss: 0.7962
+2025-06-10 12:39:52 - src.models.engine_training - INFO - Epoch [5/10], Step [880/974], Loss: 0.7709
+2025-06-10 12:44:13 - src.models.engine_training - INFO - Epoch [5/10], Step [900/974], Loss: 1.2124
+2025-06-10 12:48:33 - src.models.engine_training - INFO - Epoch [5/10], Step [920/974], Loss: 0.7295
+2025-06-10 12:52:52 - src.models.engine_training - INFO - Epoch [5/10], Step [940/974], Loss: 0.9468
+2025-06-10 12:57:12 - src.models.engine_training - INFO - Epoch [5/10], Step [960/974], Loss: 0.6930
+2025-06-10 13:00:14 - src.models.engine_training - INFO - Epoch [5/10] (model_CNN3D Entrenamiento), Loss: 0.7721, Accuracy: 0.7241, Duración 210.93 minutos
+2025-06-10 13:08:00 - src.models.engine_training - INFO - Epoch [5/10] (model_CNN3D Validación), Loss: 0.6751, Accuracy: 0.7395
+2025-06-10 13:08:00 - src.models.engine_training - INFO - LR para la próxima época (model_CNN3D): 0.0010000
+2025-06-10 13:08:00 - src.models.engine_training - INFO - Checkpoint guardado: 'models/CNN3D/20250609-192131/model_CNN3D_epoch_5.pth'
+2025-06-10 13:12:17 - src.models.engine_training - INFO - Epoch [6/10], Step [20/974], Loss: 0.8682
+2025-06-10 13:16:36 - src.models.engine_training - INFO - Epoch [6/10], Step [40/974], Loss: 1.6917
+2025-06-10 13:20:54 - src.models.engine_training - INFO - Epoch [6/10], Step [60/974], Loss: 0.7388
+2025-06-10 13:25:13 - src.models.engine_training - INFO - Epoch [6/10], Step [80/974], Loss: 0.4900
+2025-06-10 13:29:32 - src.models.engine_training - INFO - Epoch [6/10], Step [100/974], Loss: 0.4789
+2025-06-10 13:33:52 - src.models.engine_training - INFO - Epoch [6/10], Step [120/974], Loss: 0.2766
+2025-06-10 13:38:12 - src.models.engine_training - INFO - Epoch [6/10], Step [140/974], Loss: 0.5510
+2025-06-10 13:42:31 - src.models.engine_training - INFO - Epoch [6/10], Step [160/974], Loss: 0.5558
+2025-06-10 13:46:51 - src.models.engine_training - INFO - Epoch [6/10], Step [180/974], Loss: 1.3393
+2025-06-10 13:51:11 - src.models.engine_training - INFO - Epoch [6/10], Step [200/974], Loss: 0.5882
+2025-06-10 13:55:31 - src.models.engine_training - INFO - Epoch [6/10], Step [220/974], Loss: 0.6611
+2025-06-10 13:59:51 - src.models.engine_training - INFO - Epoch [6/10], Step [240/974], Loss: 0.6523
+2025-06-10 14:04:11 - src.models.engine_training - INFO - Epoch [6/10], Step [260/974], Loss: 1.0956
+2025-06-10 14:08:30 - src.models.engine_training - INFO - Epoch [6/10], Step [280/974], Loss: 1.0276
+2025-06-10 14:12:50 - src.models.engine_training - INFO - Epoch [6/10], Step [300/974], Loss: 0.9182
+2025-06-10 14:17:10 - src.models.engine_training - INFO - Epoch [6/10], Step [320/974], Loss: 0.4783
+2025-06-10 14:21:30 - src.models.engine_training - INFO - Epoch [6/10], Step [340/974], Loss: 0.6231
+2025-06-10 14:25:48 - src.models.engine_training - INFO - Epoch [6/10], Step [360/974], Loss: 0.2414
+2025-06-10 14:30:08 - src.models.engine_training - INFO - Epoch [6/10], Step [380/974], Loss: 0.8070
+2025-06-10 14:34:27 - src.models.engine_training - INFO - Epoch [6/10], Step [400/974], Loss: 0.6888
+2025-06-10 14:38:47 - src.models.engine_training - INFO - Epoch [6/10], Step [420/974], Loss: 0.3751
+2025-06-10 14:43:06 - src.models.engine_training - INFO - Epoch [6/10], Step [440/974], Loss: 0.4258
+2025-06-10 14:47:25 - src.models.engine_training - INFO - Epoch [6/10], Step [460/974], Loss: 0.2688
+2025-06-10 14:51:45 - src.models.engine_training - INFO - Epoch [6/10], Step [480/974], Loss: 0.3423
+2025-06-10 14:56:04 - src.models.engine_training - INFO - Epoch [6/10], Step [500/974], Loss: 0.7125
+2025-06-10 15:00:24 - src.models.engine_training - INFO - Epoch [6/10], Step [520/974], Loss: 0.6573
+2025-06-10 15:04:43 - src.models.engine_training - INFO - Epoch [6/10], Step [540/974], Loss: 0.5213
+2025-06-10 15:09:02 - src.models.engine_training - INFO - Epoch [6/10], Step [560/974], Loss: 0.4577
+2025-06-10 15:13:22 - src.models.engine_training - INFO - Epoch [6/10], Step [580/974], Loss: 0.7492
+2025-06-10 15:17:41 - src.models.engine_training - INFO - Epoch [6/10], Step [600/974], Loss: 0.5922
+2025-06-10 15:22:01 - src.models.engine_training - INFO - Epoch [6/10], Step [620/974], Loss: 0.3057
+2025-06-10 15:26:21 - src.models.engine_training - INFO - Epoch [6/10], Step [640/974], Loss: 0.6019
+2025-06-10 15:30:40 - src.models.engine_training - INFO - Epoch [6/10], Step [660/974], Loss: 0.6422
+2025-06-10 15:34:59 - src.models.engine_training - INFO - Epoch [6/10], Step [680/974], Loss: 0.2532
+2025-06-10 15:39:19 - src.models.engine_training - INFO - Epoch [6/10], Step [700/974], Loss: 1.0256
+2025-06-10 15:43:38 - src.models.engine_training - INFO - Epoch [6/10], Step [720/974], Loss: 0.7200
+2025-06-10 15:47:56 - src.models.engine_training - INFO - Epoch [6/10], Step [740/974], Loss: 1.0089
+2025-06-10 15:52:15 - src.models.engine_training - INFO - Epoch [6/10], Step [760/974], Loss: 1.6032
+2025-06-10 15:56:33 - src.models.engine_training - INFO - Epoch [6/10], Step [780/974], Loss: 0.5497
+2025-06-10 16:00:52 - src.models.engine_training - INFO - Epoch [6/10], Step [800/974], Loss: 0.7159
+2025-06-10 16:05:10 - src.models.engine_training - INFO - Epoch [6/10], Step [820/974], Loss: 0.6745
+2025-06-10 16:09:29 - src.models.engine_training - INFO - Epoch [6/10], Step [840/974], Loss: 0.6439
+2025-06-10 16:13:45 - src.models.engine_training - INFO - Epoch [6/10], Step [860/974], Loss: 1.0192
+2025-06-10 16:18:02 - src.models.engine_training - INFO - Epoch [6/10], Step [880/974], Loss: 1.1301
+2025-06-10 16:22:19 - src.models.engine_training - INFO - Epoch [6/10], Step [900/974], Loss: 0.8708
+2025-06-10 16:26:36 - src.models.engine_training - INFO - Epoch [6/10], Step [920/974], Loss: 0.5304
+2025-06-10 16:30:54 - src.models.engine_training - INFO - Epoch [6/10], Step [940/974], Loss: 0.7733
+2025-06-10 16:35:12 - src.models.engine_training - INFO - Epoch [6/10], Step [960/974], Loss: 1.2087
+2025-06-10 16:38:13 - src.models.engine_training - INFO - Epoch [6/10] (model_CNN3D Entrenamiento), Loss: 0.7282, Accuracy: 0.7359, Duración 210.21 minutos
+2025-06-10 16:45:58 - src.models.engine_training - INFO - Epoch [6/10] (model_CNN3D Validación), Loss: 0.6128, Accuracy: 0.7713
+2025-06-10 16:45:58 - src.models.engine_training - INFO - LR para la próxima época (model_CNN3D): 0.0010000
+2025-06-10 16:45:58 - src.models.engine_training - INFO - Checkpoint guardado: 'models/CNN3D/20250609-192131/model_CNN3D_epoch_6.pth'
+2025-06-10 16:45:58 - src.models.engine_training - INFO - Nuevo mejor checkpoint guardado (Val loss: 0.6128): 'models/CNN3D/20250609-192131/model_CNN3D_best.pth'
+2025-06-10 16:50:14 - src.models.engine_training - INFO - Epoch [7/10], Step [20/974], Loss: 0.5112

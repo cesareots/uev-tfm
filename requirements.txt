@@ -11,7 +11,11 @@ SoccerNet==0.1.62
 opencv-python==4.11.0.86
 av==14.4.0
 moviepy==2.1.2
-torch==2.7.0
-torchvision==0.22.0
+#torch==2.7.0
+torch==2.6.0
+#torchvision==0.22.0
+torchvision==0.21.0
 #ultralytics==8.3.129
-scikit-learn==1.7.0
+#scikit-learn==1.7.0
+scikit-learn==1.6.1
+tqdm==4.67.1

@@ -10,7 +10,7 @@ import torch.optim as optim
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 
 from src.models.engine_training import train_model, evaluate_model, extras
-from src.models.transforms import get_transforms_cnn3d
+from src.models.transforms import get_transforms_cnn3d_rgb, get_transforms_cnn3d_grayscale
 from src.preprocess.dataset_soccernet import NUM_CLASSES, CLIP_DURATION_SEC, get_output_size_from_transforms, \
     crear_dividir_dataset_t_v_t
 from src.utils import utils as ut
@@ -19,15 +19,13 @@ from src.utils.constants import *
 logger = logging.getLogger(__name__)
 
 # Hiperparámetros de entrenamiento
-# BATCH_SIZE = 8  # según VRAM (en cuda)
-BATCH_SIZE = 16
-# BATCH_SIZE = 32
+#BATCH_SIZE = 16  # los 7792 videos de entrenamiento ocupan aprox 2 GB en RAM-CPU
+BATCH_SIZE = 32  # los 7792 videos de entrenamiento ocupan aprox 5 GB en RAM-CPU
 INITIAL_LEARNING_RATE = 0.001
 
 # frames deseados por clip para el modelo (muestreados)
-# FRAMES_PER_CLIP = 16
-FRAMES_PER_CLIP = 32
-# FRAMES_PER_CLIP = 64
+FRAMES_PER_CLIP = 16  # grandes modelos preentrenados lo utilizan
+#FRAMES_PER_CLIP = 32
 
 # Este TARGET_FPS ahora es un valor conceptual para el muestreo manual, no un parámetro directo de decodificación en torchvision.io.read_video
 # servirá para 'torchcodec'
@@ -91,9 +89,9 @@ class SimpleCNN3D(nn.Module):
             nn.ReLU(),
             nn.Dropout3d(p=0.4),
             nn.MaxPool3d(kernel_size=(2, 2, 2), stride=2),
-
-            nn.Conv3d(128, 256, kernel_size=(3, 3, 3), padding=1),  # ultima capa convolucional
-            nn.BatchNorm3d(256),
+            
+            nn.Conv3d(128, 64, kernel_size=(3, 3, 3), padding=1),  # ultima capa convolucional
+            nn.BatchNorm3d(64),
             nn.ReLU(),
             nn.Dropout3d(p=0.5),
             nn.MaxPool3d(kernel_size=(2, 2, 2), stride=2),
@@ -173,7 +171,11 @@ def main(args):
     # actual_checkpoint_to_load: ruta definitiva del checkpoint
     actual_checkpoint_to_load, checkpoint_dir_run = extras(M_BASIC, args.resume_checkpoint_file)
 
-    train_transforms, val_transforms = get_transforms_cnn3d(TARGET_SIZE_DATASET)
+    #train_transforms, val_transforms, input_channels = get_transforms_cnn3d_rgb(TARGET_SIZE_DATASET)
+    #logger.info("Usando 3 canales (RGB).")
+    train_transforms, val_transforms, input_channels = get_transforms_cnn3d_grayscale(TARGET_SIZE_DATASET)
+    logger.info("Usando 1 canal (escala de grises).")
+    
     expected_size = get_output_size_from_transforms(val_transforms)
 
     if expected_size is None:
@@ -196,10 +198,12 @@ def main(args):
     # Las dimensiones C, T, H, W se definen por DatasetSoccernet y las transformaciones.
     model = SimpleCNN3D(
         num_classes=NUM_CLASSES,
-        input_channels=3,  # RGB
+        input_channels=input_channels,
         input_frames=FRAMES_PER_CLIP,
         input_size=expected_size,  # Tamaño final tras transformaciones
     ).to(device)
+    logger.info("Arquitectura del modelo:")
+    logger.info(model)
 
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=INITIAL_LEARNING_RATE)

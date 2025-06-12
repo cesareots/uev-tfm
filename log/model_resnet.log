@@ -103,3 +103,279 @@
 2025-06-07 08:00:45 - src.utils.utils - INFO - Tiempo total: 19.53 minutos. Tarea: Evaluación final.
 2025-06-07 08:00:45 - src.models.engine_training - INFO - Evaluación final - Loss: 0.6199, Accuracy: 0.7898
 2025-06-07 08:00:45 - __main__ - INFO - Checkpoints de '20250607-032043' se encuentran en 'models\RESNET\20250607-032043'
+2025-06-10 01:51:00 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-10 01:51:00 - __main__ - INFO - Iniciando arquitectura  de modelo RESNET - Transfer Learning con R(2+1)D_18.
+2025-06-10 01:51:00 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-10 01:51:00 - __main__ - INFO - Frames por clip: 16, Duración clip: 3.0s
+2025-06-10 01:51:00 - src.models.engine_training - INFO - Iniciando nuevo entrenamiento: 20250610-015100
+2025-06-10 01:51:00 - __main__ - INFO - Cargando modelo R(2+1)D_18 pre-entrenado con pesos Kinetics-400.
+2025-06-10 01:51:00 - __main__ - INFO - Congelando pesos del backbone pre-entrenado.
+2025-06-10 01:51:00 - __main__ - INFO - Cabeza de clasificación reemplazada: 512 -> 4 clases.
+2025-06-10 01:51:00 - __main__ - INFO - Descongelando el último bloque (BasicBlock) de model.layer4 y model.fc
+2025-06-10 01:51:00 - __main__ - INFO -   > Descongelando: layer4.1.conv1.0.0.weight
+2025-06-10 01:51:00 - __main__ - INFO -   > Descongelando: layer4.1.conv1.0.1.weight
+2025-06-10 01:51:00 - __main__ - INFO -   > Descongelando: layer4.1.conv1.0.1.bias
+2025-06-10 01:51:00 - __main__ - INFO -   > Descongelando: layer4.1.conv1.0.3.weight
+2025-06-10 01:51:00 - __main__ - INFO -   > Descongelando: layer4.1.conv1.1.weight
+2025-06-10 01:51:00 - __main__ - INFO -   > Descongelando: layer4.1.conv1.1.bias
+2025-06-10 01:51:00 - __main__ - INFO -   > Descongelando: layer4.1.conv2.0.0.weight
+2025-06-10 01:51:00 - __main__ - INFO -   > Descongelando: layer4.1.conv2.0.1.weight
+2025-06-10 01:51:00 - __main__ - INFO -   > Descongelando: layer4.1.conv2.0.1.bias
+2025-06-10 01:51:00 - __main__ - INFO -   > Descongelando: layer4.1.conv2.0.3.weight
+2025-06-10 01:51:00 - __main__ - INFO -   > Descongelando: layer4.1.conv2.1.weight
+2025-06-10 01:51:00 - __main__ - INFO -   > Descongelando: layer4.1.conv2.1.bias
+2025-06-10 01:51:00 - __main__ - INFO - Optimizador configurado con LR diferencial: último bloque de layer4=1e-05, fc=0.001
+2025-06-10 01:51:00 - __main__ - INFO - Transformaciones deterministas que acepta el modelo:
+2025-06-10 01:51:00 - __main__ - INFO - VideoClassification(
+    crop_size=[112, 112]
+    resize_size=[128, 171]
+    mean=[0.43216, 0.394666, 0.37645]
+    std=[0.22803, 0.22145, 0.216989]
+    interpolation=InterpolationMode.BILINEAR
+)
+2025-06-10 01:51:00 - src.preprocess.dataset_soccernet - INFO - Tamaño de salida detectado de la transformación 'CenterCrop': (112, 112)
+2025-06-10 01:51:00 - src.preprocess.dataset_soccernet - INFO - 1. Creando dataset base para obtener la lista de todos los vídeos.
+2025-06-10 01:51:00 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 11132 videos en dataset/soccernet_actions.
+2025-06-10 01:51:00 - src.preprocess.dataset_soccernet - INFO - 2. Extraer los paths (X) y las etiquetas (y) para la estratificación.
+2025-06-10 01:51:00 - src.preprocess.dataset_soccernet - INFO - 3. Primera división: separar el conjunto de Test
+2025-06-10 01:51:00 - src.preprocess.dataset_soccernet - INFO - 4. Segunda división: separar Train y Validation del conjunto temporal
+2025-06-10 01:51:00 - src.preprocess.dataset_soccernet - INFO - 5. Datasets y DataLoaders creados. Train (7792 videos). Validation (1670 videos). Test (1670 videos).
+2025-06-10 01:51:00 - __main__ - INFO - Optimizando parámetros de: todo el modelo
+2025-06-10 01:51:00 - __main__ - INFO - Iniciando nuevo entrenamiento desde época 1.
+2025-06-10 01:51:00 - src.models.engine_training - INFO - Entrenamiento iniciado (model_RESNET)... Número de épocas: 1 (desde 1 hasta 1)
+2025-06-10 01:51:00 - src.models.engine_training - INFO - Se guardarán los checkpoints en: 'models\RESNET\20250610-015100'
+2025-06-10 02:00:35 - src.models.engine_training - INFO - Epoch [1/1], Step [20/487], Loss: 1.3361
+2025-06-10 02:10:00 - src.models.engine_training - INFO - Epoch [1/1], Step [40/487], Loss: 1.1947
+2025-06-10 02:18:59 - src.models.engine_training - INFO - Epoch [1/1], Step [60/487], Loss: 1.0001
+2025-06-10 02:27:26 - src.models.engine_training - INFO - Epoch [1/1], Step [80/487], Loss: 0.8765
+2025-06-10 02:35:55 - src.models.engine_training - INFO - Epoch [1/1], Step [100/487], Loss: 0.8736
+2025-06-10 02:44:22 - src.models.engine_training - INFO - Epoch [1/1], Step [120/487], Loss: 0.9431
+2025-06-10 02:47:07 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Goal\Goal_1518_720p_1_3826.mkv': index 33554432 is out of bounds for dimension 1 with size 4
+2025-06-10 02:52:50 - src.models.engine_training - INFO - Epoch [1/1], Step [140/487], Loss: 0.8126
+2025-06-10 02:59:42 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Substitution\Substitution_0100_720p_2_2556.mkv': index 33554435 is out of bounds for dimension 0 with size 6
+2025-06-10 03:00:56 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Goal\Goal_0422_720p_2_3818.mkv': index 33554432 is out of bounds for dimension 1 with size 4
+2025-06-10 03:01:19 - src.models.engine_training - INFO - Epoch [1/1], Step [160/487], Loss: 0.6547
+2025-06-10 03:03:41 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Goal\Goal_1418_720p_1_1722.mkv': index 33554434 is out of bounds for dimension 1 with size 4
+2025-06-10 03:04:09 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Yellow card\Yellow card_1358_720p_2_3404.mkv': index 33554434 is out of bounds for dimension 1 with size 4
+2025-06-10 03:08:24 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Yellow card\Yellow card_1723_720p_1_4116.mkv': index 33554433 is out of bounds for dimension 0 with size 6
+2025-06-10 03:09:50 - src.models.engine_training - INFO - Epoch [1/1], Step [180/487], Loss: 0.6561
+2025-06-10 03:12:17 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Substitution\Substitution_1000_720p_2_3233.mkv': index 33554434 is out of bounds for dimension 1 with size 4
+2025-06-10 03:18:19 - src.models.engine_training - INFO - Epoch [1/1], Step [200/487], Loss: 0.7332
+2025-06-10 03:19:51 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Yellow card\Yellow card_0709_720p_2_2852.mkv': index 33554433 is out of bounds for dimension 1 with size 4
+2025-06-10 03:21:47 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Yellow card\Yellow card_0649_720p_2_3043.mkv': index 33554435 is out of bounds for dimension 0 with size 6
+2025-06-10 03:26:47 - src.models.engine_training - INFO - Epoch [1/1], Step [220/487], Loss: 0.9098
+2025-06-10 03:27:41 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Goal\Goal_1355_720p_2_1433.mkv': index 33554433 is out of bounds for dimension 0 with size 6
+2025-06-10 03:30:11 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Goal\Goal_1465_720p_2_2511.mkv': index 33554433 is out of bounds for dimension 1 with size 4
+2025-06-10 03:35:12 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Corner\Corner_3619_720p_2_2942.mkv': index 33554434 is out of bounds for dimension 1 with size 4
+2025-06-10 03:35:16 - src.models.engine_training - INFO - Epoch [1/1], Step [240/487], Loss: 0.8769
+2025-06-10 03:41:59 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Corner\Corner_4197_720p_1_2946.mkv': index 33554433 is out of bounds for dimension 1 with size 4
+2025-06-10 03:43:48 - src.models.engine_training - INFO - Epoch [1/1], Step [260/487], Loss: 0.6789
+2025-06-10 03:44:07 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Goal\Goal_1176_720p_2_3650.mkv': index 33554432 is out of bounds for dimension 0 with size 6
+2025-06-10 03:52:20 - src.models.engine_training - INFO - Epoch [1/1], Step [280/487], Loss: 1.0970
+2025-06-10 04:00:51 - src.models.engine_training - INFO - Epoch [1/1], Step [300/487], Loss: 0.5956
+2025-06-10 04:06:57 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Substitution\Substitution_2443_720p_2_4400.mkv': index 33554435 is out of bounds for dimension 1 with size 4
+2025-06-10 04:09:22 - src.models.engine_training - INFO - Epoch [1/1], Step [320/487], Loss: 0.7445
+2025-06-10 04:11:07 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Yellow card\Yellow card_0520_720p_2_2139.mkv': index 33554437 is out of bounds for dimension 0 with size 6
+2025-06-10 04:17:52 - src.models.engine_training - INFO - Epoch [1/1], Step [340/487], Loss: 0.6785
+2025-06-10 04:25:34 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Goal\Goal_1606_720p_1_4518.mkv': index 33554435 is out of bounds for dimension 1 with size 4
+2025-06-10 04:26:24 - src.models.engine_training - INFO - Epoch [1/1], Step [360/487], Loss: 0.7092
+2025-06-10 04:30:51 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Corner\Corner_3077_720p_2_1336.mkv': index 33554434 is out of bounds for dimension 0 with size 6
+2025-06-10 04:32:57 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Corner\Corner_0547_720p_2_1017.mkv': index 33554433 is out of bounds for dimension 1 with size 4
+2025-06-10 04:34:55 - src.models.engine_training - INFO - Epoch [1/1], Step [380/487], Loss: 0.6485
+2025-06-10 04:34:56 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Corner\Corner_4508_720p_1_2155.mkv': index 33554432 is out of bounds for dimension 1 with size 4
+2025-06-10 08:11:33 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-10 08:11:33 - __main__ - INFO - Iniciando arquitectura  de modelo RESNET - Transfer Learning con R(2+1)D_18.
+2025-06-10 08:11:33 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-10 08:11:33 - __main__ - INFO - Frames por clip: 16, Duración clip: 3.0s
+2025-06-10 08:11:33 - src.models.engine_training - INFO - Iniciando nuevo entrenamiento: 20250610-081133
+2025-06-10 08:11:33 - __main__ - INFO - Cargando modelo R(2+1)D_18 pre-entrenado con pesos Kinetics-400.
+2025-06-10 08:11:33 - __main__ - INFO - Congelando pesos del backbone pre-entrenado.
+2025-06-10 08:11:33 - __main__ - INFO - Cabeza de clasificación reemplazada: 512 -> 4 clases.
+2025-06-10 08:11:33 - __main__ - INFO - Descongelando el último bloque (BasicBlock) de model.layer4 y model.fc
+2025-06-10 08:11:33 - __main__ - INFO - >>Descongelando: layer4.1.conv1.0.0.weight
+2025-06-10 08:11:33 - __main__ - INFO - >>Descongelando: layer4.1.conv1.0.1.weight
+2025-06-10 08:11:33 - __main__ - INFO - >>Descongelando: layer4.1.conv1.0.1.bias
+2025-06-10 08:11:33 - __main__ - INFO - >>Descongelando: layer4.1.conv1.0.3.weight
+2025-06-10 08:11:33 - __main__ - INFO - >>Descongelando: layer4.1.conv1.1.weight
+2025-06-10 08:11:33 - __main__ - INFO - >>Descongelando: layer4.1.conv1.1.bias
+2025-06-10 08:11:33 - __main__ - INFO - >>Descongelando: layer4.1.conv2.0.0.weight
+2025-06-10 08:11:33 - __main__ - INFO - >>Descongelando: layer4.1.conv2.0.1.weight
+2025-06-10 08:11:33 - __main__ - INFO - >>Descongelando: layer4.1.conv2.0.1.bias
+2025-06-10 08:11:33 - __main__ - INFO - >>Descongelando: layer4.1.conv2.0.3.weight
+2025-06-10 08:11:33 - __main__ - INFO - >>Descongelando: layer4.1.conv2.1.weight
+2025-06-10 08:11:33 - __main__ - INFO - >>Descongelando: layer4.1.conv2.1.bias
+2025-06-10 08:11:33 - __main__ - INFO - Optimizador configurado con LR diferencial: último bloque de layer4=1e-05, fc=0.001
+2025-06-10 08:11:33 - __main__ - INFO - Transformaciones deterministas que acepta el modelo:
+2025-06-10 08:11:33 - __main__ - INFO - VideoClassification(
+    crop_size=[112, 112]
+    resize_size=[128, 171]
+    mean=[0.43216, 0.394666, 0.37645]
+    std=[0.22803, 0.22145, 0.216989]
+    interpolation=InterpolationMode.BILINEAR
+)
+2025-06-10 08:11:33 - src.preprocess.dataset_soccernet - INFO - Tamaño de salida detectado de la transformación 'CenterCrop': (112, 112)
+2025-06-10 08:11:33 - src.preprocess.dataset_soccernet - INFO - 1. Creando dataset base para obtener la lista de todos los vídeos.
+2025-06-10 08:11:33 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 11132 videos en dataset/soccernet_actions.
+2025-06-10 08:11:33 - src.preprocess.dataset_soccernet - INFO - 2. Extraer los paths (X) y las etiquetas (y) para la estratificación.
+2025-06-10 08:11:33 - src.preprocess.dataset_soccernet - INFO - 3. Primera división: separar el conjunto de Test
+2025-06-10 08:11:33 - src.preprocess.dataset_soccernet - INFO - 4. Segunda división: separar Train y Validation del conjunto temporal
+2025-06-10 08:11:33 - src.preprocess.dataset_soccernet - INFO - 5. Datasets y DataLoaders creados. Train (7792 videos). Validation (1670 videos). Test (1670 videos).
+2025-06-10 08:11:33 - __main__ - INFO - Optimizando parámetros de: todo el modelo
+2025-06-10 08:11:33 - __main__ - INFO - Iniciando nuevo entrenamiento desde época 1.
+2025-06-10 08:11:33 - src.models.engine_training - INFO - Entrenamiento iniciado (model_RESNET)... Número de épocas: 1 (desde 1 hasta 1)
+2025-06-10 08:11:33 - src.models.engine_training - INFO - Se guardarán los checkpoints en: 'models\RESNET\20250610-081133'
+2025-06-10 08:20:55 - src.models.engine_training - INFO - Epoch [1/1], Step [20/487], Loss: 1.3361
+2025-06-10 08:31:41 - src.models.engine_training - INFO - Epoch [1/1], Step [40/487], Loss: 1.1947
+2025-06-10 08:41:54 - src.models.engine_training - INFO - Epoch [1/1], Step [60/487], Loss: 1.0001
+2025-06-10 08:41:55 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Corner\Corner_1522_720p_2_2133.mkv': index 33554432 is out of bounds for dimension 1 with size 4
+2025-06-10 08:52:25 - src.models.engine_training - INFO - Epoch [1/1], Step [80/487], Loss: 0.8834
+2025-06-10 09:03:16 - src.models.engine_training - INFO - Epoch [1/1], Step [100/487], Loss: 0.8810
+2025-06-10 09:11:36 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Yellow card\Yellow card_0443_720p_1_3939.mkv': index 33554432 is out of bounds for dimension 1 with size 4
+2025-06-10 09:12:34 - src.models.engine_training - INFO - Epoch [1/1], Step [120/487], Loss: 0.8884
+2025-06-10 09:20:37 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Yellow card\Yellow card_1891_720p_2_2654.mkv': index 33554432 is out of bounds for dimension 0 with size 6
+2025-06-10 09:21:21 - src.models.engine_training - INFO - Epoch [1/1], Step [140/487], Loss: 0.8215
+2025-06-10 09:28:30 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Corner\Corner_4622_720p_1_2519.mkv': index 33554433 is out of bounds for dimension 1 with size 4
+2025-06-10 09:30:07 - src.models.engine_training - INFO - Epoch [1/1], Step [160/487], Loss: 0.6582
+2025-06-10 09:38:52 - src.models.engine_training - INFO - Epoch [1/1], Step [180/487], Loss: 0.6008
+2025-06-10 09:39:50 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Corner\Corner_3111_720p_2_4124.mkv': index 33554435 is out of bounds for dimension 1 with size 4
+2025-06-10 09:52:27 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-10 09:52:27 - __main__ - INFO - Iniciando arquitectura  de modelo RESNET - Transfer Learning con R(2+1)D_18.
+2025-06-10 09:52:27 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-10 09:52:27 - __main__ - INFO - Frames por clip: 16, Duración clip: 3.0s
+2025-06-10 09:52:27 - src.models.engine_training - INFO - Iniciando nuevo entrenamiento: 20250610-095227
+2025-06-10 09:52:27 - __main__ - INFO - Cargando modelo R(2+1)D_18 pre-entrenado con pesos Kinetics-400.
+2025-06-10 09:52:28 - __main__ - INFO - Congelando pesos del backbone pre-entrenado.
+2025-06-10 09:52:28 - __main__ - INFO - Cabeza de clasificación reemplazada: 512 -> 4 clases.
+2025-06-10 09:52:28 - __main__ - INFO - Descongelando el último bloque (BasicBlock) de model.layer4 y model.fc
+2025-06-10 09:52:28 - __main__ - INFO - >>Descongelando: layer4.1.conv1.0.0.weight
+2025-06-10 09:52:28 - __main__ - INFO - >>Descongelando: layer4.1.conv1.0.1.weight
+2025-06-10 09:52:28 - __main__ - INFO - >>Descongelando: layer4.1.conv1.0.1.bias
+2025-06-10 09:52:28 - __main__ - INFO - >>Descongelando: layer4.1.conv1.0.3.weight
+2025-06-10 09:52:28 - __main__ - INFO - >>Descongelando: layer4.1.conv1.1.weight
+2025-06-10 09:52:28 - __main__ - INFO - >>Descongelando: layer4.1.conv1.1.bias
+2025-06-10 09:52:28 - __main__ - INFO - >>Descongelando: layer4.1.conv2.0.0.weight
+2025-06-10 09:52:28 - __main__ - INFO - >>Descongelando: layer4.1.conv2.0.1.weight
+2025-06-10 09:52:28 - __main__ - INFO - >>Descongelando: layer4.1.conv2.0.1.bias
+2025-06-10 09:52:28 - __main__ - INFO - >>Descongelando: layer4.1.conv2.0.3.weight
+2025-06-10 09:52:28 - __main__ - INFO - >>Descongelando: layer4.1.conv2.1.weight
+2025-06-10 09:52:28 - __main__ - INFO - >>Descongelando: layer4.1.conv2.1.bias
+2025-06-10 09:52:28 - __main__ - INFO - Optimizador configurado con LR diferencial: último bloque de layer4=1e-05, fc=0.001
+2025-06-10 09:52:28 - __main__ - INFO - Transformaciones deterministas que acepta el modelo:
+2025-06-10 09:52:28 - __main__ - INFO - VideoClassification(
+    crop_size=[112, 112]
+    resize_size=[128, 171]
+    mean=[0.43216, 0.394666, 0.37645]
+    std=[0.22803, 0.22145, 0.216989]
+    interpolation=InterpolationMode.BILINEAR
+)
+2025-06-10 09:52:28 - src.preprocess.dataset_soccernet - INFO - Tamaño de salida detectado de la transformación 'CenterCrop': (112, 112)
+2025-06-10 09:52:28 - src.preprocess.dataset_soccernet - INFO - 1. Creando dataset base para obtener la lista de todos los vídeos.
+2025-06-10 09:52:28 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 11132 videos en dataset/soccernet_actions.
+2025-06-10 09:52:28 - src.preprocess.dataset_soccernet - INFO - 2. Extraer los paths (X) y las etiquetas (y) para la estratificación.
+2025-06-10 09:52:28 - src.preprocess.dataset_soccernet - INFO - 3. Primera división: separar el conjunto de Test
+2025-06-10 09:52:28 - src.preprocess.dataset_soccernet - INFO - 4. Segunda división: separar Train y Validation del conjunto temporal
+2025-06-10 09:52:28 - src.preprocess.dataset_soccernet - INFO - 5. Datasets y DataLoaders creados. Train (7792 videos). Validation (1670 videos). Test (1670 videos).
+2025-06-10 09:52:28 - __main__ - INFO - Optimizando parámetros de: todo el modelo
+2025-06-10 09:52:28 - __main__ - INFO - Iniciando nuevo entrenamiento desde época 1.
+2025-06-10 09:52:28 - src.models.engine_training - INFO - Entrenamiento iniciado (model_RESNET)... Número de épocas: 1 (desde 1 hasta 1)
+2025-06-10 09:52:28 - src.models.engine_training - INFO - Se guardarán los checkpoints en: 'models\RESNET\20250610-095227'
+2025-06-10 09:58:42 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Corner\Corner_4138_720p_1_3035.mkv': index 33554432 is out of bounds for dimension 1 with size 4
+2025-06-10 09:59:43 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Yellow card\Yellow card_1335_720p_1_4000.mkv': index 33554434 is out of bounds for dimension 1 with size 4
+2025-06-10 10:00:42 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Yellow card\Yellow card_1807_720p_2_3838.mkv': index 33554435 is out of bounds for dimension 0 with size 6
+2025-06-10 10:01:23 - src.models.engine_training - INFO - Epoch [1/1], Step [20/487], Loss: 1.3157
+2025-06-10 10:04:05 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-10 10:04:05 - __main__ - INFO - Iniciando arquitectura  de modelo RESNET - Transfer Learning con R(2+1)D_18.
+2025-06-10 10:04:05 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-10 10:04:05 - __main__ - INFO - Frames por clip: 16, Duración clip: 3.0s
+2025-06-10 10:04:05 - src.models.engine_training - INFO - Iniciando nuevo entrenamiento: 20250610-100405
+2025-06-10 10:04:05 - __main__ - INFO - Cargando modelo R(2+1)D_18 pre-entrenado con pesos Kinetics-400.
+2025-06-10 10:04:05 - __main__ - INFO - Congelando pesos del backbone pre-entrenado.
+2025-06-10 10:04:05 - __main__ - INFO - Cabeza de clasificación reemplazada: 512 -> 4 clases.
+2025-06-10 10:04:05 - __main__ - INFO - Descongelando el último bloque (BasicBlock) de model.layer4 y model.fc
+2025-06-10 10:04:05 - __main__ - INFO - >>Descongelando: layer4.1.conv1.0.0.weight
+2025-06-10 10:04:05 - __main__ - INFO - >>Descongelando: layer4.1.conv1.0.1.weight
+2025-06-10 10:04:05 - __main__ - INFO - >>Descongelando: layer4.1.conv1.0.1.bias
+2025-06-10 10:04:05 - __main__ - INFO - >>Descongelando: layer4.1.conv1.0.3.weight
+2025-06-10 10:04:05 - __main__ - INFO - >>Descongelando: layer4.1.conv1.1.weight
+2025-06-10 10:04:05 - __main__ - INFO - >>Descongelando: layer4.1.conv1.1.bias
+2025-06-10 10:04:05 - __main__ - INFO - >>Descongelando: layer4.1.conv2.0.0.weight
+2025-06-10 10:04:05 - __main__ - INFO - >>Descongelando: layer4.1.conv2.0.1.weight
+2025-06-10 10:04:05 - __main__ - INFO - >>Descongelando: layer4.1.conv2.0.1.bias
+2025-06-10 10:04:05 - __main__ - INFO - >>Descongelando: layer4.1.conv2.0.3.weight
+2025-06-10 10:04:05 - __main__ - INFO - >>Descongelando: layer4.1.conv2.1.weight
+2025-06-10 10:04:05 - __main__ - INFO - >>Descongelando: layer4.1.conv2.1.bias
+2025-06-10 10:04:05 - __main__ - INFO - Optimizador configurado con LR diferencial: último bloque de layer4=1e-05, fc=0.001
+2025-06-10 10:04:05 - __main__ - INFO - Transformaciones deterministas que acepta el modelo:
+2025-06-10 10:04:05 - __main__ - INFO - VideoClassification(
+    crop_size=[112, 112]
+    resize_size=[128, 171]
+    mean=[0.43216, 0.394666, 0.37645]
+    std=[0.22803, 0.22145, 0.216989]
+    interpolation=InterpolationMode.BILINEAR
+)
+2025-06-10 10:04:05 - src.preprocess.dataset_soccernet - INFO - Tamaño de salida detectado de la transformación 'CenterCrop': (112, 112)
+2025-06-10 10:04:05 - src.preprocess.dataset_soccernet - INFO - 1. Creando dataset base para obtener la lista de todos los vídeos.
+2025-06-10 10:04:05 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 11132 videos en dataset/soccernet_actions.
+2025-06-10 10:04:05 - src.preprocess.dataset_soccernet - INFO - 2. Extraer los paths (X) y las etiquetas (y) para la estratificación.
+2025-06-10 10:04:05 - src.preprocess.dataset_soccernet - INFO - 3. Primera división: separar el conjunto de Test
+2025-06-10 10:04:05 - src.preprocess.dataset_soccernet - INFO - 4. Segunda división: separar Train y Validation del conjunto temporal
+2025-06-10 10:04:05 - src.preprocess.dataset_soccernet - INFO - 5. Datasets y DataLoaders creados. Train (7792 videos). Validation (1670 videos). Test (1670 videos).
+2025-06-10 10:04:05 - __main__ - INFO - Optimizando parámetros de: todo el modelo
+2025-06-10 10:04:05 - __main__ - INFO - Iniciando nuevo entrenamiento desde época 1.
+2025-06-10 10:04:05 - src.models.engine_training - INFO - Entrenamiento iniciado (model_RESNET)... Número de épocas: 1 (desde 1 hasta 1)
+2025-06-10 10:04:05 - src.models.engine_training - INFO - Se guardarán los checkpoints en: 'models\RESNET\20250610-100405'
+2025-06-10 10:11:44 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Goal\Goal_1142_720p_1_3559.mkv': index 33554437 is out of bounds for dimension 0 with size 6
+2025-06-10 10:13:00 - src.models.engine_training - INFO - Epoch [1/1], Step [20/487], Loss: 1.3006
+2025-06-10 10:17:02 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Yellow card\Yellow card_1902_720p_1_3958.mkv': index 33554434 is out of bounds for dimension 1 with size 4
+2025-06-10 10:21:50 - src.models.engine_training - INFO - Epoch [1/1], Step [40/487], Loss: 1.1527
+2025-06-10 10:52:56 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-10 10:52:56 - __main__ - INFO - Iniciando arquitectura  de modelo RESNET - Transfer Learning con R(2+1)D_18.
+2025-06-10 10:52:56 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-10 10:52:56 - __main__ - INFO - Frames por clip: 16, Duración clip: 3.0s
+2025-06-10 10:52:56 - src.models.engine_training - INFO - Iniciando nuevo entrenamiento: 20250610-105256
+2025-06-10 10:52:56 - __main__ - INFO - Cargando modelo R(2+1)D_18 pre-entrenado con pesos Kinetics-400.
+2025-06-10 10:52:56 - __main__ - INFO - Congelando pesos del backbone pre-entrenado.
+2025-06-10 10:52:56 - __main__ - INFO - Cabeza de clasificación reemplazada: 512 -> 4 clases.
+2025-06-10 10:52:56 - __main__ - INFO - Descongelando el último bloque (BasicBlock) de model.layer4 y model.fc
+2025-06-10 10:52:56 - __main__ - INFO - >>Descongelando: layer4.1.conv1.0.0.weight
+2025-06-10 10:52:56 - __main__ - INFO - >>Descongelando: layer4.1.conv1.0.1.weight
+2025-06-10 10:52:56 - __main__ - INFO - >>Descongelando: layer4.1.conv1.0.1.bias
+2025-06-10 10:52:56 - __main__ - INFO - >>Descongelando: layer4.1.conv1.0.3.weight
+2025-06-10 10:52:56 - __main__ - INFO - >>Descongelando: layer4.1.conv1.1.weight
+2025-06-10 10:52:56 - __main__ - INFO - >>Descongelando: layer4.1.conv1.1.bias
+2025-06-10 10:52:56 - __main__ - INFO - >>Descongelando: layer4.1.conv2.0.0.weight
+2025-06-10 10:52:56 - __main__ - INFO - >>Descongelando: layer4.1.conv2.0.1.weight
+2025-06-10 10:52:56 - __main__ - INFO - >>Descongelando: layer4.1.conv2.0.1.bias
+2025-06-10 10:52:56 - __main__ - INFO - >>Descongelando: layer4.1.conv2.0.3.weight
+2025-06-10 10:52:56 - __main__ - INFO - >>Descongelando: layer4.1.conv2.1.weight
+2025-06-10 10:52:56 - __main__ - INFO - >>Descongelando: layer4.1.conv2.1.bias
+2025-06-10 10:52:56 - __main__ - INFO - Optimizador configurado con LR diferencial: último bloque de layer4=1e-05, fc=0.001
+2025-06-10 10:52:56 - __main__ - INFO - Transformaciones deterministas que acepta el modelo:
+2025-06-10 10:52:56 - __main__ - INFO - VideoClassification(
+    crop_size=[112, 112]
+    resize_size=[128, 171]
+    mean=[0.43216, 0.394666, 0.37645]
+    std=[0.22803, 0.22145, 0.216989]
+    interpolation=InterpolationMode.BILINEAR
+)
+2025-06-10 10:52:56 - src.preprocess.dataset_soccernet - INFO - Tamaño de salida detectado de la transformación 'CenterCrop': (112, 112)
+2025-06-10 10:52:56 - src.preprocess.dataset_soccernet - INFO - 1. Creando dataset base para obtener la lista de todos los vídeos.
+2025-06-10 10:52:56 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 11132 videos en dataset/soccernet_actions.
+2025-06-10 10:52:56 - src.preprocess.dataset_soccernet - INFO - 2. Extraer los paths (X) y las etiquetas (y) para la estratificación.
+2025-06-10 10:52:56 - src.preprocess.dataset_soccernet - INFO - 3. Primera división: separar el conjunto de Test
+2025-06-10 10:52:56 - src.preprocess.dataset_soccernet - INFO - 4. Segunda división: separar Train y Validation del conjunto temporal
+2025-06-10 10:52:56 - src.preprocess.dataset_soccernet - INFO - 5. Datasets y DataLoaders creados. Train (7792 videos). Validation (1670 videos). Test (1670 videos).
+2025-06-10 10:52:56 - __main__ - INFO - Optimizando parámetros de: todo el modelo
+2025-06-10 10:52:56 - __main__ - INFO - Iniciando nuevo entrenamiento desde época 1.
+2025-06-10 10:52:56 - src.models.engine_training - INFO - Entrenamiento iniciado (model_RESNET)... Número de épocas: 1 (desde 1 hasta 1)
+2025-06-10 10:52:56 - src.models.engine_training - INFO - Se guardarán los checkpoints en: 'models\RESNET\20250610-105256'
+2025-06-10 10:58:13 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Substitution\Substitution_2185_720p_1_2441.mkv': index 33554432 is out of bounds for dimension 1 with size 4
+2025-06-10 11:01:28 - src.models.engine_training - INFO - Epoch [1/1], Step [20/487], Loss: 1.3006
+2025-06-10 11:01:29 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Goal\Goal_1274_720p_1_0946.mkv': index 33554437 is out of bounds for dimension 0 with size 6
+2025-06-10 11:03:34 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Yellow card\Yellow card_0964_720p_1_3142.mkv': index 33554434 is out of bounds for dimension 1 with size 4
+2025-06-10 11:04:02 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Yellow card\Yellow card_0467_720p_2_3226.mkv': index 33554432 is out of bounds for dimension 1 with size 4
+2025-06-10 11:04:13 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Yellow card\Yellow card_0750_720p_2_1651.mkv': index 33554433 is out of bounds for dimension 1 with size 4
+2025-06-10 11:10:14 - src.models.engine_training - INFO - Epoch [1/1], Step [40/487], Loss: 1.1924
+2025-06-10 11:10:27 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Corner\Corner_0863_720p_2_3656.mkv': index 33554434 is out of bounds for dimension 1 with size 4
+2025-06-10 11:12:54 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Yellow card\Yellow card_1541_720p_2_2428.mkv': index 33554433 is out of bounds for dimension 1 with size 4
+2025-06-10 11:13:48 - src.preprocess.dataset_soccernet - ERROR - Al cargar o procesar el video 'dataset\soccernet_actions\Yellow card\Yellow card_0872_720p_1_1126.mkv': index 33554433 is out of bounds for dimension 0 with size 6

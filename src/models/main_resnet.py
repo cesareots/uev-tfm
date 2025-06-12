@@ -20,11 +20,9 @@ from src.utils.constants import *
 logger = logging.getLogger(__name__)
 
 # Hiperparámetros y configuración para Transfer Learning
-# BATCH_SIZE = 8  # según VRAM (en cuda)
-BATCH_SIZE = 16
+BATCH_SIZE = 16  # según VRAM (en cuda)
 # BATCH_SIZE = 32
 INITIAL_LEARNING_RATE = 0.001  # Tasa de aprendizaje para la nueva capa clasificadora
-# LEARNING_RATE_FINETUNE = 0.0001 # Tasa de aprendizaje más baja si se hace fine-tuning de todo el modelo después
 
 # Para R(2+1)D_18 pre-entrenado en Kinetics, usualmente se usan 16 frames.
 # Tu DatasetSoccernet se adaptará para muestrear esta cantidad.
@@ -115,13 +113,13 @@ def model_r2plus1d_fine_tuning_granular(
             # if "layer4.1." in name or "fc." in name:
             if "layer4.1." in name:
                 param.requires_grad = True
-                logger.info(f"  > Descongelando: {name}")  # ver qué se descongela
+                logger.info(f"Descongelando: {name}")  # ver qué se descongela
             else:
                 param.requires_grad = False
 
         # Configurar Optimizador con Tasa de Aprendizaje Diferencial
         learning_rate_backbone_finetune = 0.00001  # Tasa de aprendizaje 'muy baja' para las capas de ResNet
-        learning_rate_head_finetune = 0.001  # Tasa de aprendizaje 'media' para la capa clasificadora
+        learning_rate_head_finetune = INITIAL_LEARNING_RATE  # Tasa de aprendizaje 'media' para la capa clasificadora
 
         params_to_optimize = [
             {"params": model.layer4[1].parameters(), "lr": learning_rate_backbone_finetune},
@@ -271,14 +269,14 @@ def parse_arguments():
     )
     parser.add_argument(
         "--epocas",
-        default=2,  # TODO
+        default=1,  # TODO
         type=ut.non_negative_int,
         help="Número de épocas para el entrenamiento.",
     )
     parser.add_argument(
         "--resume_checkpoint_file",
-        # default=None,  # empezará un nuevo entrenamiento
-        default="20250607-032043/model_RESNET_best.pth",  # TODO
+        default=None,  # empezará un nuevo entrenamiento
+        #default="20250607-032043/model_RESNET_best.pth",  # TODO
         type=str,
         help="Ruta relativa o absoluta para reanudar entrenamiento desde un .pth.",
     )

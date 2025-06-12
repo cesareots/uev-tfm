@@ -45,7 +45,7 @@ class DatasetSoccernet(Dataset):
         if video_items_list is not None:
             self.video_items = video_items_list
             self.root_dir = None  # No es estrictamente necesario si los paths en video_items_list son absolutos
-            # logger.info(f"DatasetSoccernet inicializado con {len(self.video_items)} videos predefinidos.")
+            #logger.info(f"DatasetSoccernet inicializado con {len(self.video_items)} videos predefinidos.")
         else:
             self.root_dir = Path(root_dir)
             self.video_items = []
@@ -127,7 +127,7 @@ class DatasetSoccernet(Dataset):
             dummy_c = 3
             dummy_t = self.frames_per_clip
             dummy_h, dummy_w = self.expected_output_size
-            # logger.warning(f"Creando tensor dummy: ({dummy_c}, {dummy_t}, {dummy_h}, {dummy_w})")
+            #logger.warning(f"Creando tensor dummy: ({dummy_c}, {dummy_t}, {dummy_h}, {dummy_w})")
             dummy_video = torch.zeros((dummy_c, dummy_t, dummy_h, dummy_w), dtype=torch.float)
             dummy_label = torch.tensor(-1, dtype=torch.long)  # Etiqueta inválida
 
@@ -355,7 +355,6 @@ def crear_dividir_dataset_t_v_t(
         sys.exit(1)
 
     # Crear los tres DataLoaders
-    logger.info(f"Creando DataLoaders con batch_size: {batch_size}")
     train_dataloader = DataLoader(
         train_dataset,
         batch_size=batch_size,
