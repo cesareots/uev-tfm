@@ -13,16 +13,14 @@ from torchvision.models.video import r2plus1d_18, R2Plus1D_18_Weights
 from tqdm import tqdm
 
 from src.models.main_cnn3d import SimpleCNN3D, FRAMES_PER_CLIP, TARGET_SIZE_DATASET
-from src.models.transforms import get_transforms_cnn3d, get_transforms_resnet
+from src.models.transforms import get_transforms_cnn3d_grayscale, get_transforms_resnet
 from src.preprocess.dataset_soccernet import INV_LABEL_MAP
 from src.preprocess.dataset_soccernet import get_output_size_from_transforms
 from src.utils import utils as ut
-from src.utils.constants import SOCCERNET_LABELS, LOG_DIR, LOG_INFERENCE
+from src.utils.constants import SOCCERNET_LABELS, LOG_DIR, LOG_INFERENCE, MAS_MENOS_CLIPS
 
 logger = logging.getLogger(__name__)
-
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-logger.info(f"Usando dispositivo: {device}")
 
 
 def config_log() -> None:
@@ -43,40 +41,53 @@ def load_model_and_transforms(
         model_type: str,
         num_classes: int,
         device: torch.device,
+        frames_per_clip: int,
 ):
     """
     Carga un modelo entrenado desde un checkpoint y define las transformaciones de inferencia.
     """
-    logger.info(f"Cargando checkpoint desde '{checkpoint_path}'")
-    checkpoint = torch.load(checkpoint_path, map_location=device)
-    transforms = None
+    try:
+        logger.info(f"Cargando checkpoint desde '{checkpoint_path}'")
+        checkpoint = torch.load(checkpoint_path, map_location=device)
+        transforms = None
 
-    if model_type == 'resnet':
-        logger.info("Instanciando modelo RESNET.")
-        weights = R2Plus1D_18_Weights.KINETICS400_V1
-        train_transforms, val_transforms = get_transforms_resnet(weights)
-        transforms = val_transforms
-        model = r2plus1d_18(num_classes=num_classes)
-    elif model_type == 'cnn3d':
-        logger.info("Instanciando modelo CNN3D.")
-        train_transforms, val_transforms = get_transforms_cnn3d(TARGET_SIZE_DATASET)
-        transforms = val_transforms
-        expected_size = get_output_size_from_transforms(transforms)
-        model = SimpleCNN3D(
-            num_classes=num_classes,
-            input_frames=FRAMES_PER_CLIP,
-            input_size=expected_size,
-        )
-    else:
-        log_con = f"Tipo de modelo '{model_type}' no soportado. Elija 'resnet' o 'cnn3d'."
-        logger.error(log_con)
-        raise ValueError(log_con)
+        if model_type == "CNN3D":
+            logger.info(f"Instanciando modelo {model_type}.")
+            train_transforms, val_transforms, input_channels = get_transforms_cnn3d_grayscale(TARGET_SIZE_DATASET)
+            transforms = val_transforms
+            expected_size = get_output_size_from_transforms(transforms)
+            model = SimpleCNN3D(
+                num_classes=num_classes,
+                input_channels=input_channels,
+                input_frames=frames_per_clip,
+                input_size=expected_size,
+            )
+        elif model_type == 'RESNET':
+            # TODO debo implementar una funcion para cargar los pesos del checkpoint, y no usar el modelo original
 
-    model.load_state_dict(checkpoint['model_state_dict'])
-    model.to(device)
-    model.eval()
+            logger.info(f"Instanciando modelo {model_type}.")
+            weights = R2Plus1D_18_Weights.KINETICS400_V1
+            train_transforms, val_transforms = get_transforms_resnet(weights)
+            transforms = val_transforms
+            model = r2plus1d_18(num_classes=num_classes)
 
-    return model, transforms
+            # num_original_features = model.fc.in_features
+            # model.fc = nn.Linear(num_original_features, num_classes)
+
+        else:
+            log_con = f"Tipo de modelo '{model_type}' no soportado."
+            logger.error(log_con)
+            raise ValueError(log_con)
+
+        model.load_state_dict(checkpoint["model_state_dict"])
+        model.to(device)
+        model.eval()
+
+        return model, transforms
+    except RuntimeError as e:
+        logger.error(f"En RuntimeError: {str(e)}")
+    except Exception as e:
+        logger.error(f"En Exception: {str(e)}")
 
 
 def run_sliding_window(
@@ -89,7 +100,7 @@ def run_sliding_window(
         stride: float,
 ):
     """
-    Fase 2: Ejecuta el modelo sobre un vídeo largo usando una ventana deslizante.
+    Ejecuta el modelo sobre un vídeo largo usando una ventana deslizante.
     """
     logger.info(f"Iniciando Fase 2: Análisis con ventana deslizante (stride: {stride} seg)")
     info = torchvision.io.video_info(str(video_path))
@@ -160,7 +171,7 @@ def post_process_predictions(
         stride: float
 ):
     """
-    Fase 3: Filtra y agrupa las predicciones crudas para generar una lista de eventos.
+    Filtra y agrupa las predicciones crudas para generar una lista de eventos.
     """
     logger.info(f"Iniciando Fase 3: Post-procesamiento (umbral={confidence_threshold}, dur_min={min_event_duration}s)")
     # Filtrar por confianza
@@ -217,11 +228,25 @@ def post_process_predictions(
 
 
 def main(args):
+    logger.info(f"Usando dispositivo: {device}")
+
+    # configuracion previa
+    # model_type = str(args.checkpoint_path).split("/")[1].upper()
+    clip_duration = MAS_MENOS_CLIPS * 2
+    frames_per_clip = FRAMES_PER_CLIP
+    stride = 2.0  # los clips duran 3.0 segundos; primera inferencia: [0-3], segunda inferencia: [2-5], tercera inferencia: [4-7], por tanto ningun limite de tiempo se escapa
+    confidence_threshold = 0.7  # TODO agregar diferentes umbrales por cada clase ...umbral de confianza para considerar una predicción válida
+    min_event_duration = 2.0  # duración mínima en segundos para que un evento sea considerado válido
+    # min_event_duration = 2.5
+    # min_event_duration = 3.0
+    output_file = "results/eventos_partido.json"  # ruta para guardar la lista de eventos en formato JSON
+
     model, transforms = load_model_and_transforms(
         checkpoint_path=Path(args.checkpoint_path),
         model_type=args.model_type,
         num_classes=len(SOCCERNET_LABELS),
         device=device,
+        frames_per_clip=frames_per_clip,
     )
 
     raw_predictions = run_sliding_window(
@@ -229,16 +254,16 @@ def main(args):
         video_path=Path(args.video_path),
         transforms=transforms,
         device=device,
-        clip_duration=args.clip_duration,
-        frames_per_clip=args.frames_per_clip,
-        stride=args.stride,
+        clip_duration=clip_duration,
+        frames_per_clip=frames_per_clip,
+        stride=stride,
     )
 
     final_events = post_process_predictions(
         raw_predictions=raw_predictions,
-        confidence_threshold=args.confidence_threshold,
-        min_event_duration=args.min_event_duration,
-        stride=args.stride
+        confidence_threshold=confidence_threshold,
+        min_event_duration=min_event_duration,
+        stride=stride
     )
 
     print("\n" + "=" * 50)
@@ -256,8 +281,8 @@ def main(args):
                   f"Fin: {end_time_str} ({event['fin']:.2f}s) | "
                   f"Confianza Promedio: {event['confianza_promedio']:.2f}")
 
-    if args.output_file:
-        output_path = Path(args.output_file)
+    if output_file:
+        output_path = Path(output_file)
         output_path.parent.mkdir(parents=True, exist_ok=True)
 
         with open(output_path, 'w', encoding='utf-8') as f:
@@ -272,64 +297,26 @@ def parse_arguments():
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
-        "--video_path",
-        default="inference/england_epl/2016-2017/2017-05-06 - 17-00 Leicester 3 - 0 Watford/1_720p.mkv",  # TODO
-        required=True,
+        "--model_type",
+        default="CNN3D",  # TODO
+        # default="RESNET",  # TODO
         type=str,
-        help="Ruta al archivo de vídeo del partido completo.",
+        choices=["CNN3D", "RESNET"],
+        help="Tipo de arquitectura del modelo a utilizar.",
     )
     parser.add_argument(
         "--checkpoint_path",
-        default="models/RESNET/20250607-032043/model_RESNET_best.pth",  # TODO
-        required=True,
+        default="models/CNN3D/20250609-192131/model_CNN3D_best.pth",  # TODO
+        # default="models/RESNET/20250607-032043/model_RESNET_best.pth",  # TODO
         type=str,
-        help="Ruta al archivo de checkpoint (.pth) del modelo entrenado.",
+        help="Ruta al archivo de checkpoint (.pth) del modelo entrenado y elegido.",
     )
     parser.add_argument(
-        "--model_type",
-        default="resnet",  # TODO
-        required=True,
+        "--video_path",
+        default="inference/england_epl/2016-2017/2017-05-06 - 17-00 Leicester 3 - 0 Watford/1_720p.mkv",  # TODO
+        # required=True,
         type=str,
-        choices=["resnet", "cnn3d"],
-        help="Tipo de arquitectura del modelo cargado.",
-    )
-    parser.add_argument(
-        "--output_file",
-        type=str,
-        default=None,
-        help="Ruta opcional para guardar la lista de eventos en formato JSON.",
-    )
-    # Parámetros de inferencia
-    parser.add_argument(
-        "--stride",
-        type=float,
-        default=1.0,
-        help="Segundos a deslizar la ventana en cada paso.",
-    )
-    parser.add_argument(
-        "--clip_duration",
-        type=float,
-        default=3.0,  # TODO deberia ser igual a la duración de los clips de entrenamiento?
-        help="Duración en segundos de cada clip a analizar.",
-    )
-    parser.add_argument(
-        "--frames_per_clip",
-        type=int,
-        default=16,  # TODO
-        help="Número de frames a muestrear por clip (debe coincidir con el entrenamiento si es posible).",
-    )
-    # Parámetros de post-procesamiento
-    parser.add_argument(
-        "--confidence_threshold",
-        type=float,
-        default=0.7,  # TODO
-        help="Umbral de confianza para considerar una predicción válida.",
-    )
-    parser.add_argument(
-        "--min_event_duration",
-        type=float,
-        default=2.0,
-        help="Duración mínima en segundos para que un evento sea considerado válido.",
+        help="Ruta al archivo de vídeo del partido completo.",
     )
 
     return parser.parse_args()

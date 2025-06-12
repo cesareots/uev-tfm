@@ -1,22 +1,17 @@
 import argparse
 import logging
-import sys
+import os
+from pathlib import Path
 from typing import List
 
 from SoccerNet.utils import getListGames
 from moviepy import VideoFileClip
 
+from src.preprocess.main_soccernet_generar_clip import SPLIT
 from src.utils import utils as ut
-from src.utils.constants import *
+from src.utils.constants import LOG_DIR, LOG_SOCCERNET_CLIPS, INFE_PATH
 
 logger = logging.getLogger(__name__)
-
-SPLIT = [
-    "train",
-    "valid",
-    "test",
-    # "challenge",  # dataset de retos para nuevos releases
-]
 
 
 def config_log() -> None:
@@ -37,18 +32,17 @@ def cut(
         directory: str,
         corte_inicial: float = 0.0,
         longitud: float = 10.0,
-        output_suffix: str = "_trimmed",
+        output_suffix: str = "_recortado",
 ) -> List[str]:
     """
     Corta todos los videos (.mkv) encontrados en un directorio desde un tiempo inicial
     y con una longitud deseada, guardándolos con un nuevo nombre.
 
     Args:
-        directory (str): Ruta al directorio donde buscar los videos.
-        corte_inicial (float): Tiempo de inicio del corte en minutos. Por defecto es 0.0 (inicio del video).
-        longitud (float): Longitud del segmento a cortar en MINUTOS. Por defecto es 10.0.
-        output_suffix (str): Sufijo a añadir al nombre del archivo original para el video cortado.
-                             Por defecto es '_trimmed'.
+        directory: Ruta al directorio donde buscar los videos.
+        corte_inicial: Tiempo de inicio del corte en minutos.
+        longitud: Longitud del segmento a cortar en MINUTOS.
+        output_suffix: Sufijo a añadir al nombre del archivo original para el video cortado.
 
     Returns:
         List[str]: Una lista de las rutas completas de los videos cortados.
@@ -65,6 +59,7 @@ def cut(
         logger.error(f"La longitud ({longitud} minutos) del clip no puede ser negativo.")
         return []
 
+    #logger.info(f"Partido elegido para recortar sus videos (.mkv): '{directory}'")
     corte_inicial_seconds = corte_inicial * 60.0
     time_len_seconds = longitud * 60.0
     cut_video_paths = []
@@ -108,7 +103,9 @@ def cut(
                     cut_clip.write_videofile(
                         output_filepath,
                         codec="libx264",
+                        # audio=False,
                         audio_codec="aac",
+                        # audio_codec="libvorbis",
                     )
                     cut_video_paths.append(output_filepath)
                     logger.info(f"'{output_filename}' generado.")
@@ -128,60 +125,44 @@ def main(args) -> None:
         # videos = glob.glob(os.path.join(DS_SOCCERNET, game, "*.mkv"))
         # print(videos)
         saved_clips = cut(
-            directory=os.path.join(DS_SOCCERNET_RAW, str(game).replace('\\', '/')),
+            directory=Path(INFE_PATH) / str(game),
             corte_inicial=args.corte_inicial,
             longitud=args.longitud,
         )
-        # print(f"\nsaved_clips:\n{saved_clips}")
+        #logger.info(f"saved_clips:\n{saved_clips}")
 
 
 def parse_arguments():
     parser = argparse.ArgumentParser(
         description="Genera clips de cada video-raw, a partir de cualquier minuto y con una longitud deseada.",
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
-    parser.add_argument("--corte_inicial", default=0.0, type=ut.non_negative_float,
-                        help="Corte incial en el minuto X del video-raw.")
-    parser.add_argument("--longitud", default=10.0, type=ut.non_negative_float,
-                        help="Duración en minutos del clip.")
-    parser.add_argument("--partidos_indice", default=[0], type=ut.non_negative_int, nargs="+",
-                        help="Índice de cada partido que desea generar los clips, valores enteros entre 0 y 500.")
+    parser.add_argument(
+        "--corte_inicial",
+        default=0.0,  # TODO
+        type=ut.non_negative_float,
+        help="Corte incial en el minuto X del video.",
+    )
+    parser.add_argument(
+        "--longitud",
+        default=1.0,  # TODO
+        type=ut.non_negative_float,
+        help="Duración en minutos del recorte.",
+    )
+    parser.add_argument(
+        "--partidos_indice",
+        #default=[417, 436, 438, 452, 474, 499],  # para inferencia (modelos entrenados jamas vieron estos partidos)
+        default=[417],
+        type=ut.non_negative_int,
+        nargs="+",
+        help="Índice del partido (deben estar descargados).",
+    )
 
     return parser.parse_args()
 
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        args = parse_arguments()
-    else:
-        # Valores por defecto si no se proporcionan argumentos desde la línea de comandos
-        class Args:
-            corte_inicial = 1.0
-            longitud = 1.0
-            partidos_indice = [
-                0,  # 1,  # england_epl/2014-2015/
-                # 4, 5,  # england_epl/2015-2016/
-                # 29, 30,  # england_epl/2016-2017/
-                # 58, 59,  # europe_uefa-champions-league/2014-2015/
-                # 80, 81,  # europe_uefa-champions-league/2015-2016/
-                # 109, 110,  # europe_uefa-champions-league/2016-2017/
-                # 120,  # france_ligue-1/2014-2015/
-                # 121, 122,  # france_ligue-1/2015-2016/
-                # 123, 124,  # france_ligue-1/2016-2017/
-                # 147, 148,  # germany_bundesliga/2014-2015/
-                # 152, 153,  # germany_bundesliga/2015-2016/
-                # 162, 163,  # germany_bundesliga/2016-2017/
-                # 178, 179,  # italy_serie-a/2014-2015/
-                # 185, 186,  # italy_serie-a/2015-2016/
-                # 190, 191,  # italy_serie-a/2016-2017/
-                # 234, 235,  # spain_laliga/2014-2015/
-                # 240, 241,  # spain_laliga/2015-2016/
-                # 258, 259,  # spain_laliga/2016-2017/
-            ]
-
-
-        args = Args()
-
+    args = parse_arguments()
     config_log()
     ut.verify_system()
     main(args)

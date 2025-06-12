@@ -1,0 +1,13 @@
+2025-06-12 23:20:12 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-12 23:20:12 - __main__ - INFO - Procesando 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p.mkv'
+2025-06-12 23:20:12 - __main__ - INFO - Corte desde el minuto: 0.00, Duración: 1.00 minutos
+2025-06-12 23:20:24 - __main__ - INFO - '1_720p_recortado.mkv' generado.
+2025-06-12 23:20:24 - __main__ - INFO - Procesando 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado.mkv'
+2025-06-12 23:20:24 - __main__ - INFO - Corte desde el minuto: 0.00, Duración: 1.00 minutos
+2025-06-12 23:20:24 - __main__ - WARNING - Al parecer '1_720p_recortado.mkv' NO es un video de soccernet. Su duración es menor a 45.00 minutos. Saltando.
+2025-06-12 23:20:24 - __main__ - INFO - Procesando 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\2_720p.mkv'
+2025-06-12 23:20:24 - __main__ - INFO - Corte desde el minuto: 0.00, Duración: 1.00 minutos
+2025-06-12 23:20:35 - __main__ - INFO - '2_720p_recortado.mkv' generado.
+2025-06-12 23:20:35 - __main__ - INFO - Procesando 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\2_720p_recortado.mkv'
+2025-06-12 23:20:35 - __main__ - INFO - Corte desde el minuto: 0.00, Duración: 1.00 minutos
+2025-06-12 23:20:35 - __main__ - WARNING - Al parecer '2_720p_recortado.mkv' NO es un video de soccernet. Su duración es menor a 45.00 minutos. Saltando.

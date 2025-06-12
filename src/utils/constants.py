@@ -37,6 +37,7 @@ PARTIDOS_INDICE_LOTE = [
     #[483, 483],  # error con el codificador
     [484, 498],  # lote 15 ---- index=499 para inferencia, spain_laliga
 ]
+MAS_MENOS_CLIPS = 1.5
 SOCCERNET_RESULTS = f"{RESULTS}soccernet"
 DS_SOCCERNET_RAW = os.getenv("DS_SOCCERNET_RAW")
 DS_SOCCERNET_ACTIONS = os.getenv("DS_SOCCERNET_ACTIONS")
@@ -55,7 +56,7 @@ LOG_DIR = "log/"
 LOG_MAIN = f"{LOG_DIR}main.log"
 LOG_YOLO_EXPORT = f"{LOG_DIR}yolo_export.log"
 LOG_SOCCERNET = f"{LOG_DIR}soccernet.log"
-LOG_SOCCERNET_CLIPS = f"{LOG_DIR}soccernet_clips.log"
+LOG_SOCCERNET_CLIPS = f"{LOG_DIR}soccernet_recortes.log"
 LOG_SOCCERNET_TENSORS = f"{LOG_DIR}soccernet_tensors.log"
 LOG_MODEL_CNN3D = f"{LOG_DIR}model_cnn3d.log"
 LOG_MODEL_RESNET = f"{LOG_DIR}model_resnet.log"
@@ -75,4 +76,3 @@ YOLO_PATH_RESULTS = f"{RESULTS}yolo"
 
 # inferencia
 INFE_PATH = "inference/"
-VIDEO_PATH_TEMP = ""

@@ -68,7 +68,7 @@ def config_log() -> None:
 
 
 class SimpleCNN3D(nn.Module):
-    def __init__(self, num_classes, input_channels=3, input_frames=None, input_size=None):
+    def __init__(self, num_classes, input_channels=1, input_frames=None, input_size=None):
         super(SimpleCNN3D, self).__init__()
 
         self.features = nn.Sequential(
@@ -282,7 +282,7 @@ def parse_arguments():
     )
     parser.add_argument(
         "--epocas",
-        default=1,  # TODO
+        default=7,  # TODO
         type=ut.non_negative_int,
         help="Número de épocas para el entrenamiento.",
     )

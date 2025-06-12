@@ -1,0 +1,18 @@
+2025-06-12 21:32:01 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-12 21:32:01 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-12 21:32:01 - __main__ - INFO - Cargando checkpoint desde 'models\CNN3D\20250609-192131\model_CNN3D_best.pth'
+2025-06-12 21:32:01 - __main__ - INFO - Instanciando modelo CNN3D.
+2025-06-12 21:32:01 - src.preprocess.dataset_soccernet - INFO - Tamaño de salida detectado de la transformación 'Resize': (128, 128)
+2025-06-12 21:32:01 - src.models.main_cnn3d - INFO - Dimensiones de entrada al modelo (C, T, H, W): (1, 16, 128, 128)
+2025-06-12 21:32:01 - src.models.main_cnn3d - INFO - Dimensiones tras self.features (antes de adaptive_pool): torch.Size([1, 64, 1, 8, 8])
+2025-06-12 21:32:01 - src.models.main_cnn3d - INFO - Después de adaptive_pool, las dimensiones espaciales/temporales se reducen a (1,1,1).
+2025-06-12 21:32:01 - src.models.main_cnn3d - INFO - Número de características para la capa lineal (FC): 64
+2025-06-12 21:32:01 - __main__ - ERROR - En RuntimeError: Error(s) in loading state_dict for SimpleCNN3D:
+	size mismatch for features.0.weight: copying a param with shape torch.Size([32, 3, 3, 3, 3]) from checkpoint, the shape in current model is torch.Size([32, 1, 3, 3, 3]).
+	size mismatch for features.15.weight: copying a param with shape torch.Size([256, 128, 3, 3, 3]) from checkpoint, the shape in current model is torch.Size([64, 128, 3, 3, 3]).
+	size mismatch for features.15.bias: copying a param with shape torch.Size([256]) from checkpoint, the shape in current model is torch.Size([64]).
+	size mismatch for features.16.weight: copying a param with shape torch.Size([256]) from checkpoint, the shape in current model is torch.Size([64]).
+	size mismatch for features.16.bias: copying a param with shape torch.Size([256]) from checkpoint, the shape in current model is torch.Size([64]).
+	size mismatch for features.16.running_mean: copying a param with shape torch.Size([256]) from checkpoint, the shape in current model is torch.Size([64]).
+	size mismatch for features.16.running_var: copying a param with shape torch.Size([256]) from checkpoint, the shape in current model is torch.Size([64]).
+	size mismatch for fc.0.weight: copying a param with shape torch.Size([1024, 256]) from checkpoint, the shape in current model is torch.Size([1024, 64]).

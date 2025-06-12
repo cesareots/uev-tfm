@@ -17,64 +17,12 @@ downloader = SoccerNetDownloader(LocalDirectory=DS_SOCCERNET_RAW)
 downloader.password = SOCCERNET_PASSWORD
 ACCIONES_RECORTAR = ut.extraer_claves_ordenadas(SOCCERNET_LABELS)
 
-PARTIDOS_INDICE_LOTE_old = [
-    [0, 9],
-    [10, 19],
-    [20, 29],
-    [30, 39],
-    [40, 49],
-    [50, 59],
-    [60, 69],
-    [70, 78],
-    [79, 79],  # da error por el codec del audio
-    [80, 89],
-    [90, 99],
-
-    [100, 109],
-    [110, 119],
-    [120, 129],
-    [130, 139],
-    [140, 149],
-    [150, 159],
-    [160, 169],
-    [170, 179],
-    [180, 189],
-    [190, 199],
-
-    [200, 209],
-    [210, 219],
-    [220, 229],
-    [230, 239],
-    [240, 249],
-    [250, 259],
-    [260, 269],
-    [270, 279],
-    [280, 289],
-    [290, 299],
-
-    [300, 309],
-    [310, 319],
-    [320, 329],
-    [330, 339],
-    [340, 349],
-    [350, 359],
-    [360, 369],
-    [370, 379],
-    [380, 389],
-    [390, 399],
-
-    [400, 409],
-    [410, 419],
-    [420, 429],
-    [430, 439],
-    [440, 449],
-    [450, 459],
-    [460, 469],
-    [470, 479],
-    [480, 489],
-    [490, 499],
+SPLIT=[
+    "train",
+    "valid",
+    "test",
+    # "challenge",  # dataset de retos para nuevos releases
 ]
-
 
 def config_log() -> None:
     ut.verify_directory(LOG_DIR)
@@ -361,14 +309,7 @@ def main(args) -> None:
     file_video = ["1_720p.mkv", "2_720p.mkv"] if args.calidad_video == "720p" else ["1_224p.mkv", "2_224p.mkv"]
     # file_label = ["Labels.json", "Labels-v2.json", "Labels-cameras.json", "Labels-v3.json"]
     file_label = "Labels-v2.json"
-    list_games = getListGames(
-        split=[
-            "train",
-            "valid",
-            "test",
-            # "challenge",  # dataset de retos para nuevos releases
-        ]
-    )
+    list_games = getListGames(SPLIT)
     result_list = [list_games[index] for index in args.partidos_indice]
 
     files = [
@@ -407,7 +348,7 @@ def main(args) -> None:
                     video_filename=video,
                     json_filename=file_label,
                     # label_to_find=action,
-                    mas_menos=1.5,
+                    mas_menos=MAS_MENOS_CLIPS,
                 )
 
         ut.get_time_employed(t_start, "Generación de videoclips por cada acción.")

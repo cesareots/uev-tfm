@@ -66,28 +66,6 @@ def config_log() -> None:
     )
 
 
-def get_pretrained_r2plus1d_model(
-        num_classes_output: int,
-        freeze_backbone: bool = True,
-):
-    logger.info("Cargando modelo R(2+1)D_18 pre-entrenado con pesos Kinetics-400...")
-    weights = R2Plus1D_18_Weights.KINETICS400_V1
-    model = r2plus1d_18(weights=weights)
-
-    if freeze_backbone:
-        logger.info("Congelando pesos del backbone pre-entrenado.")
-        for param in model.parameters():
-            param.requires_grad = False
-
-    # Reemplazar la cabeza de clasificación (model.fc)
-    num_original_features = model.fc.in_features
-    model.fc = nn.Linear(num_original_features, num_classes_output)
-    logger.info(f"Cabeza de clasificación reemplazada: {num_original_features} -> {num_classes_output} clases.")
-
-    # return model, weights.transforms()
-    return model, weights
-
-
 def model_r2plus1d_fine_tuning_granular(
         num_classes_output: int,
         granular: bool = True,
