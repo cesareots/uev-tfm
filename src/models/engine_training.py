@@ -72,7 +72,7 @@ def train_model(
             correct_predictions += (predicted == labels).sum().item()
 
             # Imprimir estadísticas cada cierto número de batches
-            if (i + 1) % 20 == 0:
+            if (i + 1) % 25 == 0:
                 log_con = f"Epoch [{current_epoch_display}/{num_epochs}], Step [{i + 1}/{len(train_dataloader)}], Loss: {loss.item():.4f}"
                 print(log_con)
                 logger.info(log_con)
@@ -81,11 +81,12 @@ def train_model(
         epoch_train_acc = correct_predictions / total_samples if total_samples > 0 else 0
         epoch_duration = ut.time_in_minutes(epoch_t_start)
 
-        log_con_epoch = f"Epoch [{current_epoch_display}/{num_epochs}] ({checkpoint_base_name} Entrenamiento), Loss: {epoch_train_loss:.4f}, Accuracy: {epoch_train_acc:.4f}, Duración {epoch_duration:.2f} minutos"
+        log_con_epoch = f"Epoch [{current_epoch_display}/{num_epochs}] ({checkpoint_base_name} - Entrenamiento de época actual), Loss: {epoch_train_loss:.4f}, Accuracy: {epoch_train_acc:.4f}, Duración {epoch_duration:.2f} minutos"
         print(log_con_epoch)
         logger.info(log_con_epoch)
 
         # Validación al final de cada época
+        epoch_v_start = time.time()
         val_loss, val_acc = evaluate_model(
             model,
             val_dataloader,
@@ -93,7 +94,8 @@ def train_model(
             device,
             per_epoch_eval=True,
         )
-        val_log_msg = f"Epoch [{current_epoch_display}/{num_epochs}] ({checkpoint_base_name} Validación), Loss: {val_loss:.4f}, Accuracy: {val_acc:.4f}"
+        epoch_v_duration = ut.time_in_minutes(epoch_v_start)
+        val_log_msg = f"Epoch [{current_epoch_display}/{num_epochs}] ({checkpoint_base_name} - Validación de época actual), Loss: {val_loss:.4f}, Accuracy: {val_acc:.4f}, Duración {epoch_v_duration:.2f} minutos"
         print(val_log_msg)
         logger.info(val_log_msg)
 

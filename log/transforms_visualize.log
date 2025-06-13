@@ -1,0 +1,65 @@
+2025-06-14 00:02:13 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-14 00:02:13 - __main__ - INFO - Cargando muestra de vídeo con transformaciones tipo: 'cnn3d_gray'
+2025-06-14 00:02:13 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 11132 videos en dataset/soccernet_actions.
+2025-06-14 00:02:14 - __main__ - INFO - Visualizando y guardando clip en 'results\transform_visuals\visualized_sample_0_cnn3d_gray.png'
+2025-06-14 00:02:14 - __main__ - INFO - Visualización guardada exitosamente.
+2025-06-14 00:02:14 - __main__ - INFO - Cargando muestra de vídeo con transformaciones tipo: 'cnn3d_rgb'
+2025-06-14 00:02:14 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 11132 videos en dataset/soccernet_actions.
+2025-06-14 00:02:14 - __main__ - INFO - Visualizando y guardando clip en 'results\transform_visuals\visualized_sample_0_cnn3d_rgb.png'
+2025-06-14 00:02:15 - __main__ - INFO - Visualización guardada exitosamente.
+2025-06-14 00:02:15 - __main__ - INFO - Cargando muestra de vídeo con transformaciones tipo: 'resnet_train'
+2025-06-14 00:02:15 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 11132 videos en dataset/soccernet_actions.
+2025-06-14 00:02:16 - __main__ - INFO - Visualizando y guardando clip en 'results\transform_visuals\visualized_sample_0_resnet_train.png'
+2025-06-14 00:02:16 - __main__ - INFO - Visualización guardada exitosamente.
+2025-06-14 00:02:16 - __main__ - INFO - Cargando muestra de vídeo con transformaciones tipo: 'resnet_val'
+2025-06-14 00:02:16 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 11132 videos en dataset/soccernet_actions.
+2025-06-14 00:02:17 - __main__ - INFO - Visualizando y guardando clip en 'results\transform_visuals\visualized_sample_0_resnet_val.png'
+2025-06-14 00:02:17 - __main__ - INFO - Visualización guardada exitosamente.
+2025-06-14 00:02:17 - __main__ - INFO - Cargando muestra de vídeo con transformaciones tipo: 'cnn3d_gray'
+2025-06-14 00:02:17 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 11132 videos en dataset/soccernet_actions.
+2025-06-14 00:02:17 - __main__ - INFO - Visualizando y guardando clip en 'results\transform_visuals\visualized_sample_1631_cnn3d_gray.png'
+2025-06-14 00:02:18 - __main__ - INFO - Visualización guardada exitosamente.
+2025-06-14 00:02:18 - __main__ - INFO - Cargando muestra de vídeo con transformaciones tipo: 'cnn3d_rgb'
+2025-06-14 00:02:18 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 11132 videos en dataset/soccernet_actions.
+2025-06-14 00:02:18 - __main__ - INFO - Visualizando y guardando clip en 'results\transform_visuals\visualized_sample_1631_cnn3d_rgb.png'
+2025-06-14 00:02:18 - __main__ - INFO - Visualización guardada exitosamente.
+2025-06-14 00:02:18 - __main__ - INFO - Cargando muestra de vídeo con transformaciones tipo: 'resnet_train'
+2025-06-14 00:02:18 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 11132 videos en dataset/soccernet_actions.
+2025-06-14 00:02:20 - __main__ - INFO - Visualizando y guardando clip en 'results\transform_visuals\visualized_sample_1631_resnet_train.png'
+2025-06-14 00:02:20 - __main__ - INFO - Visualización guardada exitosamente.
+2025-06-14 00:02:20 - __main__ - INFO - Cargando muestra de vídeo con transformaciones tipo: 'resnet_val'
+2025-06-14 00:02:20 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 11132 videos en dataset/soccernet_actions.
+2025-06-14 00:02:20 - __main__ - INFO - Visualizando y guardando clip en 'results\transform_visuals\visualized_sample_1631_resnet_val.png'
+2025-06-14 00:02:21 - __main__ - INFO - Visualización guardada exitosamente.
+2025-06-14 00:02:21 - __main__ - INFO - Cargando muestra de vídeo con transformaciones tipo: 'cnn3d_gray'
+2025-06-14 00:02:21 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 11132 videos en dataset/soccernet_actions.
+2025-06-14 00:02:21 - __main__ - INFO - Visualizando y guardando clip en 'results\transform_visuals\visualized_sample_3637_cnn3d_gray.png'
+2025-06-14 00:02:21 - __main__ - INFO - Visualización guardada exitosamente.
+2025-06-14 00:02:21 - __main__ - INFO - Cargando muestra de vídeo con transformaciones tipo: 'cnn3d_rgb'
+2025-06-14 00:02:21 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 11132 videos en dataset/soccernet_actions.
+2025-06-14 00:02:22 - __main__ - INFO - Visualizando y guardando clip en 'results\transform_visuals\visualized_sample_3637_cnn3d_rgb.png'
+2025-06-14 00:02:22 - __main__ - INFO - Visualización guardada exitosamente.
+2025-06-14 00:02:22 - __main__ - INFO - Cargando muestra de vídeo con transformaciones tipo: 'resnet_train'
+2025-06-14 00:02:22 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 11132 videos en dataset/soccernet_actions.
+2025-06-14 00:02:23 - __main__ - INFO - Visualizando y guardando clip en 'results\transform_visuals\visualized_sample_3637_resnet_train.png'
+2025-06-14 00:02:24 - __main__ - INFO - Visualización guardada exitosamente.
+2025-06-14 00:02:24 - __main__ - INFO - Cargando muestra de vídeo con transformaciones tipo: 'resnet_val'
+2025-06-14 00:02:24 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 11132 videos en dataset/soccernet_actions.
+2025-06-14 00:02:24 - __main__ - INFO - Visualizando y guardando clip en 'results\transform_visuals\visualized_sample_3637_resnet_val.png'
+2025-06-14 00:02:24 - __main__ - INFO - Visualización guardada exitosamente.
+2025-06-14 00:02:24 - __main__ - INFO - Cargando muestra de vídeo con transformaciones tipo: 'cnn3d_gray'
+2025-06-14 00:02:24 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 11132 videos en dataset/soccernet_actions.
+2025-06-14 00:02:25 - __main__ - INFO - Visualizando y guardando clip en 'results\transform_visuals\visualized_sample_6378_cnn3d_gray.png'
+2025-06-14 00:02:25 - __main__ - INFO - Visualización guardada exitosamente.
+2025-06-14 00:02:25 - __main__ - INFO - Cargando muestra de vídeo con transformaciones tipo: 'cnn3d_rgb'
+2025-06-14 00:02:25 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 11132 videos en dataset/soccernet_actions.
+2025-06-14 00:02:25 - __main__ - INFO - Visualizando y guardando clip en 'results\transform_visuals\visualized_sample_6378_cnn3d_rgb.png'
+2025-06-14 00:02:25 - __main__ - INFO - Visualización guardada exitosamente.
+2025-06-14 00:02:25 - __main__ - INFO - Cargando muestra de vídeo con transformaciones tipo: 'resnet_train'
+2025-06-14 00:02:25 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 11132 videos en dataset/soccernet_actions.
+2025-06-14 00:02:27 - __main__ - INFO - Visualizando y guardando clip en 'results\transform_visuals\visualized_sample_6378_resnet_train.png'
+2025-06-14 00:02:27 - __main__ - INFO - Visualización guardada exitosamente.
+2025-06-14 00:02:27 - __main__ - INFO - Cargando muestra de vídeo con transformaciones tipo: 'resnet_val'
+2025-06-14 00:02:27 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 11132 videos en dataset/soccernet_actions.
+2025-06-14 00:02:27 - __main__ - INFO - Visualizando y guardando clip en 'results\transform_visuals\visualized_sample_6378_resnet_val.png'
+2025-06-14 00:02:28 - __main__ - INFO - Visualización guardada exitosamente.

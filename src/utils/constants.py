@@ -34,10 +34,17 @@ PARTIDOS_INDICE_LOTE = [
     [450, 451],  # lote 12 ---- index=452 para inferencia, germany_bundesliga
     [453, 473],  # lote 13 ---- index=474 para inferencia, italy_serie-a
     [475, 482],  # lote 14
-    #[483, 483],  # error con el codificador
+    # [483, 483],  # error con el codificador
     [484, 498],  # lote 15 ---- index=499 para inferencia, spain_laliga
 ]
 MAS_MENOS_CLIPS = 1.5
+UMBRALES = {
+    "Goal": 0.85,
+    "Yellow card": 0.70,
+    "Substitution": 0.75,
+    "Corner": 0.90,
+}
+
 SOCCERNET_RESULTS = f"{RESULTS}soccernet"
 DS_SOCCERNET_RAW = os.getenv("DS_SOCCERNET_RAW")
 DS_SOCCERNET_ACTIONS = os.getenv("DS_SOCCERNET_ACTIONS")
@@ -61,6 +68,7 @@ LOG_SOCCERNET_TENSORS = f"{LOG_DIR}soccernet_tensors.log"
 LOG_MODEL_CNN3D = f"{LOG_DIR}model_cnn3d.log"
 LOG_MODEL_RESNET = f"{LOG_DIR}model_resnet.log"
 LOG_INFERENCE = f"{LOG_DIR}inference.log"
+LOG_TRANSFORMS_VISUALIZE = f"{LOG_DIR}transforms_visualize.log"
 
 #
 EXT_TXT = ".txt"

@@ -10,7 +10,7 @@ import torch.optim as optim
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 
 from src.models.engine_training import train_model, evaluate_model, extras
-from src.models.transforms import get_transforms_cnn3d_rgb, get_transforms_cnn3d_grayscale
+from src.models.transforms import get_transforms_cnn3d_grayscale
 from src.preprocess.dataset_soccernet import NUM_CLASSES, CLIP_DURATION_SEC, get_output_size_from_transforms, \
     crear_dividir_dataset_t_v_t
 from src.utils import utils as ut
@@ -18,14 +18,16 @@ from src.utils.constants import *
 
 logger = logging.getLogger(__name__)
 
-# Hiperparámetros de entrenamiento
-#BATCH_SIZE = 16  # los 7792 videos de entrenamiento ocupan aprox 2 GB en RAM-CPU
-BATCH_SIZE = 32  # los 7792 videos de entrenamiento ocupan aprox 5 GB en RAM-CPU
+# BATCH_SIZE = 16
+# BATCH_SIZE = 32
+BATCH_SIZE = 64
+# BATCH_SIZE = 128
 INITIAL_LEARNING_RATE = 0.001
+# INITIAL_LEARNING_RATE = 0.0001
 
 # frames deseados por clip para el modelo (muestreados)
 FRAMES_PER_CLIP = 16  # grandes modelos preentrenados lo utilizan
-#FRAMES_PER_CLIP = 32
+# FRAMES_PER_CLIP = 32
 
 # Este TARGET_FPS ahora es un valor conceptual para el muestreo manual, no un parámetro directo de decodificación en torchvision.io.read_video
 # servirá para 'torchcodec'
@@ -75,25 +77,19 @@ class SimpleCNN3D(nn.Module):
             nn.Conv3d(input_channels, 32, kernel_size=(3, 3, 3), padding=1),
             nn.BatchNorm3d(32),
             nn.ReLU(),
-            nn.Dropout3d(p=0.2),
+            # nn.Dropout3d(p=0.1),
             nn.MaxPool3d(kernel_size=(2, 2, 2), stride=2),
 
-            nn.Conv3d(32, 64, kernel_size=(3, 3, 3), padding=1),
-            nn.BatchNorm3d(64),
-            nn.ReLU(),
-            nn.Dropout3d(p=0.3),
-            nn.MaxPool3d(kernel_size=(2, 2, 2), stride=2),
-
-            nn.Conv3d(64, 128, kernel_size=(3, 3, 3), padding=1),
+            nn.Conv3d(32, 128, kernel_size=(3, 3, 3), padding=1),
             nn.BatchNorm3d(128),
             nn.ReLU(),
-            nn.Dropout3d(p=0.4),
+            # nn.Dropout3d(p=0.2),
             nn.MaxPool3d(kernel_size=(2, 2, 2), stride=2),
-            
-            nn.Conv3d(128, 64, kernel_size=(3, 3, 3), padding=1),  # ultima capa convolucional
+
+            nn.Conv3d(128, 64, kernel_size=(3, 3, 3), padding=1),
             nn.BatchNorm3d(64),
             nn.ReLU(),
-            nn.Dropout3d(p=0.5),
+            # nn.Dropout3d(p=0.3),
             nn.MaxPool3d(kernel_size=(2, 2, 2), stride=2),
         )
 
@@ -140,10 +136,10 @@ class SimpleCNN3D(nn.Module):
                 f"El número de características para la capa FC es 0. Salida de self.features: {output_shape_features}")
 
         self.fc = nn.Sequential(
-            nn.Linear(num_features_for_fc, 1024),
+            nn.Linear(num_features_for_fc, 16),
             nn.ReLU(),
-            nn.Dropout(p=0.5),
-            nn.Linear(1024, num_classes),
+            nn.Dropout(p=0.3),
+            nn.Linear(16, num_classes),
         )
 
     def forward(self, x):
@@ -171,11 +167,11 @@ def main(args):
     # actual_checkpoint_to_load: ruta definitiva del checkpoint
     actual_checkpoint_to_load, checkpoint_dir_run = extras(M_BASIC, args.resume_checkpoint_file)
 
-    #train_transforms, val_transforms, input_channels = get_transforms_cnn3d_rgb(TARGET_SIZE_DATASET)
-    #logger.info("Usando 3 canales (RGB).")
+    # train_transforms, val_transforms, input_channels = get_transforms_cnn3d_rgb(TARGET_SIZE_DATASET)
+    # logger.info("Usando 3 canales (RGB).")
     train_transforms, val_transforms, input_channels = get_transforms_cnn3d_grayscale(TARGET_SIZE_DATASET)
     logger.info("Usando 1 canal (escala de grises).")
-    
+
     expected_size = get_output_size_from_transforms(val_transforms)
 
     if expected_size is None:
@@ -282,7 +278,7 @@ def parse_arguments():
     )
     parser.add_argument(
         "--epocas",
-        default=7,  # TODO
+        default=1,  # TODO
         type=ut.non_negative_int,
         help="Número de épocas para el entrenamiento.",
     )

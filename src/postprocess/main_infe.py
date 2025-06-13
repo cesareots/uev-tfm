@@ -17,7 +17,7 @@ from src.models.transforms import get_transforms_cnn3d_grayscale, get_transforms
 from src.preprocess.dataset_soccernet import INV_LABEL_MAP
 from src.preprocess.dataset_soccernet import get_output_size_from_transforms
 from src.utils import utils as ut
-from src.utils.constants import SOCCERNET_LABELS, LOG_DIR, LOG_INFERENCE, MAS_MENOS_CLIPS
+from src.utils.constants import SOCCERNET_LABELS, LOG_DIR, LOG_INFERENCE, MAS_MENOS_CLIPS, UMBRALES
 
 logger = logging.getLogger(__name__)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -145,8 +145,8 @@ def run_sliding_window(
             # Inferencia
             with torch.no_grad():
                 input_tensor = processed_clip.unsqueeze(0).to(device)  # Añadir dimensión de batch
-                outputs = model(input_tensor)
-                probabilities = torch.nn.functional.softmax(outputs, dim=1)
+                logits = model(input_tensor)
+                probabilities = torch.nn.functional.softmax(logits, dim=1)
                 confidence, predicted_idx = torch.max(probabilities, 1)
 
                 prediction = {
@@ -166,25 +166,36 @@ def run_sliding_window(
 
 def post_process_predictions(
         raw_predictions: list,
-        confidence_threshold: float,
+        confidence_thresholds: dict,  # Acepta un diccionario de umbrales
+        default_threshold: float,  # Un umbral por defecto
         min_event_duration: float,
-        stride: float
+        stride: float,
 ):
     """
-    Filtra y agrupa las predicciones crudas para generar una lista de eventos.
+    Filtra y agrupa las predicciones crudas para generar una lista de eventos, utilizando umbrales de confianza específicos por clase.
     """
-    logger.info(f"Iniciando Fase 3: Post-procesamiento (umbral={confidence_threshold}, dur_min={min_event_duration}s)")
-    # Filtrar por confianza
-    confident_preds = [p for p in raw_predictions if p['confidence'] >= confidence_threshold]
+    # Filtrar por confianza usando los umbrales por clase
+    confident_preds = []
+
+    for p in raw_predictions:
+        class_name = p['class_name']
+        # Obtener el umbral específico para esta clase, o usar el por defecto si no está definido
+        threshold = confidence_thresholds.get(class_name, default_threshold)
+
+        if p['confidence'] >= threshold:
+            confident_preds.append(p)
 
     if not confident_preds:
-        logger.warning("No se encontraron predicciones por encima del umbral de confianza.")
+        logger.warning("No se encontraron predicciones que superaran sus respectivos umbrales de confianza.")
         return []
+
+    logger.info(f"Se encontraron {len(confident_preds)} predicciones de alta confianza después del filtrado inicial.")
 
     # Agrupar predicciones consecutivas de la misma clase en eventos
     events = []
 
     if confident_preds:
+        # primer evento
         current_event = {
             "evento": confident_preds[0]['class_name'],
             "inicio": confident_preds[0]['timestamp'],
@@ -196,18 +207,17 @@ def post_process_predictions(
             pred = confident_preds[i]
             prev_pred = confident_preds[i - 1]
 
-            # Si la clase es la misma y el tiempo es consecuente (dentro de stride * 1.5 para ser flexible)
+            # Si la clase es la misma y el tiempo es consecuente
             if pred['class_name'] == current_event['evento'] and (pred['timestamp'] - prev_pred['timestamp']) < (
                     stride * 1.5):
                 current_event['fin'] = pred['timestamp'] + stride
                 current_event['confianzas'].append(pred['confidence'])
             else:
-                # Calcular la confianza promedio y guardar el evento anterior
+                # Guardar el evento anterior y empezar uno nuevo
                 current_event['confianza_promedio'] = np.mean(current_event['confianzas'])
-                del current_event['confianzas']  # Limpiar la lista de confianzas
+                del current_event['confianzas']
                 events.append(current_event)
 
-                # Iniciar un nuevo evento
                 current_event = {
                     "evento": pred['class_name'],
                     "inicio": pred['timestamp'],
@@ -215,7 +225,7 @@ def post_process_predictions(
                     "confianzas": [pred['confidence']]
                 }
 
-        # Añadir el último evento
+        # Añadir el último evento de todos
         current_event['confianza_promedio'] = np.mean(current_event['confianzas'])
         del current_event['confianzas']
         events.append(current_event)
@@ -235,7 +245,10 @@ def main(args):
     clip_duration = MAS_MENOS_CLIPS * 2
     frames_per_clip = FRAMES_PER_CLIP
     stride = 2.0  # los clips duran 3.0 segundos; primera inferencia: [0-3], segunda inferencia: [2-5], tercera inferencia: [4-7], por tanto ningun limite de tiempo se escapa
-    confidence_threshold = 0.7  # TODO agregar diferentes umbrales por cada clase ...umbral de confianza para considerar una predicción válida
+    # confidence_threshold = 0.7  # TODO agregar diferentes umbrales por cada clase ...umbral de confianza para considerar una predicción válida
+    umbrales_por_clase = UMBRALES
+    umbral_defecto = 0.7
+    logger.info(f"Usando umbrales de confianza por clase: {umbrales_por_clase}")
     min_event_duration = 2.0  # duración mínima en segundos para que un evento sea considerado válido
     # min_event_duration = 2.5
     # min_event_duration = 3.0
@@ -261,9 +274,10 @@ def main(args):
 
     final_events = post_process_predictions(
         raw_predictions=raw_predictions,
-        confidence_threshold=confidence_threshold,
+        confidence_thresholds=umbrales_por_clase,
+        default_threshold=umbral_defecto,
         min_event_duration=min_event_duration,
-        stride=stride
+        stride=stride,
     )
 
     print("\n" + "=" * 50)
@@ -306,15 +320,16 @@ def parse_arguments():
     )
     parser.add_argument(
         "--checkpoint_path",
-        default="models/CNN3D/20250609-192131/model_CNN3D_best.pth",  # TODO
+        default="models/CNN3D/20250612-232916/model_CNN3D_best.pth",  # TODO
         # default="models/RESNET/20250607-032043/model_RESNET_best.pth",  # TODO
         type=str,
         help="Ruta al archivo de checkpoint (.pth) del modelo entrenado y elegido.",
     )
     parser.add_argument(
         "--video_path",
-        default="inference/england_epl/2016-2017/2017-05-06 - 17-00 Leicester 3 - 0 Watford/1_720p.mkv",  # TODO
-        # required=True,
+        default="inference/england_epl/2016-2017/2017-05-06 - 17-00 Leicester 3 - 0 Watford/1_720p_recortado.mkv",
+        # TODO
+        # default="inference/england_epl/2016-2017/2017-05-06 - 17-00 Leicester 3 - 0 Watford/2_720p_recortado.mkv",  # TODO
         type=str,
         help="Ruta al archivo de vídeo del partido completo.",
     )
