@@ -3,7 +3,10 @@ import sys
 import time
 from pathlib import Path
 
+import numpy as np
+import pandas as pd
 import torch
+from sklearn.metrics import classification_report, confusion_matrix
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 
 from src.utils import utils as ut
@@ -72,7 +75,7 @@ def train_model(
             correct_predictions += (predicted == labels).sum().item()
 
             # Imprimir estadísticas cada cierto número de batches
-            if (i + 1) % 25 == 0:
+            if (i + 1) % 5 == 0:
                 log_con = f"Epoch [{current_epoch_display}/{num_epochs}], Step [{i + 1}/{len(train_dataloader)}], Loss: {loss.item():.4f}"
                 print(log_con)
                 logger.info(log_con)
@@ -114,17 +117,19 @@ def train_model(
 
         logger.info(f"LR para la próxima época ({checkpoint_base_name}): {optimizer.param_groups[0]['lr']:.7f}")
 
-        # Checkpointing
+        # las métricas a guardar serán tipo Python: float()'
+        # ya que en PyTorch >= 2.6 por defecto torch.load() opera en un modo seguro (weights_only=True), donde solo acepta cargar tensores de PyTorch.
+        # Para evitar la ejecución de código malicioso que podría estar oculto en un archivo de checkpoint descargado de una fuente no fiable.
         checkpoint_data = {
             'epoch': current_epoch_display,
             'model_state_dict': model.state_dict(),
             'optimizer_state_dict': optimizer.state_dict(),
             'scheduler_state_dict': scheduler.state_dict() if scheduler else None,  # Guardar estado del scheduler
-            'train_loss': epoch_train_loss,
-            'train_acc': epoch_train_acc,
-            'val_loss': val_loss,
-            'val_acc': val_acc,
-            'best_val_metric_value': best_val_metric_value,  # Para reanudar el guardado del mejor
+            'train_loss': float(epoch_train_loss),
+            'train_acc': float(epoch_train_acc),
+            'val_loss': float(val_loss),
+            'val_acc': float(val_acc),
+            'best_val_metric_value': float(best_val_metric_value),  # Para reanudar el guardado del mejor
         }
 
         # Guardar el modelo más reciente
@@ -163,6 +168,7 @@ def evaluate_model(
         criterion: torch.nn.Module,
         device: torch.device,
         per_epoch_eval: bool = False,
+        class_names: list = None,
 ):
     if not per_epoch_eval:
         t_start = time.time()
@@ -170,8 +176,10 @@ def evaluate_model(
 
     model.eval()
     running_loss = 0.0
-    correct_predictions = 0
-    total_samples = 0
+
+    # Listas para guardar todas las etiquetas y predicciones
+    all_labels = []
+    all_preds = []
 
     with torch.no_grad():
         for i, batch_data in enumerate(dataloader):
@@ -186,17 +194,33 @@ def evaluate_model(
 
             outputs = model(inputs)
             loss = criterion(outputs, labels)
-
-            # Estadísticas
             running_loss += loss.item() * inputs.size(0)
-            _, predicted = torch.max(outputs.data, 1)
-            total_samples += labels.size(0)
-            correct_predictions += (predicted == labels).sum().item()
 
+            # Guardar predicciones y etiquetas del lote
+            _, predicted_indices = torch.max(outputs.data, 1)
+            all_preds.extend(predicted_indices.cpu().numpy())
+            all_labels.extend(labels.cpu().numpy())
+
+    total_samples = len(all_labels)
     avg_loss = running_loss / total_samples if total_samples > 0 else 0
-    accuracy = correct_predictions / total_samples if total_samples > 0 else 0
+    # 'accuracy' se calcula sobre el total de predicciones
+    accuracy = np.sum(np.array(all_preds) == np.array(all_labels)) / total_samples if total_samples > 0 else 0
 
-    if not per_epoch_eval:
+    # Solo se ejecuta si es la evaluación final y si se proporcionaron los nombres de las clases
+    if not per_epoch_eval and class_names is not None:
+        # Informe de Clasificación (Precisión, Recall, F1-Score)
+        # 'zero_division=0' evita warnings si una clase nunca fue predicha
+        report_str = classification_report(all_labels, all_preds, target_names=class_names, digits=4, zero_division=0)
+        print(report_str)
+        logger.info(f"Informe de clasificación (TEST)\n{report_str}")
+
+        # Matriz de Confusión
+        conf_matrix = confusion_matrix(all_labels, all_preds)
+        # pandas para una visualización más clara
+        conf_matrix_df = pd.DataFrame(conf_matrix, index=class_names, columns=class_names)
+        print(conf_matrix_df)
+        logger.info(f"Matriz de confusión (Filas: Real, Columnas: Predicho)\n{conf_matrix_df.to_string()}")
+
         ut.get_time_employed(t_start, "Evaluación final.")
         log_con = f"Evaluación final - Loss: {avg_loss:.4f}, Accuracy: {accuracy:.4f}"
         print(log_con)

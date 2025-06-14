@@ -170,7 +170,11 @@ def main(args):
 
     # Cargar Checkpoint si se especifica
     if actual_checkpoint_to_load and actual_checkpoint_to_load.exists():
-        checkpoint = torch.load(actual_checkpoint_to_load, map_location=device)
+        checkpoint = torch.load(
+            actual_checkpoint_to_load,
+            map_location=device,
+            #weights_only=False,
+        )
         model.load_state_dict(checkpoint['model_state_dict'])
         # Solo cargar optimizer y scheduler si los parámetros que optimizan coinciden
         # (ej. si se guardó optimizando solo fc, y ahora también solo fc)
@@ -222,7 +226,11 @@ def main(args):
 
     if best_model_path.exists():
         logger.info(f"Mejor modelo '{best_model_path}' para evaluación final, en 'TEST'.")
-        checkpoint = torch.load(best_model_path, map_location=device)
+        checkpoint = torch.load(
+            best_model_path,
+            map_location=device,
+            #weights_only=False,
+        )
         model.load_state_dict(checkpoint['model_state_dict'])
     else:
         logger.warning(

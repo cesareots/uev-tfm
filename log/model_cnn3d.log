@@ -226,3 +226,327 @@
 2025-06-14 00:03:57 - src.models.engine_training - INFO - Entrenamiento iniciado (model_CNN3D)... Número de épocas: 1 (desde 1 hasta 1)
 2025-06-14 00:03:57 - src.models.engine_training - INFO - Se guardarán los checkpoints en: 'models\CNN3D\20250614-000357'
 2025-06-14 00:10:03 - src.models.engine_training - INFO - Epoch [1/1], Step [10/122], Loss: 1.3263
+2025-06-14 00:20:56 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-14 00:20:56 - __main__ - INFO - Iniciando arquitectura de modelo CNN3D.
+2025-06-14 00:20:56 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-14 00:20:56 - __main__ - INFO - Frames por clip: 16, Duración clip: 3.0s
+2025-06-14 00:20:56 - __main__ - INFO - Modelo esperará frames de tamaño HxW: (128, 128)
+2025-06-14 00:20:56 - src.models.engine_training - INFO - Iniciando nuevo entrenamiento: 20250614-002056
+2025-06-14 00:20:56 - __main__ - INFO - Usando 1 canal (escala de grises).
+2025-06-14 00:20:56 - src.preprocess.dataset_soccernet - INFO - Tamaño de salida detectado de la transformación 'Resize': (128, 128)
+2025-06-14 00:20:56 - src.preprocess.dataset_soccernet - INFO - 1. Creando dataset base para obtener la lista de todos los vídeos.
+2025-06-14 00:20:56 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 11132 videos en dataset/soccernet_actions.
+2025-06-14 00:20:56 - src.preprocess.dataset_soccernet - INFO - 2. Extraer los paths (X) y las etiquetas (y) para la estratificación.
+2025-06-14 00:20:56 - src.preprocess.dataset_soccernet - INFO - 3. Primera división: separar el conjunto de Test
+2025-06-14 00:20:56 - src.preprocess.dataset_soccernet - INFO - 4. Segunda división: separar Train y Validation del conjunto temporal
+2025-06-14 00:20:56 - src.preprocess.dataset_soccernet - INFO - Creando DataLoaders con batch_size: 64
+2025-06-14 00:20:56 - src.preprocess.dataset_soccernet - INFO - 5. Datasets y DataLoaders creados. Train (7792 videos). Validation (1670 videos). Test (1670 videos).
+2025-06-14 00:20:57 - __main__ - INFO - Dimensiones de entrada al modelo (C, T, H, W): (1, 16, 128, 128)
+2025-06-14 00:20:57 - __main__ - INFO - Dimensiones tras self.features (antes de adaptive_pool): torch.Size([1, 64, 2, 16, 16])
+2025-06-14 00:20:57 - __main__ - INFO - Después de adaptive_pool, las dimensiones espaciales/temporales se reducen a (1,1,1).
+2025-06-14 00:20:57 - __main__ - INFO - Número de características para la capa lineal (FC): 64
+2025-06-14 00:20:57 - __main__ - INFO - Arquitectura del modelo:
+2025-06-14 00:20:57 - __main__ - INFO - SimpleCNN3D(
+  (features): Sequential(
+    (0): Conv3d(1, 32, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1))
+    (1): BatchNorm3d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): MaxPool3d(kernel_size=(2, 2, 2), stride=2, padding=0, dilation=1, ceil_mode=False)
+    (4): Conv3d(32, 128, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1))
+    (5): BatchNorm3d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (6): ReLU()
+    (7): MaxPool3d(kernel_size=(2, 2, 2), stride=2, padding=0, dilation=1, ceil_mode=False)
+    (8): Conv3d(128, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1))
+    (9): BatchNorm3d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (10): ReLU()
+    (11): MaxPool3d(kernel_size=(2, 2, 2), stride=2, padding=0, dilation=1, ceil_mode=False)
+  )
+  (adaptive_pool): AdaptiveAvgPool3d(output_size=(1, 1, 1))
+  (fc): Sequential(
+    (0): Linear(in_features=64, out_features=16, bias=True)
+    (1): ReLU()
+    (2): Dropout(p=0.3, inplace=False)
+    (3): Linear(in_features=16, out_features=4, bias=True)
+  )
+)
+2025-06-14 00:20:57 - __main__ - INFO - Scheduler ReduceLROnPlateau activado: paciencia=1, factor=0.5, monitoreando val_loss.
+2025-06-14 00:20:57 - __main__ - INFO - Iniciando nuevo entrenamiento desde época 1.
+2025-06-14 00:20:57 - src.models.engine_training - INFO - Entrenamiento iniciado (model_CNN3D)... Número de épocas: 4 (desde 1 hasta 4)
+2025-06-14 00:20:57 - src.models.engine_training - INFO - Se guardarán los checkpoints en: 'models\CNN3D\20250614-002056'
+2025-06-14 00:27:02 - src.models.engine_training - INFO - Epoch [1/4], Step [10/122], Loss: 1.3237
+2025-06-14 00:35:44 - src.models.engine_training - INFO - Epoch [1/4], Step [20/122], Loss: 1.1822
+2025-06-14 00:39:12 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-14 00:39:12 - __main__ - INFO - Iniciando arquitectura de modelo CNN3D.
+2025-06-14 00:39:12 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-14 00:39:12 - __main__ - INFO - Frames por clip: 16, Duración clip: 3.0s
+2025-06-14 00:39:12 - __main__ - INFO - Modelo esperará frames de tamaño HxW: (128, 128)
+2025-06-14 00:39:12 - src.models.engine_training - INFO - Iniciando nuevo entrenamiento: 20250614-003912
+2025-06-14 00:39:12 - __main__ - INFO - Usando 1 canal (escala de grises).
+2025-06-14 00:39:12 - src.preprocess.dataset_soccernet - INFO - Tamaño de salida detectado de la transformación 'Resize': (128, 128)
+2025-06-14 00:39:12 - src.preprocess.dataset_soccernet - INFO - 1. Creando dataset base para obtener la lista de todos los vídeos.
+2025-06-14 00:39:12 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 11132 videos en dataset/soccernet_actions.
+2025-06-14 00:39:12 - src.preprocess.dataset_soccernet - INFO - 2. Extraer los paths (X) y las etiquetas (y) para la estratificación.
+2025-06-14 00:39:12 - src.preprocess.dataset_soccernet - INFO - 3. Primera división: separar el conjunto de Test
+2025-06-14 00:39:12 - src.preprocess.dataset_soccernet - INFO - 4. Segunda división: separar Train y Validation del conjunto temporal
+2025-06-14 00:39:12 - src.preprocess.dataset_soccernet - INFO - Creando DataLoaders con batch_size: 64
+2025-06-14 00:39:12 - src.preprocess.dataset_soccernet - INFO - 5. Datasets y DataLoaders creados. Train (7792 videos). Validation (1670 videos). Test (1670 videos).
+2025-06-14 00:39:12 - __main__ - INFO - Dimensiones de entrada al modelo (C, T, H, W): (1, 16, 128, 128)
+2025-06-14 00:39:12 - __main__ - INFO - Dimensiones tras self.features (antes de adaptive_pool): torch.Size([1, 32, 2, 16, 16])
+2025-06-14 00:39:12 - __main__ - INFO - Después de adaptive_pool, las dimensiones espaciales/temporales se reducen a (1,1,1).
+2025-06-14 00:39:12 - __main__ - INFO - Número de características para la capa lineal (FC): 32
+2025-06-14 00:39:12 - __main__ - INFO - Arquitectura del modelo:
+2025-06-14 00:39:12 - __main__ - INFO - SimpleCNN3D(
+  (features): Sequential(
+    (0): Conv3d(1, 32, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1))
+    (1): BatchNorm3d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): MaxPool3d(kernel_size=(2, 2, 2), stride=2, padding=0, dilation=1, ceil_mode=False)
+    (4): Conv3d(32, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1))
+    (5): BatchNorm3d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (6): ReLU()
+    (7): MaxPool3d(kernel_size=(2, 2, 2), stride=2, padding=0, dilation=1, ceil_mode=False)
+    (8): Conv3d(64, 32, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1))
+    (9): BatchNorm3d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (10): ReLU()
+    (11): MaxPool3d(kernel_size=(2, 2, 2), stride=2, padding=0, dilation=1, ceil_mode=False)
+  )
+  (adaptive_pool): AdaptiveAvgPool3d(output_size=(1, 1, 1))
+  (fc): Sequential(
+    (0): Linear(in_features=32, out_features=16, bias=True)
+    (1): ReLU()
+    (2): Dropout(p=0.3, inplace=False)
+    (3): Linear(in_features=16, out_features=4, bias=True)
+  )
+)
+2025-06-14 00:39:12 - __main__ - INFO - Scheduler ReduceLROnPlateau activado: paciencia=1, factor=0.5, monitoreando val_loss.
+2025-06-14 00:39:12 - __main__ - INFO - Iniciando nuevo entrenamiento desde época 1.
+2025-06-14 00:39:12 - src.models.engine_training - INFO - Entrenamiento iniciado (model_CNN3D)... Número de épocas: 4 (desde 1 hasta 4)
+2025-06-14 00:39:12 - src.models.engine_training - INFO - Se guardarán los checkpoints en: 'models\CNN3D\20250614-003912'
+2025-06-14 00:48:23 - src.models.engine_training - INFO - Epoch [1/4], Step [10/122], Loss: 1.2252
+2025-06-14 00:58:08 - src.models.engine_training - INFO - Epoch [1/4], Step [20/122], Loss: 1.1231
+2025-06-14 00:58:51 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-14 00:58:51 - __main__ - INFO - Iniciando arquitectura de modelo CNN3D.
+2025-06-14 00:58:51 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-14 00:58:51 - __main__ - INFO - Frames por clip: 16, Duración clip: 3.0s
+2025-06-14 00:58:51 - __main__ - INFO - Modelo esperará frames de tamaño HxW: (128, 128)
+2025-06-14 00:58:51 - src.models.engine_training - INFO - Iniciando nuevo entrenamiento: 20250614-005851
+2025-06-14 00:58:51 - __main__ - INFO - Usando 1 canal (escala de grises).
+2025-06-14 00:58:51 - src.preprocess.dataset_soccernet - INFO - Tamaño de salida detectado de la transformación 'Resize': (128, 128)
+2025-06-14 00:58:51 - src.preprocess.dataset_soccernet - INFO - 1. Creando dataset base para obtener la lista de todos los vídeos.
+2025-06-14 00:58:51 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 11132 videos en dataset/soccernet_actions.
+2025-06-14 00:58:51 - src.preprocess.dataset_soccernet - INFO - 2. Extraer los paths (X) y las etiquetas (y) para la estratificación.
+2025-06-14 00:58:51 - src.preprocess.dataset_soccernet - INFO - 3. Primera división: separar el conjunto de Test
+2025-06-14 00:58:51 - src.preprocess.dataset_soccernet - INFO - 4. Segunda división: separar Train y Validation del conjunto temporal
+2025-06-14 00:58:51 - src.preprocess.dataset_soccernet - INFO - Creando DataLoaders con batch_size: 64
+2025-06-14 00:58:51 - src.preprocess.dataset_soccernet - INFO - 5. Datasets y DataLoaders creados. Train (7792 videos). Validation (1670 videos). Test (1670 videos).
+2025-06-14 00:58:51 - __main__ - INFO - Dimensiones de entrada al modelo (C, T, H, W): (1, 16, 128, 128)
+2025-06-14 00:58:51 - __main__ - INFO - Dimensiones tras self.features (antes de adaptive_pool): torch.Size([1, 64, 2, 16, 16])
+2025-06-14 00:58:51 - __main__ - INFO - Después de adaptive_pool, las dimensiones espaciales/temporales se reducen a (1,1,1).
+2025-06-14 00:58:51 - __main__ - INFO - Número de características para la capa lineal (FC): 64
+2025-06-14 00:58:51 - __main__ - INFO - Arquitectura del modelo:
+2025-06-14 00:58:51 - __main__ - INFO - SimpleCNN3D(
+  (features): Sequential(
+    (0): Conv3d(1, 32, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1))
+    (1): BatchNorm3d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): MaxPool3d(kernel_size=(2, 2, 2), stride=2, padding=0, dilation=1, ceil_mode=False)
+    (4): Conv3d(32, 128, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1))
+    (5): BatchNorm3d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (6): ReLU()
+    (7): MaxPool3d(kernel_size=(2, 2, 2), stride=2, padding=0, dilation=1, ceil_mode=False)
+    (8): Conv3d(128, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1))
+    (9): BatchNorm3d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (10): ReLU()
+    (11): MaxPool3d(kernel_size=(2, 2, 2), stride=2, padding=0, dilation=1, ceil_mode=False)
+  )
+  (adaptive_pool): AdaptiveAvgPool3d(output_size=(1, 1, 1))
+  (fc): Sequential(
+    (0): Linear(in_features=64, out_features=16, bias=True)
+    (1): ReLU()
+    (2): Dropout(p=0.3, inplace=False)
+    (3): Linear(in_features=16, out_features=4, bias=True)
+  )
+)
+2025-06-14 00:58:51 - __main__ - INFO - Scheduler ReduceLROnPlateau activado: paciencia=1, factor=0.5, monitoreando val_loss.
+2025-06-14 00:58:51 - __main__ - INFO - Iniciando nuevo entrenamiento desde época 1.
+2025-06-14 00:58:51 - src.models.engine_training - INFO - Entrenamiento iniciado (model_CNN3D)... Número de épocas: 4 (desde 1 hasta 4)
+2025-06-14 00:58:51 - src.models.engine_training - INFO - Se guardarán los checkpoints en: 'models\CNN3D\20250614-005851'
+2025-06-14 00:59:40 - src.models.engine_training - INFO - Epoch [1/4], Step [1/122], Loss: 1.4178
+2025-06-14 01:00:16 - src.models.engine_training - INFO - Epoch [1/4], Step [2/122], Loss: 1.3775
+2025-06-14 01:00:51 - src.models.engine_training - INFO - Epoch [1/4], Step [3/122], Loss: 1.3496
+2025-06-14 01:01:26 - src.models.engine_training - INFO - Epoch [1/4], Step [4/122], Loss: 1.3293
+2025-06-14 01:02:02 - src.models.engine_training - INFO - Epoch [1/4], Step [5/122], Loss: 1.2826
+2025-06-14 01:02:38 - src.models.engine_training - INFO - Epoch [1/4], Step [6/122], Loss: 1.3234
+2025-06-14 01:03:13 - src.models.engine_training - INFO - Epoch [1/4], Step [7/122], Loss: 1.3207
+2025-06-14 01:05:15 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-14 01:05:15 - __main__ - INFO - Iniciando arquitectura de modelo CNN3D.
+2025-06-14 01:05:15 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-14 01:05:15 - __main__ - INFO - Frames por clip: 16, Duración clip: 3.0s
+2025-06-14 01:05:15 - __main__ - INFO - Modelo esperará frames de tamaño HxW: (128, 128)
+2025-06-14 01:05:15 - src.models.engine_training - INFO - Iniciando nuevo entrenamiento: 20250614-010515
+2025-06-14 01:05:15 - __main__ - INFO - Usando 1 canal (escala de grises).
+2025-06-14 01:05:15 - src.preprocess.dataset_soccernet - INFO - Tamaño de salida detectado de la transformación 'Resize': (128, 128)
+2025-06-14 01:05:15 - src.preprocess.dataset_soccernet - INFO - 1. Creando dataset base para obtener la lista de todos los vídeos.
+2025-06-14 01:05:15 - src.preprocess.dataset_soccernet - INFO - DatasetSoccernet encontró 11132 videos en dataset/soccernet_actions.
+2025-06-14 01:05:15 - src.preprocess.dataset_soccernet - INFO - 2. Extraer los paths (X) y las etiquetas (y) para la estratificación.
+2025-06-14 01:05:15 - src.preprocess.dataset_soccernet - INFO - 3. Primera división: separar el conjunto de Test
+2025-06-14 01:05:15 - src.preprocess.dataset_soccernet - INFO - 4. Segunda división: separar Train y Validation del conjunto temporal
+2025-06-14 01:05:15 - src.preprocess.dataset_soccernet - INFO - Creando DataLoaders con batch_size: 64
+2025-06-14 01:05:15 - src.preprocess.dataset_soccernet - INFO - 5. Datasets y DataLoaders creados. Train (7792 videos). Validation (1670 videos). Test (1670 videos).
+2025-06-14 01:05:15 - __main__ - INFO - Dimensiones de entrada al modelo (C, T, H, W): (1, 16, 128, 128)
+2025-06-14 01:05:15 - __main__ - INFO - Dimensiones tras self.features (antes de adaptive_pool): torch.Size([1, 64, 2, 16, 16])
+2025-06-14 01:05:15 - __main__ - INFO - Después de adaptive_pool, las dimensiones espaciales/temporales se reducen a (1,1,1).
+2025-06-14 01:05:15 - __main__ - INFO - Número de características para la capa lineal (FC): 64
+2025-06-14 01:05:15 - __main__ - INFO - Arquitectura del modelo:
+2025-06-14 01:05:15 - __main__ - INFO - SimpleCNN3D(
+  (features): Sequential(
+    (0): Conv3d(1, 32, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1))
+    (1): BatchNorm3d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): Dropout3d(p=0.1, inplace=False)
+    (4): MaxPool3d(kernel_size=(2, 2, 2), stride=2, padding=0, dilation=1, ceil_mode=False)
+    (5): Conv3d(32, 128, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1))
+    (6): BatchNorm3d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (7): ReLU()
+    (8): Dropout3d(p=0.1, inplace=False)
+    (9): MaxPool3d(kernel_size=(2, 2, 2), stride=2, padding=0, dilation=1, ceil_mode=False)
+    (10): Conv3d(128, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1))
+    (11): BatchNorm3d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (12): ReLU()
+    (13): Dropout3d(p=0.1, inplace=False)
+    (14): MaxPool3d(kernel_size=(2, 2, 2), stride=2, padding=0, dilation=1, ceil_mode=False)
+  )
+  (adaptive_pool): AdaptiveAvgPool3d(output_size=(1, 1, 1))
+  (fc): Sequential(
+    (0): Linear(in_features=64, out_features=16, bias=True)
+    (1): ReLU()
+    (2): Dropout(p=0.3, inplace=False)
+    (3): Linear(in_features=16, out_features=4, bias=True)
+  )
+)
+2025-06-14 01:05:15 - __main__ - INFO - Scheduler ReduceLROnPlateau activado: paciencia=1, factor=0.5, monitoreando val_loss.
+2025-06-14 01:05:15 - __main__ - INFO - Iniciando nuevo entrenamiento desde época 1.
+2025-06-14 01:05:15 - src.models.engine_training - INFO - Entrenamiento iniciado (model_CNN3D)... Número de épocas: 4 (desde 1 hasta 4)
+2025-06-14 01:05:15 - src.models.engine_training - INFO - Se guardarán los checkpoints en: 'models\CNN3D\20250614-010515'
+2025-06-14 01:08:21 - src.models.engine_training - INFO - Epoch [1/4], Step [5/122], Loss: 1.3164
+2025-06-14 01:11:25 - src.models.engine_training - INFO - Epoch [1/4], Step [10/122], Loss: 1.3121
+2025-06-14 01:14:26 - src.models.engine_training - INFO - Epoch [1/4], Step [15/122], Loss: 1.2800
+2025-06-14 01:17:26 - src.models.engine_training - INFO - Epoch [1/4], Step [20/122], Loss: 1.2132
+2025-06-14 01:20:30 - src.models.engine_training - INFO - Epoch [1/4], Step [25/122], Loss: 1.2291
+2025-06-14 01:23:29 - src.models.engine_training - INFO - Epoch [1/4], Step [30/122], Loss: 1.1055
+2025-06-14 01:26:26 - src.models.engine_training - INFO - Epoch [1/4], Step [35/122], Loss: 1.1788
+2025-06-14 01:29:30 - src.models.engine_training - INFO - Epoch [1/4], Step [40/122], Loss: 1.1221
+2025-06-14 01:32:31 - src.models.engine_training - INFO - Epoch [1/4], Step [45/122], Loss: 0.9610
+2025-06-14 01:35:29 - src.models.engine_training - INFO - Epoch [1/4], Step [50/122], Loss: 1.1797
+2025-06-14 01:38:27 - src.models.engine_training - INFO - Epoch [1/4], Step [55/122], Loss: 1.0476
+2025-06-14 01:41:27 - src.models.engine_training - INFO - Epoch [1/4], Step [60/122], Loss: 0.8966
+2025-06-14 01:44:26 - src.models.engine_training - INFO - Epoch [1/4], Step [65/122], Loss: 1.1953
+2025-06-14 01:47:25 - src.models.engine_training - INFO - Epoch [1/4], Step [70/122], Loss: 0.8623
+2025-06-14 01:50:24 - src.models.engine_training - INFO - Epoch [1/4], Step [75/122], Loss: 0.8346
+2025-06-14 01:53:25 - src.models.engine_training - INFO - Epoch [1/4], Step [80/122], Loss: 0.9158
+2025-06-14 01:56:25 - src.models.engine_training - INFO - Epoch [1/4], Step [85/122], Loss: 0.8164
+2025-06-14 01:59:23 - src.models.engine_training - INFO - Epoch [1/4], Step [90/122], Loss: 0.9547
+2025-06-14 02:02:20 - src.models.engine_training - INFO - Epoch [1/4], Step [95/122], Loss: 1.0493
+2025-06-14 02:05:17 - src.models.engine_training - INFO - Epoch [1/4], Step [100/122], Loss: 0.9154
+2025-06-14 02:08:13 - src.models.engine_training - INFO - Epoch [1/4], Step [105/122], Loss: 1.0836
+2025-06-14 02:11:13 - src.models.engine_training - INFO - Epoch [1/4], Step [110/122], Loss: 0.8270
+2025-06-14 02:14:10 - src.models.engine_training - INFO - Epoch [1/4], Step [115/122], Loss: 0.9206
+2025-06-14 02:17:08 - src.models.engine_training - INFO - Epoch [1/4], Step [120/122], Loss: 0.8986
+2025-06-14 02:18:09 - src.models.engine_training - INFO - Epoch [1/4] (model_CNN3D - Entrenamiento de época actual), Loss: 1.0698, Accuracy: 0.5298, Duración 72.91 minutos
+2025-06-14 02:29:40 - src.models.engine_training - INFO - Epoch [1/4] (model_CNN3D - Validación de época actual), Loss: 0.9131, Accuracy: 0.6778, Duración 11.51 minutos
+2025-06-14 02:29:40 - src.models.engine_training - INFO - LR para la próxima época (model_CNN3D): 0.0010000
+2025-06-14 02:29:40 - src.models.engine_training - INFO - Checkpoint guardado: 'models\CNN3D\20250614-010515\model_CNN3D_epoch_1.pth'
+2025-06-14 02:29:40 - src.models.engine_training - INFO - Nuevo mejor checkpoint guardado (Val loss: 0.9131): 'models\CNN3D\20250614-010515\model_CNN3D_best.pth'
+2025-06-14 02:32:36 - src.models.engine_training - INFO - Epoch [2/4], Step [5/122], Loss: 0.8188
+2025-06-14 02:35:31 - src.models.engine_training - INFO - Epoch [2/4], Step [10/122], Loss: 1.0004
+2025-06-14 02:38:27 - src.models.engine_training - INFO - Epoch [2/4], Step [15/122], Loss: 0.9631
+2025-06-14 02:41:21 - src.models.engine_training - INFO - Epoch [2/4], Step [20/122], Loss: 1.0173
+2025-06-14 02:44:16 - src.models.engine_training - INFO - Epoch [2/4], Step [25/122], Loss: 0.7907
+2025-06-14 02:47:11 - src.models.engine_training - INFO - Epoch [2/4], Step [30/122], Loss: 0.9168
+2025-06-14 02:50:07 - src.models.engine_training - INFO - Epoch [2/4], Step [35/122], Loss: 0.8792
+2025-06-14 02:53:02 - src.models.engine_training - INFO - Epoch [2/4], Step [40/122], Loss: 0.9169
+2025-06-14 02:55:57 - src.models.engine_training - INFO - Epoch [2/4], Step [45/122], Loss: 0.8526
+2025-06-14 02:58:52 - src.models.engine_training - INFO - Epoch [2/4], Step [50/122], Loss: 0.8397
+2025-06-14 03:01:47 - src.models.engine_training - INFO - Epoch [2/4], Step [55/122], Loss: 0.8395
+2025-06-14 03:04:43 - src.models.engine_training - INFO - Epoch [2/4], Step [60/122], Loss: 1.1325
+2025-06-14 03:07:38 - src.models.engine_training - INFO - Epoch [2/4], Step [65/122], Loss: 1.0199
+2025-06-14 03:10:36 - src.models.engine_training - INFO - Epoch [2/4], Step [70/122], Loss: 0.8735
+2025-06-14 03:13:33 - src.models.engine_training - INFO - Epoch [2/4], Step [75/122], Loss: 1.1763
+2025-06-14 03:16:28 - src.models.engine_training - INFO - Epoch [2/4], Step [80/122], Loss: 0.8666
+2025-06-14 03:19:24 - src.models.engine_training - INFO - Epoch [2/4], Step [85/122], Loss: 0.7501
+2025-06-14 03:22:20 - src.models.engine_training - INFO - Epoch [2/4], Step [90/122], Loss: 0.9110
+2025-06-14 03:25:17 - src.models.engine_training - INFO - Epoch [2/4], Step [95/122], Loss: 0.7972
+2025-06-14 03:28:15 - src.models.engine_training - INFO - Epoch [2/4], Step [100/122], Loss: 0.7889
+2025-06-14 03:31:12 - src.models.engine_training - INFO - Epoch [2/4], Step [105/122], Loss: 0.7349
+2025-06-14 03:34:07 - src.models.engine_training - INFO - Epoch [2/4], Step [110/122], Loss: 0.6050
+2025-06-14 03:37:03 - src.models.engine_training - INFO - Epoch [2/4], Step [115/122], Loss: 0.7645
+2025-06-14 03:39:59 - src.models.engine_training - INFO - Epoch [2/4], Step [120/122], Loss: 0.7987
+2025-06-14 03:41:01 - src.models.engine_training - INFO - Epoch [2/4] (model_CNN3D - Entrenamiento de época actual), Loss: 0.8538, Accuracy: 0.6745, Duración 71.34 minutos
+2025-06-14 03:52:26 - src.models.engine_training - INFO - Epoch [2/4] (model_CNN3D - Validación de época actual), Loss: 0.7246, Accuracy: 0.7251, Duración 11.43 minutos
+2025-06-14 03:52:26 - src.models.engine_training - INFO - LR para la próxima época (model_CNN3D): 0.0010000
+2025-06-14 03:52:26 - src.models.engine_training - INFO - Checkpoint guardado: 'models\CNN3D\20250614-010515\model_CNN3D_epoch_2.pth'
+2025-06-14 03:52:26 - src.models.engine_training - INFO - Nuevo mejor checkpoint guardado (Val loss: 0.7246): 'models\CNN3D\20250614-010515\model_CNN3D_best.pth'
+2025-06-14 03:55:21 - src.models.engine_training - INFO - Epoch [3/4], Step [5/122], Loss: 1.0005
+2025-06-14 03:58:17 - src.models.engine_training - INFO - Epoch [3/4], Step [10/122], Loss: 0.8403
+2025-06-14 04:01:10 - src.models.engine_training - INFO - Epoch [3/4], Step [15/122], Loss: 0.6311
+2025-06-14 04:04:06 - src.models.engine_training - INFO - Epoch [3/4], Step [20/122], Loss: 1.0050
+2025-06-14 04:07:00 - src.models.engine_training - INFO - Epoch [3/4], Step [25/122], Loss: 0.9862
+2025-06-14 04:09:54 - src.models.engine_training - INFO - Epoch [3/4], Step [30/122], Loss: 0.7420
+2025-06-14 04:12:49 - src.models.engine_training - INFO - Epoch [3/4], Step [35/122], Loss: 0.9101
+2025-06-14 04:15:46 - src.models.engine_training - INFO - Epoch [3/4], Step [40/122], Loss: 0.6978
+2025-06-14 04:18:40 - src.models.engine_training - INFO - Epoch [3/4], Step [45/122], Loss: 0.7906
+2025-06-14 04:21:36 - src.models.engine_training - INFO - Epoch [3/4], Step [50/122], Loss: 0.8255
+2025-06-14 04:24:32 - src.models.engine_training - INFO - Epoch [3/4], Step [55/122], Loss: 0.9635
+2025-06-14 04:27:27 - src.models.engine_training - INFO - Epoch [3/4], Step [60/122], Loss: 0.7369
+2025-06-14 04:30:22 - src.models.engine_training - INFO - Epoch [3/4], Step [65/122], Loss: 0.8965
+2025-06-14 04:33:19 - src.models.engine_training - INFO - Epoch [3/4], Step [70/122], Loss: 0.8014
+2025-06-14 04:36:15 - src.models.engine_training - INFO - Epoch [3/4], Step [75/122], Loss: 0.7596
+2025-06-14 04:39:10 - src.models.engine_training - INFO - Epoch [3/4], Step [80/122], Loss: 0.8041
+2025-06-14 04:42:07 - src.models.engine_training - INFO - Epoch [3/4], Step [85/122], Loss: 0.7690
+2025-06-14 04:45:02 - src.models.engine_training - INFO - Epoch [3/4], Step [90/122], Loss: 0.6982
+2025-06-14 04:47:59 - src.models.engine_training - INFO - Epoch [3/4], Step [95/122], Loss: 0.7142
+2025-06-14 04:50:57 - src.models.engine_training - INFO - Epoch [3/4], Step [100/122], Loss: 0.6804
+2025-06-14 04:53:51 - src.models.engine_training - INFO - Epoch [3/4], Step [105/122], Loss: 0.7425
+2025-06-14 04:56:46 - src.models.engine_training - INFO - Epoch [3/4], Step [110/122], Loss: 0.7208
+2025-06-14 04:59:44 - src.models.engine_training - INFO - Epoch [3/4], Step [115/122], Loss: 0.5934
+2025-06-14 05:02:41 - src.models.engine_training - INFO - Epoch [3/4], Step [120/122], Loss: 0.7309
+2025-06-14 05:03:42 - src.models.engine_training - INFO - Epoch [3/4] (model_CNN3D - Entrenamiento de época actual), Loss: 0.7631, Accuracy: 0.7168, Duración 71.26 minutos
+2025-06-14 05:15:06 - src.models.engine_training - INFO - Epoch [3/4] (model_CNN3D - Validación de época actual), Loss: 0.7485, Accuracy: 0.7198, Duración 11.41 minutos
+2025-06-14 05:15:06 - src.models.engine_training - INFO - LR para la próxima época (model_CNN3D): 0.0010000
+2025-06-14 05:15:06 - src.models.engine_training - INFO - Checkpoint guardado: 'models\CNN3D\20250614-010515\model_CNN3D_epoch_3.pth'
+2025-06-14 05:18:00 - src.models.engine_training - INFO - Epoch [4/4], Step [5/122], Loss: 0.7252
+2025-06-14 05:20:54 - src.models.engine_training - INFO - Epoch [4/4], Step [10/122], Loss: 0.8832
+2025-06-14 05:23:50 - src.models.engine_training - INFO - Epoch [4/4], Step [15/122], Loss: 0.6283
+2025-06-14 05:26:46 - src.models.engine_training - INFO - Epoch [4/4], Step [20/122], Loss: 0.7306
+2025-06-14 05:29:41 - src.models.engine_training - INFO - Epoch [4/4], Step [25/122], Loss: 0.7056
+2025-06-14 05:32:36 - src.models.engine_training - INFO - Epoch [4/4], Step [30/122], Loss: 0.6697
+2025-06-14 05:35:31 - src.models.engine_training - INFO - Epoch [4/4], Step [35/122], Loss: 0.8365
+2025-06-14 05:38:27 - src.models.engine_training - INFO - Epoch [4/4], Step [40/122], Loss: 0.7401
+2025-06-14 05:41:24 - src.models.engine_training - INFO - Epoch [4/4], Step [45/122], Loss: 0.6428
+2025-06-14 05:44:19 - src.models.engine_training - INFO - Epoch [4/4], Step [50/122], Loss: 0.6147
+2025-06-14 05:47:16 - src.models.engine_training - INFO - Epoch [4/4], Step [55/122], Loss: 0.7068
+2025-06-14 05:50:10 - src.models.engine_training - INFO - Epoch [4/4], Step [60/122], Loss: 0.7855
+2025-06-14 05:53:06 - src.models.engine_training - INFO - Epoch [4/4], Step [65/122], Loss: 0.6209
+2025-06-14 05:56:02 - src.models.engine_training - INFO - Epoch [4/4], Step [70/122], Loss: 0.5293
+2025-06-14 05:58:58 - src.models.engine_training - INFO - Epoch [4/4], Step [75/122], Loss: 0.8520
+2025-06-14 06:01:56 - src.models.engine_training - INFO - Epoch [4/4], Step [80/122], Loss: 0.6902
+2025-06-14 06:04:53 - src.models.engine_training - INFO - Epoch [4/4], Step [85/122], Loss: 0.6309
+2025-06-14 06:07:52 - src.models.engine_training - INFO - Epoch [4/4], Step [90/122], Loss: 0.6919
+2025-06-14 06:10:48 - src.models.engine_training - INFO - Epoch [4/4], Step [95/122], Loss: 0.6317
+2025-06-14 06:13:45 - src.models.engine_training - INFO - Epoch [4/4], Step [100/122], Loss: 0.8480
+2025-06-14 06:16:46 - src.models.engine_training - INFO - Epoch [4/4], Step [105/122], Loss: 0.6929
+2025-06-14 06:19:46 - src.models.engine_training - INFO - Epoch [4/4], Step [110/122], Loss: 0.6004
+2025-06-14 06:22:47 - src.models.engine_training - INFO - Epoch [4/4], Step [115/122], Loss: 0.7559
+2025-06-14 06:25:46 - src.models.engine_training - INFO - Epoch [4/4], Step [120/122], Loss: 0.6081
+2025-06-14 06:26:48 - src.models.engine_training - INFO - Epoch [4/4] (model_CNN3D - Entrenamiento de época actual), Loss: 0.7061, Accuracy: 0.7379, Duración 71.69 minutos
+2025-06-14 06:38:48 - src.models.engine_training - INFO - Epoch [4/4] (model_CNN3D - Validación de época actual), Loss: 0.6872, Accuracy: 0.7455, Duración 12.00 minutos
+2025-06-14 06:38:48 - src.models.engine_training - INFO - LR para la próxima época (model_CNN3D): 0.0010000
+2025-06-14 06:38:48 - src.models.engine_training - INFO - Checkpoint guardado: 'models\CNN3D\20250614-010515\model_CNN3D_epoch_4.pth'
+2025-06-14 06:38:48 - src.models.engine_training - INFO - Nuevo mejor checkpoint guardado (Val loss: 0.6872): 'models\CNN3D\20250614-010515\model_CNN3D_best.pth'
+2025-06-14 06:38:48 - src.utils.utils - INFO - Tiempo total: 333.56 minutos. Tarea: Entrenamiento finalizado (model_CNN3D).
+2025-06-14 06:38:48 - __main__ - INFO - Mejor modelo 'models\CNN3D\20250614-010515\model_CNN3D_best.pth' para evaluación final, en 'TEST'.
+2025-06-14 06:38:48 - __main__ - INFO - Iniciando evaluación final, en 'TEST' (datos no vistos)
+2025-06-14 06:38:48 - src.models.engine_training - INFO - Evaluación final iniciada...
+2025-06-14 06:50:27 - src.utils.utils - INFO - Tiempo total: 11.64 minutos. Tarea: Evaluación final.
+2025-06-14 06:50:27 - src.models.engine_training - INFO - Evaluación final - Loss: 0.6995, Accuracy: 0.7401
+2025-06-14 06:50:27 - __main__ - INFO - Proceso total finalizado... Checkpoints se encuentran en 'models\CNN3D\20250614-010515'

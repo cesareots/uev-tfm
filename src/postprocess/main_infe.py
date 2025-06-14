@@ -48,7 +48,11 @@ def load_model_and_transforms(
     """
     try:
         logger.info(f"Cargando checkpoint desde '{checkpoint_path}'")
-        checkpoint = torch.load(checkpoint_path, map_location=device)
+        checkpoint = torch.load(
+            checkpoint_path,
+            map_location=device,
+            #weights_only=False,
+        )
         transforms = None
 
         if model_type == "CNN3D":

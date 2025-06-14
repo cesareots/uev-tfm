@@ -77,19 +77,19 @@ class SimpleCNN3D(nn.Module):
             nn.Conv3d(input_channels, 32, kernel_size=(3, 3, 3), padding=1),
             nn.BatchNorm3d(32),
             nn.ReLU(),
-            # nn.Dropout3d(p=0.1),
+            nn.Dropout3d(p=0.1),
             nn.MaxPool3d(kernel_size=(2, 2, 2), stride=2),
 
             nn.Conv3d(32, 128, kernel_size=(3, 3, 3), padding=1),
             nn.BatchNorm3d(128),
             nn.ReLU(),
-            # nn.Dropout3d(p=0.2),
+            nn.Dropout3d(p=0.1),
             nn.MaxPool3d(kernel_size=(2, 2, 2), stride=2),
 
             nn.Conv3d(128, 64, kernel_size=(3, 3, 3), padding=1),
             nn.BatchNorm3d(64),
             nn.ReLU(),
-            # nn.Dropout3d(p=0.3),
+            nn.Dropout3d(p=0.1),
             nn.MaxPool3d(kernel_size=(2, 2, 2), stride=2),
         )
 
@@ -216,7 +216,11 @@ def main(args):
     # Cargar Checkpoint si actual_checkpoint_to_load está definido y existe
     if actual_checkpoint_to_load and actual_checkpoint_to_load.exists():
         # logger.info(f"Cargando checkpoint desde: '{actual_checkpoint_to_load}'")
-        checkpoint = torch.load(actual_checkpoint_to_load, map_location=device)
+        checkpoint = torch.load(
+            actual_checkpoint_to_load,
+            map_location=device,
+            # weights_only=False,
+        )
         model.load_state_dict(checkpoint['model_state_dict'])
         optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
 
@@ -253,7 +257,11 @@ def main(args):
 
     if best_model_path.exists():
         logger.info(f"Mejor modelo '{best_model_path}' para evaluación final, en 'TEST'.")
-        checkpoint = torch.load(best_model_path, map_location=device)
+        checkpoint = torch.load(
+            best_model_path,
+            map_location=device,
+            # weights_only=False,
+        )
         model.load_state_dict(checkpoint['model_state_dict'])
     else:
         logger.warning(
@@ -266,6 +274,7 @@ def main(args):
         criterion=criterion,
         device=device,
         per_epoch_eval=False,
+        class_names=SOCCERNET_LABELS.keys(),
     )
 
     logger.info(f"Proceso total finalizado... Checkpoints se encuentran en '{checkpoint_dir_run}'")
