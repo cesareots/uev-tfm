@@ -18,6 +18,7 @@ from src.utils.constants import *
 
 logger = logging.getLogger(__name__)
 
+# según VRAM (en cuda)
 # BATCH_SIZE = 16
 # BATCH_SIZE = 32
 BATCH_SIZE = 64
@@ -161,12 +162,6 @@ def main(args):
     logger.info(f"Frames por clip: {FRAMES_PER_CLIP}, Duración clip: {CLIP_DURATION_SEC}s")
     logger.info(f"Modelo esperará frames de tamaño HxW: {TARGET_SIZE_DATASET}")
 
-    start_epoch = 0
-    initial_best_val_metric = None
-
-    # actual_checkpoint_to_load: ruta definitiva del checkpoint
-    actual_checkpoint_to_load, checkpoint_dir_run = extras(M_BASIC, args.resume_checkpoint_file)
-
     # train_transforms, val_transforms, input_channels = get_transforms_cnn3d_rgb(TARGET_SIZE_DATASET)
     # logger.info("Usando 3 canales (RGB).")
     train_transforms, val_transforms, input_channels = get_transforms_cnn3d_grayscale(TARGET_SIZE_DATASET)
@@ -200,9 +195,11 @@ def main(args):
     ).to(device)
     logger.info("Arquitectura del modelo:")
     logger.info(model)
+    params_to_optimize = model.parameters()
 
+    # Optimizador y Scheduler
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(model.parameters(), lr=INITIAL_LEARNING_RATE)
+    optimizer = optim.Adam(params_to_optimize, lr=INITIAL_LEARNING_RATE)
     scheduler = ReduceLROnPlateau(
         optimizer=optimizer,
         mode='min',
@@ -213,7 +210,24 @@ def main(args):
     logger.info(
         f"Scheduler ReduceLROnPlateau activado: paciencia={LR_SCHEDULER_PATIENCE}, factor={LR_SCHEDULER_FACTOR}, monitoreando val_loss.")
 
-    # Cargar Checkpoint si actual_checkpoint_to_load está definido y existe
+    # Cargar Checkpoint
+    actual_checkpoint_to_load, checkpoint_dir_run = extras(
+        M_BASIC,
+        args.resume_checkpoint_file,
+    )
+    """criterion, optimizer, scheduler, initial_best_val_metric, start_epoch = cargar_optimizador_checkpoint(
+        actual_checkpoint_to_load=actual_checkpoint_to_load,
+        device=device,
+        model=model,
+        params_to_optimize=params_to_optimize,
+        initial_lr=INITIAL_LEARNING_RATE,
+        lr_scheduler_factor=LR_SCHEDULER_FACTOR,
+        lr_scheduler_patience=LR_SCHEDULER_PATIENCE,
+    )"""
+    
+    start_epoch = 0
+    initial_best_val_metric = None
+
     if actual_checkpoint_to_load and actual_checkpoint_to_load.exists():
         # logger.info(f"Cargando checkpoint desde: '{actual_checkpoint_to_load}'")
         checkpoint = torch.load(
@@ -222,10 +236,24 @@ def main(args):
             # weights_only=False,
         )
         model.load_state_dict(checkpoint['model_state_dict'])
-        optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
 
-        if checkpoint.get('scheduler_state_dict'):
-            scheduler.load_state_dict(checkpoint['scheduler_state_dict'])
+        try:
+            optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+            if checkpoint.get('scheduler_state_dict'):
+                scheduler.load_state_dict(checkpoint['scheduler_state_dict'])
+            logger.info("Estado del optimizador y scheduler cargados.")
+        except ValueError as e:
+            logger.warning(
+                f"No se pudo cargar el estado del optimizador/scheduler, posiblemente por cambio en parámetros a optimizar: {e}. "
+                "Se reiniciará el optimizador/scheduler.")
+            # Re-inicializar el optimizador para los parámetros correctos si falla la carga
+            optimizer = optim.Adam(params_to_optimize, lr=INITIAL_LEARNING_RATE)
+            scheduler = ReduceLROnPlateau(
+                optimizer=optimizer,
+                mode='min',
+                factor=LR_SCHEDULER_FACTOR,
+                patience=LR_SCHEDULER_PATIENCE,
+            )
 
         start_epoch = checkpoint['epoch']
         initial_best_val_metric = checkpoint.get('best_val_metric_value')

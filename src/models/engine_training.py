@@ -6,6 +6,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 import torch
+import torch.nn as nn
+import torch.optim as optim
 from sklearn.metrics import classification_report, confusion_matrix
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 
@@ -264,3 +266,64 @@ def extras(
     checkpoint_dir_run.mkdir(parents=True, exist_ok=True)
 
     return actual_checkpoint_to_load, checkpoint_dir_run
+
+
+def cargar_optimizador_checkpoint(
+        actual_checkpoint_to_load,
+        device: torch.device,
+        model: torch.nn.Module,
+        params_to_optimize,
+        initial_lr,
+        lr_scheduler_factor,
+        lr_scheduler_patience,
+):
+    criterion = nn.CrossEntropyLoss()
+    optimizer = optim.Adam(params_to_optimize, lr=initial_lr)
+    scheduler = ReduceLROnPlateau(
+        optimizer=optimizer,
+        mode='min',
+        factor=lr_scheduler_factor,
+        patience=lr_scheduler_patience,
+    )
+    logger.info(
+        f"Scheduler ReduceLROnPlateau activado: paciencia={lr_scheduler_patience}, factor={lr_scheduler_factor}, monitoreando val_loss.")
+    # logger.info(f"Optimizando parámetros de: {'model.fc' if model.fc.weight.requires_grad else 'todo el modelo'}")
+
+    start_epoch = 0
+    initial_best_val_metric = None
+
+    if actual_checkpoint_to_load and actual_checkpoint_to_load.exists():
+        checkpoint = torch.load(
+            actual_checkpoint_to_load,
+            map_location=device,
+            # weights_only=False,
+        )
+        model.load_state_dict(checkpoint['model_state_dict'])
+        # Solo cargar optimizer y scheduler si los parámetros que optimizan coinciden
+        # (ej. si se guardó optimizando solo fc, y ahora también solo fc)
+        try:
+            optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+            if checkpoint.get('scheduler_state_dict'):
+                scheduler.load_state_dict(checkpoint['scheduler_state_dict'])
+            logger.info("Estado del optimizador y scheduler cargados.")
+        except ValueError as e:
+            logger.warning(
+                f"No se pudo cargar el estado del optimizador/scheduler, posiblemente por cambio en parámetros a optimizar: {e}. "
+                "Se reiniciará el optimizador/scheduler.")
+            # Re-inicializar el optimizador para los parámetros correctos si falla la carga
+            optimizer = optim.Adam(params_to_optimize, lr=initial_lr)
+            scheduler = ReduceLROnPlateau(
+                optimizer=optimizer,
+                mode='min',
+                factor=lr_scheduler_factor,
+                patience=lr_scheduler_patience,
+            )
+
+        start_epoch = checkpoint['epoch']
+        initial_best_val_metric = checkpoint.get('best_val_metric_value')
+        logger.info(
+            f"Reanudando entrenamiento desde época {start_epoch + 1}. LR: {optimizer.param_groups[0]['lr']:.7f}")
+    else:
+        logger.info(f"Iniciando nuevo entrenamiento desde época {start_epoch + 1}.")
+
+    return criterion, optimizer, scheduler, initial_best_val_metric, start_epoch

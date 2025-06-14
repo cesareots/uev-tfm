@@ -266,7 +266,6 @@ def main(args):
     clip_duration = MAS_MENOS_CLIPS * 2
     frames_per_clip = FRAMES_PER_CLIP
     stride = 2.0  # los clips duran 3.0 segundos; primera inferencia: [0-3], segunda inferencia: [2-5], tercera inferencia: [4-7], por tanto ningun limite de tiempo se escapa
-    # confidence_threshold = 0.7  # TODO agregar diferentes umbrales por cada clase ...umbral de confianza para considerar una predicción válida
     umbrales_por_clase = UMBRALES
     umbral_defecto = 0.7
     logger.info(f"Usando umbrales de confianza por clase: {umbrales_por_clase}")

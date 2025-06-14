@@ -19,21 +19,24 @@ from src.utils.constants import *
 
 logger = logging.getLogger(__name__)
 
-# Hiperparámetros y configuración para Transfer Learning
-BATCH_SIZE = 16  # según VRAM (en cuda)
-# BATCH_SIZE = 32
-INITIAL_LEARNING_RATE = 0.001  # Tasa de aprendizaje para la nueva capa clasificadora
+# según VRAM (en cuda)
+#BATCH_SIZE = 16
+#BATCH_SIZE = 32
+BATCH_SIZE = 64
+
+# Configurar Optimizador con Tasa de Aprendizaje Diferencial
+INITIAL_LEARNING_RATE = 0.001  # Tasa de aprendizaje 'media' para la capa clasificadora
+LEARNING_RATE_BACKBONE_FINETUNE = 0.00001  # Tasa de aprendizaje 'muy baja' para las capas de ResNet
 
 # Para R(2+1)D_18 pre-entrenado en Kinetics, usualmente se usan 16 frames.
-# Tu DatasetSoccernet se adaptará para muestrear esta cantidad.
 TRANSFER_MODEL_FRAMES_PER_CLIP = 16
 
 # Este TARGET_FPS ahora es un valor conceptual para el muestreo manual, no un parámetro directo de decodificación en torchvision.io.read_video
 # servirá para 'torchcodec'
 TARGET_FPS = float(TRANSFER_MODEL_FRAMES_PER_CLIP / CLIP_DURATION_SEC)
 
-# Las transformaciones de los pesos pre-entrenados definirán el tamaño espacial (ej. 112x112)
-# No necesitamos TARGET_SIZE_DATASET, ya que las transformaciones lo dictarán.
+# Las transformaciones de los pesos pre-entrenados definirán el tamaño espacial (112, 112)
+# No necesitamos TARGET_SIZE_DATASET
 
 # Checkpointing
 EPOCAS_CHECKPOINT_SAVE_INTERVAL = 1  # para tener todas las metricas y poder graficarlas a gusto
@@ -95,17 +98,13 @@ def model_r2plus1d_fine_tuning_granular(
             else:
                 param.requires_grad = False
 
-        # Configurar Optimizador con Tasa de Aprendizaje Diferencial
-        learning_rate_backbone_finetune = 0.00001  # Tasa de aprendizaje 'muy baja' para las capas de ResNet
-        learning_rate_head_finetune = INITIAL_LEARNING_RATE  # Tasa de aprendizaje 'media' para la capa clasificadora
-
         params_to_optimize = [
-            {"params": model.layer4[1].parameters(), "lr": learning_rate_backbone_finetune},
-            {"params": model.fc.parameters(), "lr": learning_rate_head_finetune},
+            {"params": model.layer4[1].parameters(), "lr": LEARNING_RATE_BACKBONE_FINETUNE},
+            {"params": model.fc.parameters(), "lr": INITIAL_LEARNING_RATE},
         ]
 
         logger.info(
-            f"Optimizador configurado con LR diferencial: último bloque de layer4={learning_rate_backbone_finetune}, fc={learning_rate_head_finetune}")
+            f"Optimizador configurado con LR diferencial: último bloque de layer4={LEARNING_RATE_BACKBONE_FINETUNE}, fc={INITIAL_LEARNING_RATE}")
     else:
         params_to_optimize = model.fc.parameters()
 
@@ -117,18 +116,14 @@ def main(args):
     logger.info(f"Usando dispositivo: {device}")
     logger.info(f"Frames por clip: {TRANSFER_MODEL_FRAMES_PER_CLIP}, Duración clip: {CLIP_DURATION_SEC}s")
 
-    start_epoch = 0
-    initial_best_val_metric = None
-
-    # actual_checkpoint_to_load: ruta definitiva del checkpoint
-    actual_checkpoint_to_load, checkpoint_dir_run = extras(M_RESNET, args.resume_checkpoint_file)
-
     #
     model, weights, params_to_optimize = model_r2plus1d_fine_tuning_granular(
         num_classes_output=NUM_CLASSES,
         granular=True,  # TODO sera granular o solo la capa clasificadora?
     )
     model = model.to(device)
+    logger.info("Arquitectura del modelo:")
+    logger.info(model)
 
     logger.info("Transformaciones deterministas que acepta el modelo:")
     logger.info(weights.transforms())
@@ -161,19 +156,38 @@ def main(args):
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(params_to_optimize, lr=INITIAL_LEARNING_RATE)
     scheduler = ReduceLROnPlateau(
-        optimizer,
+        optimizer=optimizer,
         mode='min',
         factor=LR_SCHEDULER_FACTOR,
         patience=LR_SCHEDULER_PATIENCE,
     )
+    logger.info(
+        f"Scheduler ReduceLROnPlateau activado: paciencia={LR_SCHEDULER_PATIENCE}, factor={LR_SCHEDULER_FACTOR}, monitoreando val_loss.")
     logger.info(f"Optimizando parámetros de: {'model.fc' if model.fc.weight.requires_grad else 'todo el modelo'}")
 
-    # Cargar Checkpoint si se especifica
+    # Cargar Checkpoint
+    actual_checkpoint_to_load, checkpoint_dir_run = extras(
+        M_RESNET,
+        args.resume_checkpoint_file,
+    )
+    """criterion, optimizer, scheduler, initial_best_val_metric, start_epoch = cargar_optimizador_checkpoint(
+        actual_checkpoint_to_load=actual_checkpoint_to_load,
+        device=device,
+        model=model,
+        params_to_optimize=params_to_optimize,
+        initial_lr=INITIAL_LEARNING_RATE,
+        lr_scheduler_factor=LR_SCHEDULER_FACTOR,
+        lr_scheduler_patience=LR_SCHEDULER_PATIENCE,
+    )"""
+    
+    start_epoch = 0
+    initial_best_val_metric = None
+
     if actual_checkpoint_to_load and actual_checkpoint_to_load.exists():
         checkpoint = torch.load(
             actual_checkpoint_to_load,
             map_location=device,
-            #weights_only=False,
+            # weights_only=False,
         )
         model.load_state_dict(checkpoint['model_state_dict'])
         # Solo cargar optimizer y scheduler si los parámetros que optimizan coinciden
@@ -190,7 +204,7 @@ def main(args):
             # Re-inicializar el optimizador para los parámetros correctos si falla la carga
             optimizer = optim.Adam(params_to_optimize, lr=INITIAL_LEARNING_RATE)
             scheduler = ReduceLROnPlateau(
-                optimizer,
+                optimizer=optimizer,
                 mode='min',
                 factor=LR_SCHEDULER_FACTOR,
                 patience=LR_SCHEDULER_PATIENCE,
@@ -229,7 +243,7 @@ def main(args):
         checkpoint = torch.load(
             best_model_path,
             map_location=device,
-            #weights_only=False,
+            # weights_only=False,
         )
         model.load_state_dict(checkpoint['model_state_dict'])
     else:
@@ -262,7 +276,7 @@ def parse_arguments():
     parser.add_argument(
         "--resume_checkpoint_file",
         default=None,  # empezará un nuevo entrenamiento
-        #default="20250607-032043/model_RESNET_best.pth",  # TODO
+        # default="20250607-032043/model_RESNET_best.pth",  # TODO
         type=str,
         help="Ruta relativa o absoluta para reanudar entrenamiento desde un .pth.",
     )
