@@ -4,6 +4,7 @@ import logging
 import time
 from pathlib import Path
 
+import av
 import numpy as np
 import torch
 import torch.nn as nn
@@ -51,7 +52,7 @@ def load_model_and_transforms(
         checkpoint = torch.load(
             checkpoint_path,
             map_location=device,
-            #weights_only=False,
+            # weights_only=False,
         )
         transforms = None
 
@@ -104,24 +105,43 @@ def run_sliding_window(
         stride: float,
 ):
     """
-    Ejecuta el modelo sobre un vídeo largo usando una ventana deslizante.
+    Fase 2: Ejecuta el modelo sobre un vídeo largo usando una ventana deslizante.
     """
-    logger.info(f"Iniciando Fase 2: Análisis con ventana deslizante (stride: {stride} seg)")
-    info = torchvision.io.video_info(str(video_path))
-    video_duration = info.duration
-    logger.info(f"Duración del vídeo: {video_duration:.2f} segundos.")
+    logger.info(f"Análisis con ventana deslizante (stride: {stride} seg)")
+
+    try:
+        with av.open(str(video_path)) as container:
+            video_stream = container.streams.video[0]
+
+            # Usar la duración del stream (puede ser None)
+            stream_duration_in_pts = video_stream.duration
+
+            if stream_duration_in_pts is not None:
+                # Si existe, la convertimos a segundos usando su 'time_base'
+                video_duration = float(stream_duration_in_pts * video_stream.time_base)
+            else:
+                # Esta duración suele estar en microsegundos, por lo que la dividimos por 1,000,000.
+                logger.warning(
+                    f"La duración del stream no está disponible para '{video_path.name}'. Usando la duración del contenedor como fallback.")
+                video_duration = float(container.duration / 1_000_000)
+
+            if video_duration <= 0:
+                raise ValueError("La duración detectada del vídeo es cero, negativa o no se pudo determinar.")
+    except Exception as e:
+        logger.error(f"No se pudo obtener la información de duración del vídeo '{video_path.name}' con PyAV: {e}")
+        return []
+
+    logger.info(f"Duración del vídeo detectada: {video_duration:.2f} segundos.")
     raw_predictions = []
 
     # 'tqdm' para una barra de progreso
     pbar_title = "Procesando vídeo"
 
-    with tqdm(total=int(video_duration / stride), desc=pbar_title) as pbar:
+    with tqdm(total=int((video_duration - clip_duration) / stride) + 1, desc=pbar_title) as pbar:
         for start_sec in np.arange(0, video_duration - clip_duration, stride):
             end_sec = start_sec + clip_duration
-
             try:
-                # Cargar solo el clip actual para ser eficiente con la memoria
-                clip, audio, info = torchvision.io.read_video(
+                clip, _, _ = torchvision.io.read_video(
                     str(video_path),
                     start_pts=start_sec,
                     end_pts=end_sec,
@@ -133,7 +153,6 @@ def run_sliding_window(
                 pbar.update(1)
                 continue
 
-            # Muestreo de frames (similar a DatasetSoccernet)
             num_total_frames = clip.shape[0]
             if num_total_frames > 0:
                 indices = np.linspace(0, num_total_frames - 1, frames_per_clip, dtype=int)
@@ -142,13 +161,11 @@ def run_sliding_window(
                 pbar.update(1)
                 continue
 
-            # Pre-procesamiento
             processed_clip = transforms(sampled_clip)
-            processed_clip = processed_clip.permute(1, 0, 2, 3)  # (C, T, H, W)
+            processed_clip = processed_clip.permute(1, 0, 2, 3)
 
-            # Inferencia
             with torch.no_grad():
-                input_tensor = processed_clip.unsqueeze(0).to(device)  # Añadir dimensión de batch
+                input_tensor = processed_clip.unsqueeze(0).to(device)
                 logits = model(input_tensor)
                 probabilities = torch.nn.functional.softmax(logits, dim=1)
                 confidence, predicted_idx = torch.max(probabilities, 1)
@@ -163,7 +180,7 @@ def run_sliding_window(
 
             pbar.update(1)
 
-    logger.info(f"Fase 2 completada. Se generaron {len(raw_predictions)} predicciones crudas.")
+    logger.info(f"Se generaron {len(raw_predictions)} predicciones crudas.")
 
     return raw_predictions
 
@@ -324,7 +341,7 @@ def parse_arguments():
     )
     parser.add_argument(
         "--checkpoint_path",
-        default="models/CNN3D/20250612-232916/model_CNN3D_best.pth",  # TODO
+        default="models/CNN3D/20250614-010515/model_CNN3D_best.pth",  # TODO
         # default="models/RESNET/20250607-032043/model_RESNET_best.pth",  # TODO
         type=str,
         help="Ruta al archivo de checkpoint (.pth) del modelo entrenado y elegido.",

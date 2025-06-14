@@ -16,3 +16,34 @@
 	size mismatch for features.16.running_mean: copying a param with shape torch.Size([256]) from checkpoint, the shape in current model is torch.Size([64]).
 	size mismatch for features.16.running_var: copying a param with shape torch.Size([256]) from checkpoint, the shape in current model is torch.Size([64]).
 	size mismatch for fc.0.weight: copying a param with shape torch.Size([1024, 256]) from checkpoint, the shape in current model is torch.Size([1024, 64]).
+2025-06-14 08:45:12 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-14 08:45:12 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-14 08:45:12 - __main__ - INFO - Usando umbrales de confianza por clase: {'Goal': 0.85, 'Yellow card': 0.7, 'Substitution': 0.75, 'Corner': 0.9}
+2025-06-14 08:45:12 - __main__ - INFO - Cargando checkpoint desde 'models\CNN3D\20250614-010515\model_CNN3D_best.pth'
+2025-06-14 08:45:13 - __main__ - INFO - Instanciando modelo CNN3D.
+2025-06-14 08:45:13 - src.preprocess.dataset_soccernet - INFO - Tamaño de salida detectado de la transformación 'Resize': (128, 128)
+2025-06-14 08:45:13 - src.models.main_cnn3d - INFO - Dimensiones de entrada al modelo (C, T, H, W): (1, 16, 128, 128)
+2025-06-14 08:45:13 - src.models.main_cnn3d - INFO - Dimensiones tras self.features (antes de adaptive_pool): torch.Size([1, 64, 2, 16, 16])
+2025-06-14 08:45:13 - src.models.main_cnn3d - INFO - Después de adaptive_pool, las dimensiones espaciales/temporales se reducen a (1,1,1).
+2025-06-14 08:45:13 - src.models.main_cnn3d - INFO - Número de características para la capa lineal (FC): 64
+2025-06-14 08:45:13 - __main__ - INFO - Análisis con ventana deslizante (stride: 2.0 seg)
+2025-06-14 08:45:13 - __main__ - ERROR - No se pudo obtener la información del vídeo con PyAV: unsupported operand type(s) for *: 'NoneType' and 'Fraction'
+2025-06-14 08:45:13 - __main__ - WARNING - No se encontraron predicciones que superaran sus respectivos umbrales de confianza.
+2025-06-14 08:45:13 - __main__ - INFO - Resultados guardados en: results\eventos_partido.json
+2025-06-14 08:53:04 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-14 08:53:04 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-14 08:53:04 - __main__ - INFO - Usando umbrales de confianza por clase: {'Goal': 0.85, 'Yellow card': 0.7, 'Substitution': 0.75, 'Corner': 0.9}
+2025-06-14 08:53:04 - __main__ - INFO - Cargando checkpoint desde 'models\CNN3D\20250614-010515\model_CNN3D_best.pth'
+2025-06-14 08:53:04 - __main__ - INFO - Instanciando modelo CNN3D.
+2025-06-14 08:53:04 - src.preprocess.dataset_soccernet - INFO - Tamaño de salida detectado de la transformación 'Resize': (128, 128)
+2025-06-14 08:53:04 - src.models.main_cnn3d - INFO - Dimensiones de entrada al modelo (C, T, H, W): (1, 16, 128, 128)
+2025-06-14 08:53:04 - src.models.main_cnn3d - INFO - Dimensiones tras self.features (antes de adaptive_pool): torch.Size([1, 64, 2, 16, 16])
+2025-06-14 08:53:04 - src.models.main_cnn3d - INFO - Después de adaptive_pool, las dimensiones espaciales/temporales se reducen a (1,1,1).
+2025-06-14 08:53:04 - src.models.main_cnn3d - INFO - Número de características para la capa lineal (FC): 64
+2025-06-14 08:53:04 - __main__ - INFO - Análisis con ventana deslizante (stride: 2.0 seg)
+2025-06-14 08:53:04 - __main__ - WARNING - La duración del stream no está disponible para '1_720p_recortado.mkv'. Usando la duración del contenedor como fallback.
+2025-06-14 08:53:04 - __main__ - INFO - Duración del vídeo detectada: 60.02 segundos.
+2025-06-14 08:53:29 - __main__ - INFO - Fase 2 completada. Se generaron 29 predicciones crudas.
+2025-06-14 08:53:29 - __main__ - INFO - Se encontraron 4 predicciones de alta confianza después del filtrado inicial.
+2025-06-14 08:53:29 - __main__ - INFO - Se detectaron 3 eventos significativos.
+2025-06-14 08:53:29 - __main__ - INFO - Resultados guardados en: results\eventos_partido.json
