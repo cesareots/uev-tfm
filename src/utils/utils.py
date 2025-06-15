@@ -324,3 +324,55 @@ def leer_registros_txt(ruta_archivo: str) -> list:
         logger.error(f"Al leer el archivo '{ruta_archivo}': {str(e)}")
 
     return registros
+
+def guardar_predicciones_json(
+    predicciones: list,
+    ruta_archivo: Path,
+):
+    """
+    Guarda una lista de diccionarios de predicciones en un archivo JSON.
+    Se encarga de convertir tipos de NumPy a tipos nativos de Python.
+
+    Args:
+        predicciones (list): La lista de diccionarios de predicciones.
+        ruta_archivo (Path): La ruta del archivo .json donde se guardarán los datos.
+    """
+    # convertir los tipos de NumPy a tipos nativos de Python
+    predicciones_serializables = []
+    
+    for p in predicciones:
+        pred_limpia = {
+            "timestamp": float(p["timestamp"]),
+            "prediction_idx": int(p["prediction_idx"]),
+            "class_name": str(p["class_name"]),
+            "confidence": float(p["confidence"])
+        }
+        predicciones_serializables.append(pred_limpia)
+
+    try:
+        with open(ruta_archivo, 'w', encoding='utf-8') as f:
+            # indent=4 hace que el archivo sea más legible
+            json.dump(predicciones_serializables, f, indent=4)
+            
+        logger.info(f"Predicciones guardadas exitosamente en: '{ruta_archivo}'")
+        return True
+    except Exception as e:
+        logger.error(f"Error al guardar el archivo JSON: {e}")
+        return False
+
+def leer_predicciones_json(ruta_archivo: Path) -> list:
+    try:
+        with open(ruta_archivo, 'r', encoding='utf-8') as f:
+            predicciones = json.load(f)
+            
+        logger.info(f"Predicciones leídas exitosamente desde: '{ruta_archivo}'")
+        return predicciones
+    except FileNotFoundError:
+        logger.error(f"El archivo de predicciones no fue encontrado: '{ruta_archivo}'")
+        return []
+    except json.JSONDecodeError:
+        logger.error(f"Al decodificar el JSON. El archivo podría estar corrupto: '{ruta_archivo}'")
+        return []
+    except Exception as e:
+        logger.error(f"Error inesperado: {e}")
+        return []

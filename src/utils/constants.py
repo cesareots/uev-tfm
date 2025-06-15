@@ -39,10 +39,10 @@ PARTIDOS_INDICE_LOTE = [
 ]
 MAS_MENOS_CLIPS = 1.5
 UMBRALES = {
-    "Goal": 0.85,
-    "Yellow card": 0.70,
-    "Substitution": 0.75,
-    "Corner": 0.90,
+    "Goal": 0.70,
+    "Yellow card": 0.7,
+    "Substitution": 0.80,
+    "Corner": 0.85,
 }
 
 SOCCERNET_RESULTS = f"{RESULTS}soccernet"

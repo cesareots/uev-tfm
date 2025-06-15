@@ -10,10 +10,13 @@ import torch
 import torch.nn as nn
 import torchvision.io
 import torchvision.transforms.v2 as T_v2
+from moviepy import VideoFileClip, concatenate_videoclips, TextClip, CompositeVideoClip
+from moviepy.video.fx import FadeIn, FadeOut
 from torchvision.models.video import r2plus1d_18, R2Plus1D_18_Weights
 from tqdm import tqdm
 
 from src.models.main_cnn3d import SimpleCNN3D, FRAMES_PER_CLIP, TARGET_SIZE_DATASET
+from src.models.main_resnet import TRANSFER_MODEL_FRAMES_PER_CLIP
 from src.models.transforms import get_transforms_cnn3d_grayscale, get_transforms_resnet
 from src.preprocess.dataset_soccernet import INV_LABEL_MAP
 from src.preprocess.dataset_soccernet import get_output_size_from_transforms
@@ -44,9 +47,6 @@ def load_model_and_transforms(
         device: torch.device,
         frames_per_clip: int,
 ):
-    """
-    Carga un modelo entrenado desde un checkpoint y define las transformaciones de inferencia.
-    """
     try:
         logger.info(f"Cargando checkpoint desde '{checkpoint_path}'")
         checkpoint = torch.load(
@@ -67,18 +67,13 @@ def load_model_and_transforms(
                 input_frames=frames_per_clip,
                 input_size=expected_size,
             )
-        elif model_type == 'RESNET':
-            # TODO debo implementar una funcion para cargar los pesos del checkpoint, y no usar el modelo original
-
+        elif model_type == "RESNET":
             logger.info(f"Instanciando modelo {model_type}.")
             weights = R2Plus1D_18_Weights.KINETICS400_V1
-            train_transforms, val_transforms = get_transforms_resnet(weights)
-            transforms = val_transforms
-            model = r2plus1d_18(num_classes=num_classes)
-
-            # num_original_features = model.fc.in_features
-            # model.fc = nn.Linear(num_original_features, num_classes)
-
+            model = r2plus1d_18(weights=weights)
+            num_original_features = model.fc.in_features
+            model.fc = nn.Linear(num_original_features, num_classes)
+            train_transforms, transforms = get_transforms_resnet(weights)
         else:
             log_con = f"Tipo de modelo '{model_type}' no soportado."
             logger.error(log_con)
@@ -104,15 +99,11 @@ def run_sliding_window(
         frames_per_clip: int,
         stride: float,
 ):
-    """
-    Fase 2: Ejecuta el modelo sobre un vídeo largo usando una ventana deslizante.
-    """
     logger.info(f"Análisis con ventana deslizante (stride: {stride} seg)")
 
     try:
         with av.open(str(video_path)) as container:
             video_stream = container.streams.video[0]
-
             # Usar la duración del stream (puede ser None)
             stream_duration_in_pts = video_stream.duration
 
@@ -133,15 +124,14 @@ def run_sliding_window(
 
     logger.info(f"Duración del vídeo detectada: {video_duration:.2f} segundos.")
     raw_predictions = []
-
-    # 'tqdm' para una barra de progreso
     pbar_title = "Procesando vídeo"
 
     with tqdm(total=int((video_duration - clip_duration) / stride) + 1, desc=pbar_title) as pbar:
         for start_sec in np.arange(0, video_duration - clip_duration, stride):
             end_sec = start_sec + clip_duration
+
             try:
-                clip, _, _ = torchvision.io.read_video(
+                clip, audio, info = torchvision.io.read_video(
                     str(video_path),
                     start_pts=start_sec,
                     end_pts=end_sec,
@@ -187,14 +177,12 @@ def run_sliding_window(
 
 def post_process_predictions(
         raw_predictions: list,
-        confidence_thresholds: dict,  # Acepta un diccionario de umbrales
-        default_threshold: float,  # Un umbral por defecto
+        confidence_thresholds: dict,
+        default_threshold: float,
         min_event_duration: float,
         stride: float,
+        output_file: Path,
 ):
-    """
-    Filtra y agrupa las predicciones crudas para generar una lista de eventos, utilizando umbrales de confianza específicos por clase.
-    """
     # Filtrar por confianza usando los umbrales por clase
     confident_preds = []
 
@@ -255,25 +243,31 @@ def post_process_predictions(
     final_events = [e for e in events if (e['fin'] - e['inicio']) >= min_event_duration]
     logger.info(f"Se detectaron {len(final_events)} eventos significativos.")
 
+    if not final_events:
+        logger.info("No se detectaron eventos significativos que cumplan con los criterios.")
+    else:
+        for event in final_events:
+            start_time_str = time.strftime('%H:%M:%S', time.gmtime(event['inicio']))
+            end_time_str = time.strftime('%H:%M:%S', time.gmtime(event['fin']))
+            log_con = f"Evento: {event['evento']:<15} | Inicio: {start_time_str} ({event['inicio']:.2f}s) | Fin: {end_time_str} ({event['fin']:.2f}s) | Confianza promedio: {event['confianza_promedio']:.2f}"
+            # print(log_con)
+            logger.info(log_con)
+
+    if output_file:
+        with open(output_file, 'w', encoding='utf-8') as f:
+            json.dump(final_events, f, indent=4)
+
+    logger.info(f"Eventos detectados (json) guardados en: '{output_file}'")
+
     return final_events
 
 
-def main(args):
-    logger.info(f"Usando dispositivo: {device}")
-
-    # configuracion previa
-    # model_type = str(args.checkpoint_path).split("/")[1].upper()
-    clip_duration = MAS_MENOS_CLIPS * 2
-    frames_per_clip = FRAMES_PER_CLIP
-    stride = 2.0  # los clips duran 3.0 segundos; primera inferencia: [0-3], segunda inferencia: [2-5], tercera inferencia: [4-7], por tanto ningun limite de tiempo se escapa
-    umbrales_por_clase = UMBRALES
-    umbral_defecto = 0.7
-    logger.info(f"Usando umbrales de confianza por clase: {umbrales_por_clase}")
-    min_event_duration = 2.0  # duración mínima en segundos para que un evento sea considerado válido
-    # min_event_duration = 2.5
-    # min_event_duration = 3.0
-    output_file = "results/eventos_partido.json"  # ruta para guardar la lista de eventos en formato JSON
-
+def puente(
+        frames_per_clip,
+        ruta_video,
+        stride,
+        raw_predictions_json,
+) -> list:
     model, transforms = load_model_and_transforms(
         checkpoint_path=Path(args.checkpoint_path),
         model_type=args.model_type,
@@ -281,48 +275,165 @@ def main(args):
         device=device,
         frames_per_clip=frames_per_clip,
     )
-
     raw_predictions = run_sliding_window(
         model=model,
-        video_path=Path(args.video_path),
+        video_path=ruta_video,
         transforms=transforms,
         device=device,
-        clip_duration=clip_duration,
+        clip_duration=MAS_MENOS_CLIPS * 2,
         frames_per_clip=frames_per_clip,
         stride=stride,
     )
+    ut.guardar_predicciones_json(
+        predicciones=raw_predictions,
+        ruta_archivo=raw_predictions_json,
+    )
 
+    return raw_predictions
+
+
+def create_summary_video(
+        final_events,
+        original_video_path: Path,
+        buffer_seconds: float = 2.0,
+        transition_seconds: float = 0.5,
+):
+    output_path = original_video_path.parent / f"{original_video_path.stem}_resumen_final.mp4"
+
+    # Cargar el vídeo original una sola vez
+    try:
+        main_video_clip = VideoFileClip(str(original_video_path))
+    except Exception as e:
+        logger.error(f"Al cargar el vídeo original '{original_video_path}': {e}")
+        return
+
+    final_clips = []
+    video_duration = main_video_clip.duration
+
+    # Procesar cada evento para crear subclips
+    try:
+        for i, event in enumerate(final_events):
+            evento_str = event.get('evento', 'Evento Desconocido')
+            inicio = event.get('inicio', 0)
+            fin = event.get('fin', 0)
+
+            # Añadir buffer (margen de tiempo) asegurando no salirse de los límites del vídeo
+            start_with_buffer = max(0, inicio - buffer_seconds)
+            end_with_buffer = min(video_duration, fin + buffer_seconds)
+
+            if start_with_buffer >= end_with_buffer:
+                logger.warning(
+                    f"Saltando evento '{evento_str}' en {inicio:.2f}s porque su duración con buffer es inválida.")
+                continue
+
+            logger.info(
+                f"Procesando evento {i + 1}/{len(final_events)}: '{evento_str}' de {start_with_buffer:.2f}s a {end_with_buffer:.2f}s")
+
+            subclip = main_video_clip.subclipped(start_with_buffer, end_with_buffer)
+
+            # (Opcional) Crear y superponer un texto sobre el clip
+            txt_clip = TextClip(
+                # font='Arial-Bold',
+                text=f"{evento_str}",
+                font_size=40,
+                color='white',
+                stroke_color="black",
+                stroke_width=2,
+                # horizontal_align="left",
+                horizontal_align="center",
+                # vertical_align="top",
+                vertical_align="center",
+                duration=subclip.duration,
+            )
+            # txt_clip = txt_clip.set_position(('left', 'top')).set_duration(subclip.duration)
+
+            # Componer el vídeo con el texto superpuesto
+            video_with_text = CompositeVideoClip([subclip, txt_clip])
+
+            # (Opcional) Añadir un pequeño fundido al inicio y final de cada clip individual
+            # Esto puede ayudar si no se usa una transición de concatenación.
+            # video_with_text = video_with_text.fx(fadein, 0.5).fx(fadeout, 0.5)
+
+            final_clips.append(video_with_text)
+    except Exception as e:
+        logger.error(e)
+
+    if not final_clips:
+        logger.error("No se pudo crear ningún subclip válido. Abortando la creación del vídeo.")
+        main_video_clip.close()
+        return
+
+    try:
+        # Concatenar todos los subclips con una transición de fundido cruzado
+        print(final_clips)
+        logger.info("Concatenando todos los subclips en el vídeo resumen final.")
+        # summary_video = concatenate_videoclips(final_clips, transition=fadein(transition_seconds), method="compose")
+        summary_video = concatenate_videoclips(
+            clips=final_clips,
+            # method="compose",
+            method="chain",
+            # transition=FadeIn(transition_seconds),  # TODO corregir o desestimarlo
+        )
+    except Exception as e:
+        logger.error(e)
+
+    try:
+        # Codecs estándar para alta compatibilidad (vídeo H.264, audio AAC)
+        summary_video.write_videofile(
+            str(output_path),
+            codec='libx264',
+            audio_codec='aac',
+        )
+        logger.info("¡Video-resumen generado exitosamente!")
+    except Exception as e:
+        logger.error(e)
+    finally:
+        # Liberar recursos
+        main_video_clip.close()
+        summary_video.close()
+        for clip in final_clips:
+            clip.close()
+
+
+def main(args):
+    logger.info(f"Usando dispositivo: {device}")
+
+    # configuracion previa
+    ruta_video = Path(args.video_path)
+    raw_predictions_json = ruta_video.parent / f"{ruta_video.stem}_predictions_raw.json"
+    output_file = ruta_video.parent / f"{ruta_video.stem}_predictions_post_process.json"  # ruta para guardar la lista de eventos en formato JSON
+    frames_per_clip = FRAMES_PER_CLIP if args.model_type == "CNN3D" else TRANSFER_MODEL_FRAMES_PER_CLIP
+    # los clips duran 3.0 segundos; primera inferencia: [0-3], segunda inferencia: [2-5], tercera inferencia: [4-7], por tanto ningun limite de tiempo se escapa
+    stride = 2.0
+    umbral_defecto = 0.75
+    logger.info(f"Usando umbrales de confianza por clase: {UMBRALES}")
+    # duración mínima en segundos para que un evento sea considerado válido
+    min_event_duration = 2.0
+    # min_event_duration = 2.5
+    # min_event_duration = 3.0
+
+    t_start = time.time()
+    # raw_predictions = puente(frames_per_clip, ruta_video, stride, raw_predictions_json)
+    raw_predictions = ut.leer_predicciones_json(raw_predictions_json)  # TODO solo para debug
     final_events = post_process_predictions(
         raw_predictions=raw_predictions,
-        confidence_thresholds=umbrales_por_clase,
+        confidence_thresholds=UMBRALES,
         default_threshold=umbral_defecto,
         min_event_duration=min_event_duration,
         stride=stride,
+        output_file=output_file,
     )
+    # print(final_events)
+    ut.get_time_employed(t_start, "Inferencia preliminar.")
 
-    print("\n" + "=" * 50)
-    print("RESULTADOS FINALES")
-    print("=" * 50)
-
-    if not final_events:
-        print("No se detectaron eventos significativos que cumplan con los criterios.")
-    else:
-        for event in final_events:
-            start_time_str = time.strftime('%H:%M:%S', time.gmtime(event['inicio']))
-            end_time_str = time.strftime('%H:%M:%S', time.gmtime(event['fin']))
-            print(f"Evento: {event['evento']:<15} | "
-                  f"Inicio: {start_time_str} ({event['inicio']:.2f}s) | "
-                  f"Fin: {end_time_str} ({event['fin']:.2f}s) | "
-                  f"Confianza Promedio: {event['confianza_promedio']:.2f}")
-
-    if output_file:
-        output_path = Path(output_file)
-        output_path.parent.mkdir(parents=True, exist_ok=True)
-
-        with open(output_path, 'w', encoding='utf-8') as f:
-            json.dump(final_events, f, indent=4)
-
-        logger.info(f"Resultados guardados en: {output_path}")
+    t_start = time.time()
+    create_summary_video(
+        final_events=final_events,
+        original_video_path=ruta_video,
+        buffer_seconds=2.0,
+        transition_seconds=0.5,
+    )
+    ut.get_time_employed(t_start, f"Inferencia final. Video-resumen generado.")
 
 
 def parse_arguments():

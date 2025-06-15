@@ -47,3 +47,436 @@
 2025-06-14 08:53:29 - __main__ - INFO - Se encontraron 4 predicciones de alta confianza después del filtrado inicial.
 2025-06-14 08:53:29 - __main__ - INFO - Se detectaron 3 eventos significativos.
 2025-06-14 08:53:29 - __main__ - INFO - Resultados guardados en: results\eventos_partido.json
+2025-06-14 19:11:32 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-14 19:11:32 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-14 19:11:32 - __main__ - INFO - Usando umbrales de confianza por clase: {'Goal': 0.85, 'Yellow card': 0.7, 'Substitution': 0.75, 'Corner': 0.9}
+2025-06-14 19:11:32 - __main__ - INFO - Cargando checkpoint desde 'models\CNN3D\20250614-010515\model_CNN3D_best.pth'
+2025-06-14 19:11:32 - __main__ - INFO - Instanciando modelo CNN3D.
+2025-06-14 19:11:32 - src.preprocess.dataset_soccernet - INFO - Tamaño de salida detectado de la transformación 'Resize': (128, 128)
+2025-06-14 19:11:32 - src.models.main_cnn3d - INFO - Dimensiones de entrada al modelo (C, T, H, W): (1, 16, 128, 128)
+2025-06-14 19:11:32 - src.models.main_cnn3d - INFO - Dimensiones tras self.features (antes de adaptive_pool): torch.Size([1, 64, 2, 16, 16])
+2025-06-14 19:11:32 - src.models.main_cnn3d - INFO - Después de adaptive_pool, las dimensiones espaciales/temporales se reducen a (1,1,1).
+2025-06-14 19:11:32 - src.models.main_cnn3d - INFO - Número de características para la capa lineal (FC): 64
+2025-06-14 19:11:32 - __main__ - INFO - Análisis con ventana deslizante (stride: 2.0 seg)
+2025-06-14 19:11:32 - __main__ - WARNING - La duración del stream no está disponible para '1_720p_recortado.mkv'. Usando la duración del contenedor como fallback.
+2025-06-14 19:11:32 - __main__ - INFO - Duración del vídeo detectada: 60.02 segundos.
+2025-06-14 19:11:59 - __main__ - INFO - Se generaron 29 predicciones crudas.
+2025-06-14 19:11:59 - __main__ - INFO - Se encontraron 4 predicciones de alta confianza después del filtrado inicial.
+2025-06-14 19:11:59 - __main__ - INFO - Se detectaron 3 eventos significativos.
+2025-06-14 19:11:59 - __main__ - INFO - Resultados (json) guardados en: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado.json'
+2025-06-14 19:27:53 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-14 19:27:53 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-14 19:27:53 - __main__ - INFO - Usando umbrales de confianza por clase: {'Goal': 0.85, 'Yellow card': 0.7, 'Substitution': 0.75, 'Corner': 0.9}
+2025-06-14 19:27:53 - __main__ - INFO - Cargando checkpoint desde 'models\CNN3D\20250614-010515\model_CNN3D_best.pth'
+2025-06-14 19:27:53 - __main__ - INFO - Instanciando modelo CNN3D.
+2025-06-14 19:27:53 - src.preprocess.dataset_soccernet - INFO - Tamaño de salida detectado de la transformación 'Resize': (128, 128)
+2025-06-14 19:27:53 - src.models.main_cnn3d - INFO - Dimensiones de entrada al modelo (C, T, H, W): (1, 16, 128, 128)
+2025-06-14 19:27:53 - src.models.main_cnn3d - INFO - Dimensiones tras self.features (antes de adaptive_pool): torch.Size([1, 64, 2, 16, 16])
+2025-06-14 19:27:53 - src.models.main_cnn3d - INFO - Después de adaptive_pool, las dimensiones espaciales/temporales se reducen a (1,1,1).
+2025-06-14 19:27:53 - src.models.main_cnn3d - INFO - Número de características para la capa lineal (FC): 64
+2025-06-14 19:27:53 - __main__ - INFO - Análisis con ventana deslizante (stride: 2.0 seg)
+2025-06-14 19:27:53 - __main__ - WARNING - La duración del stream no está disponible para '1_720p_recortado.mkv'. Usando la duración del contenedor como fallback.
+2025-06-14 19:27:53 - __main__ - INFO - Duración del vídeo detectada: 60.02 segundos.
+2025-06-14 19:28:19 - __main__ - INFO - Se generaron 29 predicciones crudas.
+2025-06-14 19:28:19 - __main__ - INFO - Se encontraron 4 predicciones de alta confianza después del filtrado inicial.
+2025-06-14 19:28:19 - __main__ - INFO - Se detectaron 3 eventos significativos.
+2025-06-14 19:28:19 - __main__ - INFO - Resultados (json) guardados en: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado.json'
+2025-06-14 19:53:48 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-14 19:53:48 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-14 19:53:48 - __main__ - INFO - Usando umbrales de confianza por clase: {'Goal': 0.85, 'Yellow card': 0.7, 'Substitution': 0.75, 'Corner': 0.9}
+2025-06-14 19:53:48 - __main__ - INFO - Cargando checkpoint desde 'models\CNN3D\20250614-010515\model_CNN3D_best.pth'
+2025-06-14 19:53:48 - __main__ - INFO - Instanciando modelo CNN3D.
+2025-06-14 19:53:48 - src.preprocess.dataset_soccernet - INFO - Tamaño de salida detectado de la transformación 'Resize': (128, 128)
+2025-06-14 19:53:48 - src.models.main_cnn3d - INFO - Dimensiones de entrada al modelo (C, T, H, W): (1, 16, 128, 128)
+2025-06-14 19:53:48 - src.models.main_cnn3d - INFO - Dimensiones tras self.features (antes de adaptive_pool): torch.Size([1, 64, 2, 16, 16])
+2025-06-14 19:53:48 - src.models.main_cnn3d - INFO - Después de adaptive_pool, las dimensiones espaciales/temporales se reducen a (1,1,1).
+2025-06-14 19:53:48 - src.models.main_cnn3d - INFO - Número de características para la capa lineal (FC): 64
+2025-06-14 19:53:48 - __main__ - INFO - Análisis con ventana deslizante (stride: 2.0 seg)
+2025-06-14 19:53:48 - __main__ - WARNING - La duración del stream no está disponible para '1_720p_recortado.mkv'. Usando la duración del contenedor como fallback.
+2025-06-14 19:53:48 - __main__ - INFO - Duración del vídeo detectada: 60.02 segundos.
+2025-06-14 19:54:13 - __main__ - INFO - Se generaron 29 predicciones crudas.
+2025-06-14 19:54:13 - __main__ - INFO - Se encontraron 4 predicciones de alta confianza después del filtrado inicial.
+2025-06-14 19:54:13 - __main__ - INFO - Se detectaron 3 eventos significativos.
+2025-06-14 19:54:13 - __main__ - INFO - Evento: Yellow card     | Inicio: 00:00:38 (38.00s) | Fin: 00:00:40 (40.00s) | Confianza promedio: 0.72
+2025-06-14 19:54:13 - __main__ - INFO - Evento: Substitution    | Inicio: 00:00:48 (48.00s) | Fin: 00:00:52 (52.00s) | Confianza promedio: 0.80
+2025-06-14 19:54:13 - __main__ - INFO - Evento: Yellow card     | Inicio: 00:00:56 (56.00s) | Fin: 00:00:58 (58.00s) | Confianza promedio: 0.73
+2025-06-14 19:54:13 - __main__ - INFO - Resultados (json) guardados en: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado.json'
+2025-06-14 19:54:13 - src.utils.utils - INFO - Tiempo total: 0.42 minutos. Tarea: Inferencia finalizada.
+2025-06-15 17:10:16 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-15 17:10:16 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-15 17:10:16 - __main__ - INFO - Usando umbrales de confianza por clase: {'Goal': 0.85, 'Yellow card': 0.7, 'Substitution': 0.75, 'Corner': 0.9}
+2025-06-15 17:10:16 - __main__ - INFO - Cargando checkpoint desde 'models\CNN3D\20250614-010515\model_CNN3D_best.pth'
+2025-06-15 17:10:16 - __main__ - INFO - Instanciando modelo CNN3D.
+2025-06-15 17:10:16 - src.preprocess.dataset_soccernet - INFO - Tamaño de salida detectado de la transformación 'Resize': (128, 128)
+2025-06-15 17:10:16 - src.models.main_cnn3d - INFO - Dimensiones de entrada al modelo (C, T, H, W): (1, 16, 128, 128)
+2025-06-15 17:10:16 - src.models.main_cnn3d - INFO - Dimensiones tras self.features (antes de adaptive_pool): torch.Size([1, 64, 2, 16, 16])
+2025-06-15 17:10:16 - src.models.main_cnn3d - INFO - Después de adaptive_pool, las dimensiones espaciales/temporales se reducen a (1,1,1).
+2025-06-15 17:10:16 - src.models.main_cnn3d - INFO - Número de características para la capa lineal (FC): 64
+2025-06-15 17:10:16 - __main__ - INFO - Análisis con ventana deslizante (stride: 2.0 seg)
+2025-06-15 17:10:16 - __main__ - WARNING - La duración del stream no está disponible para '1_720p_recortado.mkv'. Usando la duración del contenedor como fallback.
+2025-06-15 17:10:16 - __main__ - INFO - Duración del vídeo detectada: 60.02 segundos.
+2025-06-15 17:10:41 - __main__ - INFO - Se generaron 29 predicciones crudas.
+2025-06-15 17:10:41 - __main__ - INFO - Se encontraron 4 predicciones de alta confianza después del filtrado inicial.
+2025-06-15 17:10:41 - __main__ - INFO - Se detectaron 3 eventos significativos.
+2025-06-15 17:10:41 - __main__ - INFO - Evento: Yellow card     | Inicio: 00:00:38 (38.00s) | Fin: 00:00:40 (40.00s) | Confianza promedio: 0.72
+2025-06-15 17:10:41 - __main__ - INFO - Evento: Substitution    | Inicio: 00:00:48 (48.00s) | Fin: 00:00:52 (52.00s) | Confianza promedio: 0.80
+2025-06-15 17:10:41 - __main__ - INFO - Evento: Yellow card     | Inicio: 00:00:56 (56.00s) | Fin: 00:00:58 (58.00s) | Confianza promedio: 0.73
+2025-06-15 17:10:41 - __main__ - INFO - Resultados (json) guardados en: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado.json'
+2025-06-15 17:10:41 - src.utils.utils - INFO - Tiempo total: 0.43 minutos. Tarea: Inferencia finalizada.
+2025-06-15 17:59:01 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-15 17:59:01 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-15 17:59:01 - __main__ - INFO - Usando umbrales de confianza por clase: {'Goal': 0.85, 'Yellow card': 0.7, 'Substitution': 0.75, 'Corner': 0.9}
+2025-06-15 17:59:01 - __main__ - INFO - Cargando checkpoint desde 'models\CNN3D\20250614-010515\model_CNN3D_best.pth'
+2025-06-15 17:59:01 - __main__ - INFO - Instanciando modelo CNN3D.
+2025-06-15 17:59:01 - src.preprocess.dataset_soccernet - INFO - Tamaño de salida detectado de la transformación 'Resize': (128, 128)
+2025-06-15 17:59:02 - src.models.main_cnn3d - INFO - Dimensiones de entrada al modelo (C, T, H, W): (1, 16, 128, 128)
+2025-06-15 17:59:02 - src.models.main_cnn3d - INFO - Dimensiones tras self.features (antes de adaptive_pool): torch.Size([1, 64, 2, 16, 16])
+2025-06-15 17:59:02 - src.models.main_cnn3d - INFO - Después de adaptive_pool, las dimensiones espaciales/temporales se reducen a (1,1,1).
+2025-06-15 17:59:02 - src.models.main_cnn3d - INFO - Número de características para la capa lineal (FC): 64
+2025-06-15 17:59:02 - __main__ - INFO - Análisis con ventana deslizante (stride: 2.0 seg)
+2025-06-15 17:59:02 - __main__ - WARNING - La duración del stream no está disponible para '1_720p_recortado.mkv'. Usando la duración del contenedor como fallback.
+2025-06-15 17:59:02 - __main__ - INFO - Duración del vídeo detectada: 60.02 segundos.
+2025-06-15 17:59:28 - __main__ - INFO - Se generaron 29 predicciones crudas.
+2025-06-15 17:59:28 - __main__ - INFO - Se encontraron 4 predicciones de alta confianza después del filtrado inicial.
+2025-06-15 17:59:28 - __main__ - INFO - Se detectaron 3 eventos significativos.
+2025-06-15 17:59:28 - __main__ - INFO - Evento: Yellow card     | Inicio: 00:00:38 (38.00s) | Fin: 00:00:40 (40.00s) | Confianza promedio: 0.72
+2025-06-15 17:59:28 - __main__ - INFO - Evento: Substitution    | Inicio: 00:00:48 (48.00s) | Fin: 00:00:52 (52.00s) | Confianza promedio: 0.80
+2025-06-15 17:59:28 - __main__ - INFO - Evento: Yellow card     | Inicio: 00:00:56 (56.00s) | Fin: 00:00:58 (58.00s) | Confianza promedio: 0.73
+2025-06-15 17:59:28 - __main__ - INFO - Resultados (json) guardados en: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado.json'
+2025-06-15 17:59:28 - src.utils.utils - INFO - Tiempo total: 0.44 minutos. Tarea: Inferencia finalizada.
+2025-06-15 18:45:20 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-15 18:45:20 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-15 18:45:20 - __main__ - INFO - Usando umbrales de confianza por clase: {'Goal': 0.85, 'Yellow card': 0.7, 'Substitution': 0.75, 'Corner': 0.9}
+2025-06-15 18:45:20 - __main__ - INFO - Cargando checkpoint desde 'models\CNN3D\20250614-010515\model_CNN3D_best.pth'
+2025-06-15 18:45:20 - __main__ - INFO - Instanciando modelo CNN3D.
+2025-06-15 18:45:20 - src.preprocess.dataset_soccernet - INFO - Tamaño de salida detectado de la transformación 'Resize': (128, 128)
+2025-06-15 18:45:21 - src.models.main_cnn3d - INFO - Dimensiones de entrada al modelo (C, T, H, W): (1, 16, 128, 128)
+2025-06-15 18:45:21 - src.models.main_cnn3d - INFO - Dimensiones tras self.features (antes de adaptive_pool): torch.Size([1, 64, 2, 16, 16])
+2025-06-15 18:45:21 - src.models.main_cnn3d - INFO - Después de adaptive_pool, las dimensiones espaciales/temporales se reducen a (1,1,1).
+2025-06-15 18:45:21 - src.models.main_cnn3d - INFO - Número de características para la capa lineal (FC): 64
+2025-06-15 18:45:21 - __main__ - INFO - Análisis con ventana deslizante (stride: 2.0 seg)
+2025-06-15 18:45:21 - __main__ - WARNING - La duración del stream no está disponible para '1_720p_recortado.mkv'. Usando la duración del contenedor como fallback.
+2025-06-15 18:45:21 - __main__ - INFO - Duración del vídeo detectada: 60.02 segundos.
+2025-06-15 18:45:48 - __main__ - INFO - Se generaron 29 predicciones crudas.
+2025-06-15 18:45:48 - src.utils.utils - INFO - Predicciones guardadas exitosamente en: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_raw.json'
+2025-06-15 18:45:48 - __main__ - INFO - Se encontraron 4 predicciones de alta confianza después del filtrado inicial.
+2025-06-15 18:45:48 - __main__ - INFO - Se detectaron 3 eventos significativos.
+2025-06-15 18:45:48 - __main__ - INFO - Evento: Yellow card     | Inicio: 00:00:38 (38.00s) | Fin: 00:00:40 (40.00s) | Confianza promedio: 0.72
+2025-06-15 18:45:48 - __main__ - INFO - Evento: Substitution    | Inicio: 00:00:48 (48.00s) | Fin: 00:00:52 (52.00s) | Confianza promedio: 0.80
+2025-06-15 18:45:48 - __main__ - INFO - Evento: Yellow card     | Inicio: 00:00:56 (56.00s) | Fin: 00:00:58 (58.00s) | Confianza promedio: 0.73
+2025-06-15 18:45:48 - __main__ - INFO - Resultados (json) guardados en: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_post_process.json'
+2025-06-15 18:45:48 - src.utils.utils - INFO - Tiempo total: 0.46 minutos. Tarea: Inferencia finalizada.
+2025-06-15 18:47:44 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-15 18:47:44 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-15 18:47:44 - __main__ - INFO - Usando umbrales de confianza por clase: {'Goal': 0.85, 'Yellow card': 0.7, 'Substitution': 0.75, 'Corner': 0.9}
+2025-06-15 18:47:44 - src.utils.utils - INFO - Predicciones leídas exitosamente desde: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_raw.json'
+2025-06-15 18:47:44 - __main__ - INFO - Se encontraron 4 predicciones de alta confianza después del filtrado inicial.
+2025-06-15 18:47:44 - __main__ - INFO - Se detectaron 3 eventos significativos.
+2025-06-15 18:47:44 - __main__ - INFO - Evento: Yellow card     | Inicio: 00:00:38 (38.00s) | Fin: 00:00:40 (40.00s) | Confianza promedio: 0.72
+2025-06-15 18:47:44 - __main__ - INFO - Evento: Substitution    | Inicio: 00:00:48 (48.00s) | Fin: 00:00:52 (52.00s) | Confianza promedio: 0.80
+2025-06-15 18:47:44 - __main__ - INFO - Evento: Yellow card     | Inicio: 00:00:56 (56.00s) | Fin: 00:00:58 (58.00s) | Confianza promedio: 0.73
+2025-06-15 18:47:44 - __main__ - INFO - Resultados (json) guardados en: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_post_process.json'
+2025-06-15 18:47:44 - src.utils.utils - INFO - Tiempo total: 0.0 minutos. Tarea: Inferencia finalizada.
+2025-06-15 18:52:42 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-15 18:52:42 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-15 18:52:42 - __main__ - INFO - Usando umbrales de confianza por clase: {'Goal': 0.75, 'Yellow card': 0.8, 'Substitution': 0.85, 'Corner': 0.9}
+2025-06-15 18:52:42 - __main__ - INFO - Cargando checkpoint desde 'models\CNN3D\20250614-010515\model_CNN3D_best.pth'
+2025-06-15 18:52:42 - __main__ - INFO - Instanciando modelo CNN3D.
+2025-06-15 18:52:42 - src.preprocess.dataset_soccernet - INFO - Tamaño de salida detectado de la transformación 'Resize': (128, 128)
+2025-06-15 18:52:42 - src.models.main_cnn3d - INFO - Dimensiones de entrada al modelo (C, T, H, W): (1, 16, 128, 128)
+2025-06-15 18:52:42 - src.models.main_cnn3d - INFO - Dimensiones tras self.features (antes de adaptive_pool): torch.Size([1, 64, 2, 16, 16])
+2025-06-15 18:52:42 - src.models.main_cnn3d - INFO - Después de adaptive_pool, las dimensiones espaciales/temporales se reducen a (1,1,1).
+2025-06-15 18:52:42 - src.models.main_cnn3d - INFO - Número de características para la capa lineal (FC): 64
+2025-06-15 18:52:42 - __main__ - INFO - Análisis con ventana deslizante (stride: 2.0 seg)
+2025-06-15 18:52:42 - __main__ - WARNING - La duración del stream no está disponible para '1_720p_recortado.mkv'. Usando la duración del contenedor como fallback.
+2025-06-15 18:52:42 - __main__ - INFO - Duración del vídeo detectada: 60.02 segundos.
+2025-06-15 18:53:08 - __main__ - INFO - Se generaron 29 predicciones crudas.
+2025-06-15 18:53:08 - src.utils.utils - INFO - Predicciones guardadas exitosamente en: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_raw.json'
+2025-06-15 18:53:08 - __main__ - WARNING - No se encontraron predicciones que superaran sus respectivos umbrales de confianza.
+2025-06-15 18:53:08 - __main__ - INFO - No se detectaron eventos significativos que cumplan con los criterios.
+2025-06-15 18:53:08 - __main__ - INFO - Resultados (json) guardados en: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_post_process.json'
+2025-06-15 18:53:08 - src.utils.utils - INFO - Tiempo total: 0.44 minutos. Tarea: Inferencia finalizada.
+2025-06-15 18:54:10 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-15 18:54:10 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-15 18:54:10 - __main__ - INFO - Usando umbrales de confianza por clase: {'Goal': 0.7, 'Yellow card': 0.75, 'Substitution': 0.8, 'Corner': 0.85}
+2025-06-15 18:54:10 - __main__ - INFO - Cargando checkpoint desde 'models\CNN3D\20250614-010515\model_CNN3D_best.pth'
+2025-06-15 18:54:10 - __main__ - INFO - Instanciando modelo CNN3D.
+2025-06-15 18:54:10 - src.preprocess.dataset_soccernet - INFO - Tamaño de salida detectado de la transformación 'Resize': (128, 128)
+2025-06-15 18:54:10 - src.models.main_cnn3d - INFO - Dimensiones de entrada al modelo (C, T, H, W): (1, 16, 128, 128)
+2025-06-15 18:54:10 - src.models.main_cnn3d - INFO - Dimensiones tras self.features (antes de adaptive_pool): torch.Size([1, 64, 2, 16, 16])
+2025-06-15 18:54:10 - src.models.main_cnn3d - INFO - Después de adaptive_pool, las dimensiones espaciales/temporales se reducen a (1,1,1).
+2025-06-15 18:54:10 - src.models.main_cnn3d - INFO - Número de características para la capa lineal (FC): 64
+2025-06-15 18:54:10 - __main__ - INFO - Análisis con ventana deslizante (stride: 2.0 seg)
+2025-06-15 18:54:10 - __main__ - WARNING - La duración del stream no está disponible para '1_720p_recortado.mkv'. Usando la duración del contenedor como fallback.
+2025-06-15 18:54:10 - __main__ - INFO - Duración del vídeo detectada: 60.02 segundos.
+2025-06-15 18:54:35 - __main__ - INFO - Se generaron 29 predicciones crudas.
+2025-06-15 18:54:35 - src.utils.utils - INFO - Predicciones guardadas exitosamente en: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_raw.json'
+2025-06-15 18:54:35 - __main__ - INFO - Se encontraron 1 predicciones de alta confianza después del filtrado inicial.
+2025-06-15 18:54:35 - __main__ - INFO - Se detectaron 1 eventos significativos.
+2025-06-15 18:54:35 - __main__ - INFO - Evento: Substitution    | Inicio: 00:00:50 (50.00s) | Fin: 00:00:52 (52.00s) | Confianza promedio: 0.82
+2025-06-15 18:54:35 - __main__ - INFO - Resultados (json) guardados en: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_post_process.json'
+2025-06-15 18:54:35 - src.utils.utils - INFO - Tiempo total: 0.43 minutos. Tarea: Inferencia finalizada.
+2025-06-15 19:03:07 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-15 19:03:07 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-15 19:03:07 - __main__ - INFO - Usando umbrales de confianza por clase: {'Goal': 0.7, 'Yellow card': 0.75, 'Substitution': 0.8, 'Corner': 0.85}
+2025-06-15 19:03:07 - src.utils.utils - INFO - Predicciones leídas exitosamente desde: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_raw.json'
+2025-06-15 19:03:07 - __main__ - INFO - Se encontraron 1 predicciones de alta confianza después del filtrado inicial.
+2025-06-15 19:03:07 - __main__ - INFO - Se detectaron 1 eventos significativos.
+2025-06-15 19:03:07 - __main__ - INFO - Evento: Substitution    | Inicio: 00:00:50 (50.00s) | Fin: 00:00:52 (52.00s) | Confianza promedio: 0.82
+2025-06-15 19:03:07 - __main__ - INFO - Resultados (json) guardados en: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_post_process.json'
+2025-06-15 19:03:07 - src.utils.utils - INFO - Tiempo total: 0.0 minutos. Tarea: Inferencia finalizada.
+2025-06-15 19:33:52 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-15 19:33:52 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-15 19:33:52 - __main__ - INFO - Usando umbrales de confianza por clase: {'Goal': 0.7, 'Yellow card': 0.75, 'Substitution': 0.8, 'Corner': 0.85}
+2025-06-15 19:33:52 - src.utils.utils - INFO - Predicciones leídas exitosamente desde: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_raw.json'
+2025-06-15 19:33:52 - __main__ - INFO - Se encontraron 1 predicciones de alta confianza después del filtrado inicial.
+2025-06-15 19:33:52 - __main__ - INFO - Se detectaron 1 eventos significativos.
+2025-06-15 19:33:52 - __main__ - INFO - Evento: Substitution    | Inicio: 00:00:50 (50.00s) | Fin: 00:00:52 (52.00s) | Confianza promedio: 0.82
+2025-06-15 19:33:52 - src.utils.utils - INFO - Tiempo total: 0.0 minutos. Tarea: Inferencia. Eventos detectados (json) guardados en: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_post_process.json'
+2025-06-15 19:47:00 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-15 19:47:00 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-15 19:47:00 - __main__ - INFO - Usando umbrales de confianza por clase: {'Goal': 0.7, 'Yellow card': 0.75, 'Substitution': 0.8, 'Corner': 0.85}
+2025-06-15 19:47:00 - src.utils.utils - INFO - Predicciones leídas exitosamente desde: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_raw.json'
+2025-06-15 19:47:00 - __main__ - INFO - Se encontraron 1 predicciones de alta confianza después del filtrado inicial.
+2025-06-15 19:47:00 - __main__ - INFO - Se detectaron 1 eventos significativos.
+2025-06-15 19:47:00 - __main__ - INFO - Evento: Substitution    | Inicio: 00:00:50 (50.00s) | Fin: 00:00:52 (52.00s) | Confianza promedio: 0.82
+2025-06-15 19:47:00 - src.utils.utils - INFO - Tiempo total: 0.0 minutos. Tarea: Inferencia. Eventos detectados (json) guardados en: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_post_process.json'
+2025-06-15 19:47:00 - src.utils.utils - INFO - Tiempo total: 0.0 minutos. Tarea: Inferencia. Video-resumen generado.
+2025-06-15 19:59:15 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-15 19:59:15 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-15 19:59:15 - __main__ - INFO - Usando umbrales de confianza por clase: {'Goal': 0.7, 'Yellow card': 0.75, 'Substitution': 0.85, 'Corner': 0.85}
+2025-06-15 19:59:15 - src.utils.utils - INFO - Predicciones leídas exitosamente desde: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_raw.json'
+2025-06-15 19:59:15 - __main__ - WARNING - No se encontraron predicciones que superaran sus respectivos umbrales de confianza.
+2025-06-15 19:59:15 - src.utils.utils - INFO - Tiempo total: 0.0 minutos. Tarea: Inferencia preliminar.
+2025-06-15 19:59:15 - src.utils.utils - INFO - Tiempo total: 0.0 minutos. Tarea: Inferencia final. Video-resumen generado.
+2025-06-15 20:02:16 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-15 20:02:16 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-15 20:02:16 - __main__ - INFO - Usando umbrales de confianza por clase: {'Goal': 0.7, 'Yellow card': 0.75, 'Substitution': 0.8, 'Corner': 0.85}
+2025-06-15 20:02:16 - src.utils.utils - INFO - Predicciones leídas exitosamente desde: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_raw.json'
+2025-06-15 20:02:16 - __main__ - INFO - Se encontraron 1 predicciones de alta confianza después del filtrado inicial.
+2025-06-15 20:02:16 - __main__ - INFO - Se detectaron 0 eventos significativos.
+2025-06-15 20:02:16 - __main__ - INFO - No se detectaron eventos significativos que cumplan con los criterios.
+2025-06-15 20:02:16 - __main__ - INFO - Eventos detectados (json) guardados en: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_post_process.json'
+2025-06-15 20:02:16 - src.utils.utils - INFO - Tiempo total: 0.0 minutos. Tarea: Inferencia preliminar.
+2025-06-15 20:02:16 - src.utils.utils - INFO - Tiempo total: 0.0 minutos. Tarea: Inferencia final. Video-resumen generado.
+2025-06-15 20:14:56 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-15 20:14:56 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-15 20:14:56 - __main__ - INFO - Usando umbrales de confianza por clase: {'Goal': 0.7, 'Yellow card': 0.75, 'Substitution': 0.8, 'Corner': 0.85}
+2025-06-15 20:14:56 - src.utils.utils - INFO - Predicciones leídas exitosamente desde: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_raw.json'
+2025-06-15 20:14:56 - __main__ - INFO - Se encontraron 1 predicciones de alta confianza después del filtrado inicial.
+2025-06-15 20:14:56 - __main__ - INFO - Se detectaron 1 eventos significativos.
+2025-06-15 20:14:56 - __main__ - INFO - Evento: Substitution    | Inicio: 00:00:50 (50.00s) | Fin: 00:00:52 (52.00s) | Confianza promedio: 0.82
+2025-06-15 20:14:56 - __main__ - INFO - Eventos detectados (json) guardados en: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_post_process.json'
+2025-06-15 20:14:56 - src.utils.utils - INFO - Tiempo total: 0.0 minutos. Tarea: Inferencia preliminar.
+2025-06-15 20:14:56 - src.utils.utils - INFO - Tiempo total: 0.0 minutos. Tarea: Inferencia final. Video-resumen generado.
+2025-06-15 21:01:08 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-15 21:01:08 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-15 21:01:08 - __main__ - INFO - Usando umbrales de confianza por clase: {'Goal': 0.7, 'Yellow card': 0.75, 'Substitution': 0.8, 'Corner': 0.85}
+2025-06-15 21:01:08 - src.utils.utils - INFO - Predicciones leídas exitosamente desde: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_raw.json'
+2025-06-15 21:01:08 - __main__ - INFO - Se encontraron 1 predicciones de alta confianza después del filtrado inicial.
+2025-06-15 21:01:08 - __main__ - INFO - Se detectaron 1 eventos significativos.
+2025-06-15 21:01:08 - __main__ - INFO - Evento: Substitution    | Inicio: 00:00:50 (50.00s) | Fin: 00:00:52 (52.00s) | Confianza promedio: 0.82
+2025-06-15 21:01:08 - __main__ - INFO - Eventos detectados (json) guardados en: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_post_process.json'
+2025-06-15 21:01:08 - src.utils.utils - INFO - Tiempo total: 0.0 minutos. Tarea: Inferencia preliminar.
+2025-06-15 21:01:08 - __main__ - INFO - Procesando evento 1/1: 'Substitution' de 48.00s a 54.00s
+2025-06-15 21:03:04 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-15 21:03:04 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-15 21:03:04 - __main__ - INFO - Usando umbrales de confianza por clase: {'Goal': 0.7, 'Yellow card': 0.75, 'Substitution': 0.8, 'Corner': 0.85}
+2025-06-15 21:03:04 - src.utils.utils - INFO - Predicciones leídas exitosamente desde: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_raw.json'
+2025-06-15 21:03:04 - __main__ - INFO - Se encontraron 1 predicciones de alta confianza después del filtrado inicial.
+2025-06-15 21:03:04 - __main__ - INFO - Se detectaron 1 eventos significativos.
+2025-06-15 21:03:04 - __main__ - INFO - Evento: Substitution    | Inicio: 00:00:50 (50.00s) | Fin: 00:00:52 (52.00s) | Confianza promedio: 0.82
+2025-06-15 21:03:04 - __main__ - INFO - Eventos detectados (json) guardados en: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_post_process.json'
+2025-06-15 21:03:04 - src.utils.utils - INFO - Tiempo total: 0.0 minutos. Tarea: Inferencia preliminar.
+2025-06-15 21:03:04 - __main__ - INFO - Procesando evento 1/1: 'Substitution' de 48.00s a 54.00s
+2025-06-15 21:40:21 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-15 21:40:21 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-15 21:40:21 - __main__ - INFO - Usando umbrales de confianza por clase: {'Goal': 0.7, 'Yellow card': 0.75, 'Substitution': 0.8, 'Corner': 0.85}
+2025-06-15 21:40:21 - src.utils.utils - INFO - Predicciones leídas exitosamente desde: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_raw.json'
+2025-06-15 21:40:21 - __main__ - INFO - Se encontraron 1 predicciones de alta confianza después del filtrado inicial.
+2025-06-15 21:40:21 - __main__ - INFO - Se detectaron 1 eventos significativos.
+2025-06-15 21:40:21 - __main__ - INFO - Evento: Substitution    | Inicio: 00:00:50 (50.00s) | Fin: 00:00:52 (52.00s) | Confianza promedio: 0.82
+2025-06-15 21:40:21 - __main__ - INFO - Eventos detectados (json) guardados en: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_post_process.json'
+2025-06-15 21:40:21 - src.utils.utils - INFO - Tiempo total: 0.0 minutos. Tarea: Inferencia preliminar.
+2025-06-15 21:40:21 - __main__ - INFO - Procesando evento 1/1: 'Substitution' de 48.00s a 54.00s
+2025-06-15 21:40:21 - __main__ - ERROR - Invalid font Arial-Bold, pillow failed to use it with error cannot open resource
+2025-06-15 21:40:21 - __main__ - ERROR - No se pudo crear ningún subclip válido. Abortando la creación del vídeo.
+2025-06-15 21:40:21 - src.utils.utils - INFO - Tiempo total: 0.01 minutos. Tarea: Inferencia final. Video-resumen generado.
+2025-06-15 21:43:36 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-15 21:43:36 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-15 21:43:36 - __main__ - INFO - Usando umbrales de confianza por clase: {'Goal': 0.7, 'Yellow card': 0.75, 'Substitution': 0.8, 'Corner': 0.85}
+2025-06-15 21:43:36 - src.utils.utils - INFO - Predicciones leídas exitosamente desde: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_raw.json'
+2025-06-15 21:43:36 - __main__ - INFO - Se encontraron 1 predicciones de alta confianza después del filtrado inicial.
+2025-06-15 21:43:36 - __main__ - INFO - Se detectaron 1 eventos significativos.
+2025-06-15 21:43:36 - __main__ - INFO - Evento: Substitution    | Inicio: 00:00:50 (50.00s) | Fin: 00:00:52 (52.00s) | Confianza promedio: 0.82
+2025-06-15 21:43:36 - __main__ - INFO - Eventos detectados (json) guardados en: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_post_process.json'
+2025-06-15 21:43:36 - src.utils.utils - INFO - Tiempo total: 0.0 minutos. Tarea: Inferencia preliminar.
+2025-06-15 21:43:36 - __main__ - INFO - Procesando evento 1/1: 'Substitution' de 48.00s a 54.00s
+2025-06-15 21:43:37 - __main__ - ERROR - Invalid font Arial, pillow failed to use it with error cannot open resource
+2025-06-15 21:43:37 - __main__ - ERROR - No se pudo crear ningún subclip válido. Abortando la creación del vídeo.
+2025-06-15 21:43:37 - src.utils.utils - INFO - Tiempo total: 0.01 minutos. Tarea: Inferencia final. Video-resumen generado.
+2025-06-15 21:51:31 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-15 21:51:31 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-15 21:51:31 - __main__ - INFO - Usando umbrales de confianza por clase: {'Goal': 0.7, 'Yellow card': 0.75, 'Substitution': 0.8, 'Corner': 0.85}
+2025-06-15 21:51:31 - src.utils.utils - INFO - Predicciones leídas exitosamente desde: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_raw.json'
+2025-06-15 21:51:31 - __main__ - INFO - Se encontraron 1 predicciones de alta confianza después del filtrado inicial.
+2025-06-15 21:51:31 - __main__ - INFO - Se detectaron 1 eventos significativos.
+2025-06-15 21:51:31 - __main__ - INFO - Evento: Substitution    | Inicio: 00:00:50 (50.00s) | Fin: 00:00:52 (52.00s) | Confianza promedio: 0.82
+2025-06-15 21:51:31 - __main__ - INFO - Eventos detectados (json) guardados en: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_post_process.json'
+2025-06-15 21:51:31 - src.utils.utils - INFO - Tiempo total: 0.0 minutos. Tarea: Inferencia preliminar.
+2025-06-15 21:51:31 - __main__ - INFO - Procesando evento 1/1: 'Substitution' de 48.00s a 54.00s
+2025-06-15 21:51:31 - __main__ - ERROR - 'TextClip' object has no attribute 'set_position'
+2025-06-15 21:51:31 - __main__ - ERROR - No se pudo crear ningún subclip válido. Abortando la creación del vídeo.
+2025-06-15 21:51:31 - src.utils.utils - INFO - Tiempo total: 0.01 minutos. Tarea: Inferencia final. Video-resumen generado.
+2025-06-15 22:14:53 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-15 22:14:53 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-15 22:14:53 - __main__ - INFO - Usando umbrales de confianza por clase: {'Goal': 0.7, 'Yellow card': 0.75, 'Substitution': 0.8, 'Corner': 0.85}
+2025-06-15 22:14:53 - src.utils.utils - INFO - Predicciones leídas exitosamente desde: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_raw.json'
+2025-06-15 22:14:53 - __main__ - INFO - Se encontraron 1 predicciones de alta confianza después del filtrado inicial.
+2025-06-15 22:14:53 - __main__ - INFO - Se detectaron 1 eventos significativos.
+2025-06-15 22:14:53 - __main__ - INFO - Evento: Substitution    | Inicio: 00:00:50 (50.00s) | Fin: 00:00:52 (52.00s) | Confianza promedio: 0.82
+2025-06-15 22:14:53 - __main__ - INFO - Eventos detectados (json) guardados en: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_post_process.json'
+2025-06-15 22:14:53 - src.utils.utils - INFO - Tiempo total: 0.0 minutos. Tarea: Inferencia preliminar.
+2025-06-15 22:14:53 - __main__ - INFO - Procesando evento 1/1: 'Substitution' de 48.00s a 54.00s
+2025-06-15 22:14:53 - __main__ - INFO - Concatenando todos los subclips en el vídeo resumen final.
+2025-06-15 22:17:42 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-15 22:17:42 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-15 22:17:42 - __main__ - INFO - Usando umbrales de confianza por clase: {'Goal': 0.7, 'Yellow card': 0.75, 'Substitution': 0.8, 'Corner': 0.85}
+2025-06-15 22:17:42 - src.utils.utils - INFO - Predicciones leídas exitosamente desde: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_raw.json'
+2025-06-15 22:17:42 - __main__ - INFO - Se encontraron 1 predicciones de alta confianza después del filtrado inicial.
+2025-06-15 22:17:42 - __main__ - INFO - Se detectaron 1 eventos significativos.
+2025-06-15 22:17:42 - __main__ - INFO - Evento: Substitution    | Inicio: 00:00:50 (50.00s) | Fin: 00:00:52 (52.00s) | Confianza promedio: 0.82
+2025-06-15 22:17:42 - __main__ - INFO - Eventos detectados (json) guardados en: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_post_process.json'
+2025-06-15 22:17:42 - src.utils.utils - INFO - Tiempo total: 0.0 minutos. Tarea: Inferencia preliminar.
+2025-06-15 22:17:42 - __main__ - INFO - Procesando evento 1/1: 'Substitution' de 48.00s a 54.00s
+2025-06-15 22:17:42 - __main__ - INFO - Concatenando todos los subclips en el vídeo resumen final.
+2025-06-15 22:17:42 - __main__ - ERROR - reduce() of empty iterable with no initial value
+2025-06-15 22:19:19 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-15 22:19:19 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-15 22:19:19 - __main__ - INFO - Usando umbrales de confianza por clase: {'Goal': 0.7, 'Yellow card': 0.75, 'Substitution': 0.8, 'Corner': 0.85}
+2025-06-15 22:19:19 - src.utils.utils - INFO - Predicciones leídas exitosamente desde: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_raw.json'
+2025-06-15 22:19:19 - __main__ - INFO - Se encontraron 1 predicciones de alta confianza después del filtrado inicial.
+2025-06-15 22:19:19 - __main__ - INFO - Se detectaron 1 eventos significativos.
+2025-06-15 22:19:19 - __main__ - INFO - Evento: Substitution    | Inicio: 00:00:50 (50.00s) | Fin: 00:00:52 (52.00s) | Confianza promedio: 0.82
+2025-06-15 22:19:19 - __main__ - INFO - Eventos detectados (json) guardados en: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_post_process.json'
+2025-06-15 22:19:19 - src.utils.utils - INFO - Tiempo total: 0.0 minutos. Tarea: Inferencia preliminar.
+2025-06-15 22:19:20 - __main__ - INFO - Procesando evento 1/1: 'Substitution' de 48.00s a 54.00s
+2025-06-15 22:19:20 - __main__ - INFO - Concatenando todos los subclips en el vídeo resumen final.
+2025-06-15 22:19:20 - __main__ - ERROR - reduce() of empty iterable with no initial value
+2025-06-15 22:22:51 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-15 22:22:51 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-15 22:22:51 - __main__ - INFO - Usando umbrales de confianza por clase: {'Goal': 0.7, 'Yellow card': 0.75, 'Substitution': 0.8, 'Corner': 0.85}
+2025-06-15 22:22:51 - src.utils.utils - INFO - Predicciones leídas exitosamente desde: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_raw.json'
+2025-06-15 22:22:51 - __main__ - INFO - Se encontraron 1 predicciones de alta confianza después del filtrado inicial.
+2025-06-15 22:22:51 - __main__ - INFO - Se detectaron 1 eventos significativos.
+2025-06-15 22:22:51 - __main__ - INFO - Evento: Substitution    | Inicio: 00:00:50 (50.00s) | Fin: 00:00:52 (52.00s) | Confianza promedio: 0.82
+2025-06-15 22:22:51 - __main__ - INFO - Eventos detectados (json) guardados en: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_post_process.json'
+2025-06-15 22:22:51 - src.utils.utils - INFO - Tiempo total: 0.0 minutos. Tarea: Inferencia preliminar.
+2025-06-15 22:22:51 - __main__ - INFO - Procesando evento 1/1: 'Substitution' de 48.00s a 54.00s
+2025-06-15 22:22:51 - __main__ - INFO - Concatenando todos los subclips en el vídeo resumen final.
+2025-06-15 22:22:51 - __main__ - ERROR - reduce() of empty iterable with no initial value
+2025-06-15 22:24:08 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-15 22:24:08 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-15 22:24:08 - __main__ - INFO - Usando umbrales de confianza por clase: {'Goal': 0.7, 'Yellow card': 0.75, 'Substitution': 0.8, 'Corner': 0.85}
+2025-06-15 22:24:08 - src.utils.utils - INFO - Predicciones leídas exitosamente desde: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_raw.json'
+2025-06-15 22:24:08 - __main__ - INFO - Se encontraron 1 predicciones de alta confianza después del filtrado inicial.
+2025-06-15 22:24:08 - __main__ - INFO - Se detectaron 1 eventos significativos.
+2025-06-15 22:24:08 - __main__ - INFO - Evento: Substitution    | Inicio: 00:00:50 (50.00s) | Fin: 00:00:52 (52.00s) | Confianza promedio: 0.82
+2025-06-15 22:24:08 - __main__ - INFO - Eventos detectados (json) guardados en: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_post_process.json'
+2025-06-15 22:24:08 - src.utils.utils - INFO - Tiempo total: 0.0 minutos. Tarea: Inferencia preliminar.
+2025-06-15 22:24:08 - __main__ - INFO - Procesando evento 1/1: 'Substitution' de 48.00s a 54.00s
+2025-06-15 22:24:08 - __main__ - INFO - Concatenando todos los subclips en el vídeo resumen final.
+2025-06-15 22:28:39 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-15 22:28:39 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-15 22:28:39 - __main__ - INFO - Usando umbrales de confianza por clase: {'Goal': 0.7, 'Yellow card': 0.75, 'Substitution': 0.8, 'Corner': 0.85}
+2025-06-15 22:28:39 - src.utils.utils - INFO - Predicciones leídas exitosamente desde: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_raw.json'
+2025-06-15 22:28:39 - __main__ - INFO - Se encontraron 1 predicciones de alta confianza después del filtrado inicial.
+2025-06-15 22:28:39 - __main__ - INFO - Se detectaron 1 eventos significativos.
+2025-06-15 22:28:39 - __main__ - INFO - Evento: Substitution    | Inicio: 00:00:50 (50.00s) | Fin: 00:00:52 (52.00s) | Confianza promedio: 0.82
+2025-06-15 22:28:39 - __main__ - INFO - Eventos detectados (json) guardados en: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_post_process.json'
+2025-06-15 22:28:39 - src.utils.utils - INFO - Tiempo total: 0.0 minutos. Tarea: Inferencia preliminar.
+2025-06-15 22:28:39 - __main__ - INFO - Procesando evento 1/1: 'Substitution' de 48.00s a 54.00s
+2025-06-15 22:28:39 - __main__ - INFO - Concatenando todos los subclips en el vídeo resumen final.
+2025-06-15 22:28:39 - __main__ - ERROR - reduce() of empty iterable with no initial value
+2025-06-15 22:28:39 - __main__ - ERROR - cannot access local variable 'summary_video' where it is not associated with a value
+2025-06-15 22:52:30 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-15 22:52:30 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-15 22:52:30 - __main__ - INFO - Usando umbrales de confianza por clase: {'Goal': 0.7, 'Yellow card': 0.75, 'Substitution': 0.8, 'Corner': 0.85}
+2025-06-15 22:52:30 - src.utils.utils - INFO - Predicciones leídas exitosamente desde: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_raw.json'
+2025-06-15 22:52:30 - __main__ - INFO - Se encontraron 1 predicciones de alta confianza después del filtrado inicial.
+2025-06-15 22:52:30 - __main__ - INFO - Se detectaron 1 eventos significativos.
+2025-06-15 22:52:30 - __main__ - INFO - Evento: Substitution    | Inicio: 00:00:50 (50.00s) | Fin: 00:00:52 (52.00s) | Confianza promedio: 0.82
+2025-06-15 22:52:30 - __main__ - INFO - Eventos detectados (json) guardados en: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_post_process.json'
+2025-06-15 22:52:30 - src.utils.utils - INFO - Tiempo total: 0.0 minutos. Tarea: Inferencia preliminar.
+2025-06-15 22:52:31 - __main__ - INFO - Procesando evento 1/1: 'Substitution' de 48.00s a 54.00s
+2025-06-15 22:52:31 - __main__ - INFO - Concatenando todos los subclips en el vídeo resumen final.
+2025-06-15 22:52:47 - __main__ - INFO - ¡Video-resumen generado exitosamente!
+2025-06-15 22:52:47 - src.utils.utils - INFO - Tiempo total: 0.27 minutos. Tarea: Inferencia final. Video-resumen generado.
+2025-06-15 22:54:42 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-15 22:54:42 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-15 22:54:42 - __main__ - INFO - Usando umbrales de confianza por clase: {'Goal': 0.7, 'Yellow card': 0.7, 'Substitution': 0.8, 'Corner': 0.85}
+2025-06-15 22:54:42 - src.utils.utils - INFO - Predicciones leídas exitosamente desde: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_raw.json'
+2025-06-15 22:54:42 - __main__ - INFO - Se encontraron 3 predicciones de alta confianza después del filtrado inicial.
+2025-06-15 22:54:42 - __main__ - INFO - Se detectaron 3 eventos significativos.
+2025-06-15 22:54:42 - __main__ - INFO - Evento: Yellow card     | Inicio: 00:00:38 (38.00s) | Fin: 00:00:40 (40.00s) | Confianza promedio: 0.72
+2025-06-15 22:54:42 - __main__ - INFO - Evento: Substitution    | Inicio: 00:00:50 (50.00s) | Fin: 00:00:52 (52.00s) | Confianza promedio: 0.82
+2025-06-15 22:54:42 - __main__ - INFO - Evento: Yellow card     | Inicio: 00:00:56 (56.00s) | Fin: 00:00:58 (58.00s) | Confianza promedio: 0.73
+2025-06-15 22:54:42 - __main__ - INFO - Eventos detectados (json) guardados en: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_post_process.json'
+2025-06-15 22:54:42 - src.utils.utils - INFO - Tiempo total: 0.0 minutos. Tarea: Inferencia preliminar.
+2025-06-15 22:54:42 - __main__ - INFO - Procesando evento 1/3: 'Yellow card' de 36.00s a 42.00s
+2025-06-15 22:54:42 - __main__ - INFO - Procesando evento 2/3: 'Substitution' de 48.00s a 54.00s
+2025-06-15 22:54:42 - __main__ - INFO - Procesando evento 3/3: 'Yellow card' de 54.00s a 60.00s
+2025-06-15 22:54:43 - __main__ - INFO - Concatenando todos los subclips en el vídeo resumen final.
+2025-06-15 22:55:22 - __main__ - INFO - ¡Video-resumen generado exitosamente!
+2025-06-15 22:55:22 - src.utils.utils - INFO - Tiempo total: 0.67 minutos. Tarea: Inferencia final. Video-resumen generado.
+2025-06-15 22:58:56 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-15 22:58:56 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-15 22:58:56 - __main__ - INFO - Usando umbrales de confianza por clase: {'Goal': 0.7, 'Yellow card': 0.7, 'Substitution': 0.8, 'Corner': 0.85}
+2025-06-15 22:58:56 - src.utils.utils - INFO - Predicciones leídas exitosamente desde: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_raw.json'
+2025-06-15 22:58:56 - __main__ - INFO - Se encontraron 3 predicciones de alta confianza después del filtrado inicial.
+2025-06-15 22:58:56 - __main__ - INFO - Se detectaron 3 eventos significativos.
+2025-06-15 22:58:56 - __main__ - INFO - Evento: Yellow card     | Inicio: 00:00:38 (38.00s) | Fin: 00:00:40 (40.00s) | Confianza promedio: 0.72
+2025-06-15 22:58:56 - __main__ - INFO - Evento: Substitution    | Inicio: 00:00:50 (50.00s) | Fin: 00:00:52 (52.00s) | Confianza promedio: 0.82
+2025-06-15 22:58:56 - __main__ - INFO - Evento: Yellow card     | Inicio: 00:00:56 (56.00s) | Fin: 00:00:58 (58.00s) | Confianza promedio: 0.73
+2025-06-15 22:58:56 - __main__ - INFO - Eventos detectados (json) guardados en: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_post_process.json'
+2025-06-15 22:58:56 - src.utils.utils - INFO - Tiempo total: 0.0 minutos. Tarea: Inferencia preliminar.
+2025-06-15 22:58:56 - __main__ - INFO - Procesando evento 1/3: 'Yellow card' de 36.00s a 42.00s
+2025-06-15 22:58:56 - __main__ - INFO - Procesando evento 2/3: 'Substitution' de 48.00s a 54.00s
+2025-06-15 22:58:57 - __main__ - INFO - Procesando evento 3/3: 'Yellow card' de 54.00s a 60.00s
+2025-06-15 22:58:57 - __main__ - INFO - Concatenando todos los subclips en el vídeo resumen final.
+2025-06-15 22:59:37 - __main__ - INFO - ¡Video-resumen generado exitosamente!
+2025-06-15 22:59:37 - src.utils.utils - INFO - Tiempo total: 0.68 minutos. Tarea: Inferencia final. Video-resumen generado.
+2025-06-15 23:01:54 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-15 23:01:54 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-15 23:01:54 - __main__ - INFO - Usando umbrales de confianza por clase: {'Goal': 0.7, 'Yellow card': 0.7, 'Substitution': 0.8, 'Corner': 0.85}
+2025-06-15 23:01:54 - src.utils.utils - INFO - Predicciones leídas exitosamente desde: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_raw.json'
+2025-06-15 23:01:54 - __main__ - INFO - Se encontraron 3 predicciones de alta confianza después del filtrado inicial.
+2025-06-15 23:01:54 - __main__ - INFO - Se detectaron 3 eventos significativos.
+2025-06-15 23:01:54 - __main__ - INFO - Evento: Yellow card     | Inicio: 00:00:38 (38.00s) | Fin: 00:00:40 (40.00s) | Confianza promedio: 0.72
+2025-06-15 23:01:54 - __main__ - INFO - Evento: Substitution    | Inicio: 00:00:50 (50.00s) | Fin: 00:00:52 (52.00s) | Confianza promedio: 0.82
+2025-06-15 23:01:54 - __main__ - INFO - Evento: Yellow card     | Inicio: 00:00:56 (56.00s) | Fin: 00:00:58 (58.00s) | Confianza promedio: 0.73
+2025-06-15 23:01:54 - __main__ - INFO - Eventos detectados (json) guardados en: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_post_process.json'
+2025-06-15 23:01:54 - src.utils.utils - INFO - Tiempo total: 0.0 minutos. Tarea: Inferencia preliminar.
+2025-06-15 23:01:54 - __main__ - INFO - Procesando evento 1/3: 'Yellow card' de 36.00s a 42.00s
+2025-06-15 23:01:54 - __main__ - INFO - Procesando evento 2/3: 'Substitution' de 48.00s a 54.00s
+2025-06-15 23:01:54 - __main__ - INFO - Procesando evento 3/3: 'Yellow card' de 54.00s a 60.00s
+2025-06-15 23:01:54 - __main__ - INFO - Concatenando todos los subclips en el vídeo resumen final.
+2025-06-15 23:02:34 - __main__ - INFO - ¡Video-resumen generado exitosamente!
+2025-06-15 23:02:34 - src.utils.utils - INFO - Tiempo total: 0.66 minutos. Tarea: Inferencia final. Video-resumen generado.
+2025-06-15 23:04:04 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-06-15 23:04:04 - __main__ - INFO - Usando dispositivo: cpu
+2025-06-15 23:04:04 - __main__ - INFO - Usando umbrales de confianza por clase: {'Goal': 0.7, 'Yellow card': 0.7, 'Substitution': 0.8, 'Corner': 0.85}
+2025-06-15 23:04:04 - src.utils.utils - INFO - Predicciones leídas exitosamente desde: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_raw.json'
+2025-06-15 23:04:04 - __main__ - INFO - Se encontraron 3 predicciones de alta confianza después del filtrado inicial.
+2025-06-15 23:04:04 - __main__ - INFO - Se detectaron 3 eventos significativos.
+2025-06-15 23:04:04 - __main__ - INFO - Evento: Yellow card     | Inicio: 00:00:38 (38.00s) | Fin: 00:00:40 (40.00s) | Confianza promedio: 0.72
+2025-06-15 23:04:04 - __main__ - INFO - Evento: Substitution    | Inicio: 00:00:50 (50.00s) | Fin: 00:00:52 (52.00s) | Confianza promedio: 0.82
+2025-06-15 23:04:04 - __main__ - INFO - Evento: Yellow card     | Inicio: 00:00:56 (56.00s) | Fin: 00:00:58 (58.00s) | Confianza promedio: 0.73
+2025-06-15 23:04:04 - __main__ - INFO - Eventos detectados (json) guardados en: 'inference\england_epl\2016-2017\2017-05-06 - 17-00 Leicester 3 - 0 Watford\1_720p_recortado_predictions_post_process.json'
+2025-06-15 23:04:04 - src.utils.utils - INFO - Tiempo total: 0.0 minutos. Tarea: Inferencia preliminar.
+2025-06-15 23:04:04 - __main__ - INFO - Procesando evento 1/3: 'Yellow card' de 36.00s a 42.00s
+2025-06-15 23:04:04 - __main__ - INFO - Procesando evento 2/3: 'Substitution' de 48.00s a 54.00s
+2025-06-15 23:04:04 - __main__ - INFO - Procesando evento 3/3: 'Yellow card' de 54.00s a 60.00s
+2025-06-15 23:04:05 - __main__ - INFO - Concatenando todos los subclips en el vídeo resumen final.
+2025-06-15 23:04:27 - __main__ - INFO - ¡Video-resumen generado exitosamente!
+2025-06-15 23:04:27 - src.utils.utils - INFO - Tiempo total: 0.38 minutos. Tarea: Inferencia final. Video-resumen generado.
