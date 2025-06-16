@@ -174,9 +174,10 @@ def get_time_employed(
 ) -> None:
     logger.info(f"Tiempo total: {time_in_minutes(t_start)} minutos. Tarea: {message}")
 
+
 def time_in_minutes(t_start: time):
     t_end = time.time() - t_start
-    
+
     return np.round(t_end / 60.0, decimals=2)
 
 
@@ -325,9 +326,10 @@ def leer_registros_txt(ruta_archivo: str) -> list:
 
     return registros
 
+
 def guardar_predicciones_json(
-    predicciones: list,
-    ruta_archivo: Path,
+        predicciones: list,
+        ruta_archivo: Path,
 ):
     """
     Guarda una lista de diccionarios de predicciones en un archivo JSON.
@@ -339,7 +341,7 @@ def guardar_predicciones_json(
     """
     # convertir los tipos de NumPy a tipos nativos de Python
     predicciones_serializables = []
-    
+
     for p in predicciones:
         pred_limpia = {
             "timestamp": float(p["timestamp"]),
@@ -353,18 +355,19 @@ def guardar_predicciones_json(
         with open(ruta_archivo, 'w', encoding='utf-8') as f:
             # indent=4 hace que el archivo sea más legible
             json.dump(predicciones_serializables, f, indent=4)
-            
+
         logger.info(f"Predicciones guardadas exitosamente en: '{ruta_archivo}'")
         return True
     except Exception as e:
         logger.error(f"Error al guardar el archivo JSON: {e}")
         return False
 
+
 def leer_predicciones_json(ruta_archivo: Path) -> list:
     try:
         with open(ruta_archivo, 'r', encoding='utf-8') as f:
             predicciones = json.load(f)
-            
+
         logger.info(f"Predicciones leídas exitosamente desde: '{ruta_archivo}'")
         return predicciones
     except FileNotFoundError:

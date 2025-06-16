@@ -10,18 +10,17 @@ import torch
 import torch.nn as nn
 import torchvision.io
 import torchvision.transforms.v2 as T_v2
-from moviepy import VideoFileClip, concatenate_videoclips, TextClip, CompositeVideoClip
-from moviepy.video.fx import FadeIn, FadeOut
 from torchvision.models.video import r2plus1d_18, R2Plus1D_18_Weights
 from tqdm import tqdm
 
 from src.models.main_cnn3d import SimpleCNN3D, FRAMES_PER_CLIP, TARGET_SIZE_DATASET
 from src.models.main_resnet import TRANSFER_MODEL_FRAMES_PER_CLIP
 from src.models.transforms import get_transforms_cnn3d_grayscale, get_transforms_resnet
+from src.postprocess.video_resumen_engine import video_resumen_moviepy
 from src.preprocess.dataset_soccernet import INV_LABEL_MAP
 from src.preprocess.dataset_soccernet import get_output_size_from_transforms
 from src.utils import utils as ut
-from src.utils.constants import SOCCERNET_LABELS, LOG_DIR, LOG_INFERENCE, MAS_MENOS_CLIPS, UMBRALES
+from src.utils.constants import SOCCERNET_LABELS, LOG_DIR, LOG_INFERENCE, MAS_MENOS_CLIPS, UMBRALES, BUFFER_SECONDS
 
 logger = logging.getLogger(__name__)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -292,109 +291,6 @@ def puente(
     return raw_predictions
 
 
-def create_summary_video(
-        final_events,
-        original_video_path: Path,
-        buffer_seconds: float = 2.0,
-        transition_seconds: float = 0.5,
-):
-    output_path = original_video_path.parent / f"{original_video_path.stem}_resumen_final.mp4"
-
-    # Cargar el vídeo original una sola vez
-    try:
-        main_video_clip = VideoFileClip(str(original_video_path))
-    except Exception as e:
-        logger.error(f"Al cargar el vídeo original '{original_video_path}': {e}")
-        return
-
-    final_clips = []
-    video_duration = main_video_clip.duration
-
-    # Procesar cada evento para crear subclips
-    try:
-        for i, event in enumerate(final_events):
-            evento_str = event.get('evento', 'Evento Desconocido')
-            inicio = event.get('inicio', 0)
-            fin = event.get('fin', 0)
-
-            # Añadir buffer (margen de tiempo) asegurando no salirse de los límites del vídeo
-            start_with_buffer = max(0, inicio - buffer_seconds)
-            end_with_buffer = min(video_duration, fin + buffer_seconds)
-
-            if start_with_buffer >= end_with_buffer:
-                logger.warning(
-                    f"Saltando evento '{evento_str}' en {inicio:.2f}s porque su duración con buffer es inválida.")
-                continue
-
-            logger.info(
-                f"Procesando evento {i + 1}/{len(final_events)}: '{evento_str}' de {start_with_buffer:.2f}s a {end_with_buffer:.2f}s")
-
-            subclip = main_video_clip.subclipped(start_with_buffer, end_with_buffer)
-
-            # (Opcional) Crear y superponer un texto sobre el clip
-            txt_clip = TextClip(
-                # font='Arial-Bold',
-                text=f"{evento_str}",
-                font_size=40,
-                color='white',
-                stroke_color="black",
-                stroke_width=2,
-                # horizontal_align="left",
-                horizontal_align="center",
-                # vertical_align="top",
-                vertical_align="center",
-                duration=subclip.duration,
-            )
-            # txt_clip = txt_clip.set_position(('left', 'top')).set_duration(subclip.duration)
-
-            # Componer el vídeo con el texto superpuesto
-            video_with_text = CompositeVideoClip([subclip, txt_clip])
-
-            # (Opcional) Añadir un pequeño fundido al inicio y final de cada clip individual
-            # Esto puede ayudar si no se usa una transición de concatenación.
-            # video_with_text = video_with_text.fx(fadein, 0.5).fx(fadeout, 0.5)
-
-            final_clips.append(video_with_text)
-    except Exception as e:
-        logger.error(e)
-
-    if not final_clips:
-        logger.error("No se pudo crear ningún subclip válido. Abortando la creación del vídeo.")
-        main_video_clip.close()
-        return
-
-    try:
-        # Concatenar todos los subclips con una transición de fundido cruzado
-        print(final_clips)
-        logger.info("Concatenando todos los subclips en el vídeo resumen final.")
-        # summary_video = concatenate_videoclips(final_clips, transition=fadein(transition_seconds), method="compose")
-        summary_video = concatenate_videoclips(
-            clips=final_clips,
-            # method="compose",
-            method="chain",
-            # transition=FadeIn(transition_seconds),  # TODO corregir o desestimarlo
-        )
-    except Exception as e:
-        logger.error(e)
-
-    try:
-        # Codecs estándar para alta compatibilidad (vídeo H.264, audio AAC)
-        summary_video.write_videofile(
-            str(output_path),
-            codec='libx264',
-            audio_codec='aac',
-        )
-        logger.info("¡Video-resumen generado exitosamente!")
-    except Exception as e:
-        logger.error(e)
-    finally:
-        # Liberar recursos
-        main_video_clip.close()
-        summary_video.close()
-        for clip in final_clips:
-            clip.close()
-
-
 def main(args):
     logger.info(f"Usando dispositivo: {device}")
 
@@ -427,11 +323,11 @@ def main(args):
     ut.get_time_employed(t_start, "Inferencia preliminar.")
 
     t_start = time.time()
-    create_summary_video(
+    video_resumen_moviepy(
         final_events=final_events,
         original_video_path=ruta_video,
-        buffer_seconds=2.0,
-        transition_seconds=0.5,
+        buffer_seconds=BUFFER_SECONDS,
+        transition_seconds=0.75,
     )
     ut.get_time_employed(t_start, f"Inferencia final. Video-resumen generado.")
 

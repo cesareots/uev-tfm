@@ -38,12 +38,21 @@ PARTIDOS_INDICE_LOTE = [
     [484, 498],  # lote 15 ---- index=499 para inferencia, spain_laliga
 ]
 MAS_MENOS_CLIPS = 1.5
+
+#inferencia, video-resumen
 UMBRALES = {
     "Goal": 0.70,
-    "Yellow card": 0.7,
+    "Yellow card": 0.73,
     "Substitution": 0.80,
     "Corner": 0.85,
 }
+SOCCERNET_LABELS_ES = {
+    "Goal": "Gol",
+    "Yellow card": "Tarjeta amarilla",
+    "Substitution": "Sustitucion",  # moviepy, el 'font' por defecto no soporta caracteres especiales
+    "Corner": "Saque de esquina",
+}
+BUFFER_SECONDS=4.0
 
 SOCCERNET_RESULTS = f"{RESULTS}soccernet"
 DS_SOCCERNET_RAW = os.getenv("DS_SOCCERNET_RAW")
