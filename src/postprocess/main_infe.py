@@ -246,8 +246,9 @@ def post_process_predictions(
         logger.info("No se detectaron eventos significativos que cumplan con los criterios.")
     else:
         for event in final_events:
-            start_time_str = time.strftime('%H:%M:%S', time.gmtime(event['inicio']))
-            end_time_str = time.strftime('%H:%M:%S', time.gmtime(event['fin']))
+            #start_time_str = time.strftime("%H:%M:%S", time.gmtime(event['inicio']))
+            start_time_str = time.strftime("%M:%S", time.gmtime(event["inicio"]))
+            end_time_str = time.strftime("%M:%S", time.gmtime(event["fin"]))
             log_con = f"Evento: {event['evento']:<15} | Inicio: {start_time_str} ({event['inicio']:.2f}s) | Fin: {end_time_str} ({event['fin']:.2f}s) | Confianza promedio: {event['confianza_promedio']:.2f}"
             # print(log_con)
             logger.info(log_con)
@@ -309,8 +310,8 @@ def main(args):
     # min_event_duration = 3.0
 
     t_start = time.time()
-    # raw_predictions = puente(frames_per_clip, ruta_video, stride, raw_predictions_json)
-    raw_predictions = ut.leer_predicciones_json(raw_predictions_json)  # TODO solo para debug
+    raw_predictions = puente(frames_per_clip, ruta_video, stride, raw_predictions_json)
+    #raw_predictions = ut.leer_predicciones_json(raw_predictions_json)  # TODO solo para debug
     final_events = post_process_predictions(
         raw_predictions=raw_predictions,
         confidence_thresholds=UMBRALES,
@@ -320,14 +321,11 @@ def main(args):
         output_file=output_file,
     )
     # print(final_events)
-    ut.get_time_employed(t_start, "Inferencia preliminar.")
 
-    t_start = time.time()
     video_resumen_moviepy(
         final_events=final_events,
         original_video_path=ruta_video,
         buffer_seconds=BUFFER_SECONDS,
-        transition_seconds=0.75,
     )
     ut.get_time_employed(t_start, f"Inferencia final. Video-resumen generado.")
 
@@ -347,7 +345,7 @@ def parse_arguments():
     )
     parser.add_argument(
         "--checkpoint_path",
-        default="models/CNN3D/20250614-010515/model_CNN3D_best.pth",  # TODO
+        default="models/CNN3D/20250614-132942/model_CNN3D_best.pth",  # TODO
         # default="models/RESNET/20250607-032043/model_RESNET_best.pth",  # TODO
         type=str,
         help="Ruta al archivo de checkpoint (.pth) del modelo entrenado y elegido.",

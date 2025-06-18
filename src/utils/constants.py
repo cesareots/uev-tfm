@@ -41,19 +41,28 @@ MAS_MENOS_CLIPS = 1.5
 
 #inferencia, video-resumen
 UMBRALES = {
-    "Goal": 0.70,
-    "Yellow card": 0.73,
-    "Substitution": 0.80,
-    "Corner": 0.85,
+    "Goal": 0.75,
+    "Yellow card": 0.84,
+    "Substitution": 0.79,
+    "Corner": 0.92,
 }
+"""
+UMBRALES = {
+    "Goal": 0.999,
+    "Yellow card": 0.999,
+    "Substitution": 0.999,
+    "Corner": 0.999,
+}"""
 SOCCERNET_LABELS_ES = {
     "Goal": "Gol",
     "Yellow card": "Tarjeta amarilla",
     "Substitution": "Sustitucion",  # moviepy, el 'font' por defecto no soporta caracteres especiales
     "Corner": "Saque de esquina",
 }
-BUFFER_SECONDS=4.0
+BUFFER_SECONDS = 3.0
+PATH_RESOURCES = "src/resources/"
 
+#
 SOCCERNET_RESULTS = f"{RESULTS}soccernet"
 DS_SOCCERNET_RAW = os.getenv("DS_SOCCERNET_RAW")
 DS_SOCCERNET_ACTIONS = os.getenv("DS_SOCCERNET_ACTIONS")

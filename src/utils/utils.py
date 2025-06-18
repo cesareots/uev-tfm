@@ -2,6 +2,7 @@ import argparse
 import csv
 import json
 import logging
+import random
 import sys
 import time
 from pathlib import Path
@@ -379,3 +380,31 @@ def leer_predicciones_json(ruta_archivo: Path) -> list:
     except Exception as e:
         logger.error(f"Error inesperado: {e}")
         return []
+
+
+def random_efecto_slide():
+    lista_slide = ["top", "bottom", "left", "right"]
+
+    return random.choice(lista_slide)
+
+
+def random_video_file_clip(evento_clave: str):
+    # TODO que busque todos los .gif por nombre=evento_clave en 'resources' y los anide a la lista; esto en cada case
+    lista_vfc = ["cr7_goal_1.gif"]
+
+    match evento_clave:
+        case "Goal":
+            lista_vfc = ["cr7_goal_1.gif", "cr7_goal_2.gif", "cr7_goal_3.gif"]
+        case "Yellow card":
+            lista_vfc = ["cr7_yellow_card_1.gif"]
+        case "Substitution":
+            lista_vfc = ["cr7_substitution_1.gif", "cr7_substitution_2.gif"]
+        case "Corner":
+            lista_vfc = ["cr7_corner_1.gif", "cr7_corner_2.gif"]
+        case _:
+            pass
+
+    seleccionado = random.choice(lista_vfc)
+    logger.info(f"Animación seleccionada para superposición: '{seleccionado}'")
+
+    return seleccionado
