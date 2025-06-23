@@ -20,7 +20,7 @@ from src.postprocess.video_resumen_engine import video_resumen_moviepy
 from src.preprocess.dataset_soccernet import INV_LABEL_MAP
 from src.preprocess.dataset_soccernet import get_output_size_from_transforms
 from src.utils import utils as ut
-from src.utils.constants import SOCCERNET_LABELS, LOG_DIR, LOG_INFERENCE, MAS_MENOS_CLIPS, UMBRALES, BUFFER_SECONDS
+from src.utils.constants import SOCCERNET_LABELS, LOG_DIR, LOG_INFERENCE, MAS_MENOS_CLIPS, UMBRALES, BUFFER_SECONDS,DURACION_MIN_EVENTO
 
 logger = logging.getLogger(__name__)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -240,7 +240,7 @@ def post_process_predictions(
 
     # Filtrar eventos que son demasiado cortos
     final_events = [e for e in events if (e['fin'] - e['inicio']) >= min_event_duration]
-    logger.info(f"Se detectaron {len(final_events)} eventos significativos.")
+    logger.info(f"Se detectaron {len(final_events)} eventos significativos. Para que un evento sea significativo debe durar al menos: {min_event_duration:.2f} segundos")
 
     if not final_events:
         logger.info("No se detectaron eventos significativos que cumplan con los criterios.")
@@ -304,19 +304,16 @@ def main(args):
     stride = 2.0
     umbral_defecto = 0.75
     logger.info(f"Usando umbrales de confianza por clase: {UMBRALES}")
-    # duración mínima en segundos para que un evento sea considerado válido
-    min_event_duration = 2.0
-    # min_event_duration = 2.5
-    # min_event_duration = 3.0
-
+    
     t_start = time.time()
     raw_predictions = puente(frames_per_clip, ruta_video, stride, raw_predictions_json)
     #raw_predictions = ut.leer_predicciones_json(raw_predictions_json)  # TODO solo para debug
+    
     final_events = post_process_predictions(
         raw_predictions=raw_predictions,
         confidence_thresholds=UMBRALES,
         default_threshold=umbral_defecto,
-        min_event_duration=min_event_duration,
+        min_event_duration=DURACION_MIN_EVENTO,
         stride=stride,
         output_file=output_file,
     )
@@ -352,11 +349,10 @@ def parse_arguments():
     )
     parser.add_argument(
         "--video_path",
-        default="inference/england_epl/2016-2017/2017-05-06 - 17-00 Leicester 3 - 0 Watford/1_720p_recortado.mkv",
+        default="inference/spain_laliga/2016-2017/2017-04-26 - 20-30 Barcelona 7 - 1 Osasuna/11 minutos/2_720p_recortado.mkv",
         # TODO
-        # default="inference/england_epl/2016-2017/2017-05-06 - 17-00 Leicester 3 - 0 Watford/2_720p_recortado.mkv",  # TODO
         type=str,
-        help="Ruta al archivo de vídeo del partido completo.",
+        help="Ruta del vídeo a inferir.",
     )
 
     return parser.parse_args()

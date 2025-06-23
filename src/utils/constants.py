@@ -39,19 +39,29 @@ PARTIDOS_INDICE_LOTE = [
 ]
 MAS_MENOS_CLIPS = 1.5
 
-#inferencia, video-resumen
+# inferencia, video-resumen
+# duración mínima en segundos para que un evento sea considerado válido
+# DURACION_MIN_EVENTO=3.0
+DURACION_MIN_EVENTO = 3.5
+# DURACION_MIN_EVENTO=4.0
+# DURACION_MIN_EVENTO=4.5
 UMBRALES = {
-    "Goal": 0.75,
-    "Yellow card": 0.84,
-    "Substitution": 0.79,
-    "Corner": 0.92,
+    "Goal": 0.9034,
+    "Yellow card": 0.9334,
+    "Substitution": 0.8534,
+    "Corner": 0.9434,
 }
-"""
-UMBRALES = {
-    "Goal": 0.999,
-    "Yellow card": 0.999,
-    "Substitution": 0.999,
-    "Corner": 0.999,
+"""UMBRALES = {
+    "Goal": 0.9034,
+    "Yellow card": 0.9334,
+    "Substitution": 0.8534,
+    "Corner": 0.9434,
+}"""
+"""UMBRALES = {
+    "Goal": 0.9999,
+    "Yellow card": 0.9999,
+    "Substitution": 0.9999,
+    "Corner": 0.9999,
 }"""
 SOCCERNET_LABELS_ES = {
     "Goal": "Gol",
@@ -59,7 +69,7 @@ SOCCERNET_LABELS_ES = {
     "Substitution": "Sustitucion",  # moviepy, el 'font' por defecto no soporta caracteres especiales
     "Corner": "Saque de esquina",
 }
-BUFFER_SECONDS = 3.0
+BUFFER_SECONDS = 4.0
 PATH_RESOURCES = "src/resources/"
 
 #

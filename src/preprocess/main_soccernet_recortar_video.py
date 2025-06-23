@@ -81,7 +81,7 @@ def cut(
                 with VideoFileClip(original_filepath) as video:
                     if video.duration < (45 * 60.0):
                         logger.warning(
-                            f"Al parecer '{filename}' NO es un video de soccernet. Su duración es menor a 45.00 minutos. Saltando.")
+                            f"El video '{filename}' tiene menos de 45.00 minutos. Saltando.")
                         continue
 
                     if corte_inicial_seconds >= video.duration:
@@ -139,20 +139,20 @@ def parse_arguments():
     )
     parser.add_argument(
         "--corte_inicial",
-        default=0.0,  # TODO
+        default=11.0,  # TODO
         type=ut.non_negative_float,
         help="Corte incial en el minuto X del video.",
     )
     parser.add_argument(
         "--longitud",
-        default=1.0,  # TODO
+        default=11.0,  # TODO
         type=ut.non_negative_float,
         help="Duración en minutos del recorte.",
     )
     parser.add_argument(
         "--partidos_indice",
         #default=[417, 436, 438, 452, 474, 499],  # para inferencia (modelos entrenados jamas vieron estos partidos)
-        default=[417],
+        default=[499],
         type=ut.non_negative_int,
         nargs="+",
         help="Índice del partido (deben estar descargados).",
