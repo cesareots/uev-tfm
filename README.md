@@ -39,6 +39,9 @@
 ### main_resnet.py
 - Implementa la estrategia de Transfer Learning usando un modelo R(2+1)D ResNet pre-entrenado. Configura el fine-tuning de capas, establece optimizadores con tasas de aprendizaje diferenciales y llama al engine_training para adaptar el modelo a la tarea de clasificación de acciones.
 
+### load_models.py
+- Además de cargar el modelo, determina y proporciona las transformaciones de datos adecuadas para la entrada esperada por el modelo cargado.
+
 ### main_transforms_visualize.py
 - Es un script de depuración para visualizar el efecto de las transformaciones de datos. Carga muestras de video, les aplica las cadenas de aumento definidas en transforms.py y guarda imágenes de los fotogramas resultantes para verificar que el preprocesamiento funciona correctamente.
 
