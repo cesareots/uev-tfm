@@ -17,12 +17,13 @@ downloader = SoccerNetDownloader(LocalDirectory=DS_SOCCERNET_RAW)
 downloader.password = SOCCERNET_PASSWORD
 ACCIONES_RECORTAR = ut.extraer_claves_ordenadas(SOCCERNET_LABELS)
 
-SPLIT=[
+SPLIT = [
     "train",
     "valid",
     "test",
     # "challenge",  # dataset de retos para nuevos releases
 ]
+
 
 def config_log() -> None:
     ut.verify_directory(LOG_DIR)
@@ -385,12 +386,12 @@ def parse_arguments():
         # default=ut.obtener_numeros(PARTIDOS_INDICE_LOTE[13])  # TODO lote 13
         # default=ut.obtener_numeros(PARTIDOS_INDICE_LOTE[14])  # TODO lote 14
         # default=ut.obtener_numeros(PARTIDOS_INDICE_LOTE[15])  # TODO lote 15
-        #default=[417],  # para inferencia, england_epl
-        #default=[436],  # para inferencia, europe_uefa-champions-league
-        #default=[438],  # para inferencia, france_ligue-1
-        #default=[452],  # para inferencia, germany_bundesliga
-        #default=[474],  # para inferencia, italy_serie-a
-        #default=[499],  # para inferencia, spain_laliga
+        # default=[417],  # para inferencia, england_epl
+        # default=[436],  # para inferencia, europe_uefa-champions-league
+        # default=[438],  # para inferencia, france_ligue-1
+        # default=[452],  # para inferencia, germany_bundesliga
+        # default=[474],  # para inferencia, italy_serie-a
+        # default=[499],  # para inferencia, spain_laliga
         type=ut.non_negative_int,
         nargs="+",
         help="Índice de cada partido que desea descargar, valores enteros entre 0 y 500.",

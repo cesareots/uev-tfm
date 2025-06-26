@@ -1,4 +1,3 @@
 TODO:
 - llevarlo a docker
-- probar con yolo 12, este utiliza tecnicas de transformers
 - 

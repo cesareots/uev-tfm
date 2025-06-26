@@ -59,7 +59,7 @@ def cut(
         logger.error(f"La longitud ({longitud} minutos) del clip no puede ser negativo.")
         return []
 
-    #logger.info(f"Partido elegido para recortar sus videos (.mkv): '{directory}'")
+    # logger.info(f"Partido elegido para recortar sus videos (.mkv): '{directory}'")
     corte_inicial_seconds = corte_inicial * 60.0
     time_len_seconds = longitud * 60.0
     cut_video_paths = []
@@ -129,7 +129,7 @@ def main(args) -> None:
             corte_inicial=args.corte_inicial,
             longitud=args.longitud,
         )
-        #logger.info(f"saved_clips:\n{saved_clips}")
+        # logger.info(f"saved_clips:\n{saved_clips}")
 
 
 def parse_arguments():
@@ -151,7 +151,7 @@ def parse_arguments():
     )
     parser.add_argument(
         "--partidos_indice",
-        #default=[417, 436, 438, 452, 474, 499],  # para inferencia (modelos entrenados jamas vieron estos partidos)
+        # default=[417, 436, 438, 452, 474, 499],  # para inferencia (modelos entrenados jamas vieron estos partidos)
         default=[499],
         type=ut.non_negative_int,
         nargs="+",

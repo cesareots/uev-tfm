@@ -10,17 +10,16 @@ import torch
 import torch.nn as nn
 import torchvision.io
 import torchvision.transforms.v2 as T_v2
-from torchvision.models.video import r2plus1d_18, R2Plus1D_18_Weights
 from tqdm import tqdm
 
-from src.models.main_cnn3d import SimpleCNN3D, FRAMES_PER_CLIP, TARGET_SIZE_DATASET
+from src.models.main_cnn3d import FRAMES_PER_CLIP
 from src.models.main_resnet import TRANSFER_MODEL_FRAMES_PER_CLIP
-from src.models.transforms import get_transforms_cnn3d_grayscale, get_transforms_resnet
+from src.postprocess.load_models import load_model_and_transforms
 from src.postprocess.video_resumen_engine import video_resumen_moviepy
 from src.preprocess.dataset_soccernet import INV_LABEL_MAP
-from src.preprocess.dataset_soccernet import get_output_size_from_transforms
 from src.utils import utils as ut
-from src.utils.constants import SOCCERNET_LABELS, LOG_DIR, LOG_INFERENCE, MAS_MENOS_CLIPS, UMBRALES, BUFFER_SECONDS,DURACION_MIN_EVENTO
+from src.utils.constants import SOCCERNET_LABELS, LOG_DIR, LOG_INFERENCE, MAS_MENOS_CLIPS, UMBRALES, BUFFER_SECONDS, \
+    DURACION_MIN_EVENTO
 
 logger = logging.getLogger(__name__)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -37,56 +36,6 @@ def config_log() -> None:
         level=logging.INFO,
         encoding="utf-8",
     )
-
-
-def load_model_and_transforms(
-        checkpoint_path: Path,
-        model_type: str,
-        num_classes: int,
-        device: torch.device,
-        frames_per_clip: int,
-):
-    try:
-        logger.info(f"Cargando checkpoint desde '{checkpoint_path}'")
-        checkpoint = torch.load(
-            checkpoint_path,
-            map_location=device,
-            # weights_only=False,
-        )
-        transforms = None
-
-        if model_type == "CNN3D":
-            logger.info(f"Instanciando modelo {model_type}.")
-            train_transforms, val_transforms, input_channels = get_transforms_cnn3d_grayscale(TARGET_SIZE_DATASET)
-            transforms = val_transforms
-            expected_size = get_output_size_from_transforms(transforms)
-            model = SimpleCNN3D(
-                num_classes=num_classes,
-                input_channels=input_channels,
-                input_frames=frames_per_clip,
-                input_size=expected_size,
-            )
-        elif model_type == "RESNET":
-            logger.info(f"Instanciando modelo {model_type}.")
-            weights = R2Plus1D_18_Weights.KINETICS400_V1
-            model = r2plus1d_18(weights=weights)
-            num_original_features = model.fc.in_features
-            model.fc = nn.Linear(num_original_features, num_classes)
-            train_transforms, transforms = get_transforms_resnet(weights)
-        else:
-            log_con = f"Tipo de modelo '{model_type}' no soportado."
-            logger.error(log_con)
-            raise ValueError(log_con)
-
-        model.load_state_dict(checkpoint["model_state_dict"])
-        model.to(device)
-        model.eval()
-
-        return model, transforms
-    except RuntimeError as e:
-        logger.error(f"En RuntimeError: {str(e)}")
-    except Exception as e:
-        logger.error(f"En Exception: {str(e)}")
 
 
 def run_sliding_window(
@@ -240,13 +189,14 @@ def post_process_predictions(
 
     # Filtrar eventos que son demasiado cortos
     final_events = [e for e in events if (e['fin'] - e['inicio']) >= min_event_duration]
-    logger.info(f"Se detectaron {len(final_events)} eventos significativos. Para que un evento sea significativo debe durar al menos: {min_event_duration:.2f} segundos")
+    logger.info(
+        f"Se detectaron {len(final_events)} eventos significativos. Para que un evento sea significativo debe durar al menos: {min_event_duration:.2f} segundos")
 
     if not final_events:
         logger.info("No se detectaron eventos significativos que cumplan con los criterios.")
     else:
         for event in final_events:
-            #start_time_str = time.strftime("%H:%M:%S", time.gmtime(event['inicio']))
+            # start_time_str = time.strftime("%H:%M:%S", time.gmtime(event['inicio']))
             start_time_str = time.strftime("%M:%S", time.gmtime(event["inicio"]))
             end_time_str = time.strftime("%M:%S", time.gmtime(event["fin"]))
             log_con = f"Evento: {event['evento']:<15} | Inicio: {start_time_str} ({event['inicio']:.2f}s) | Fin: {end_time_str} ({event['fin']:.2f}s) | Confianza promedio: {event['confianza_promedio']:.2f}"
@@ -304,11 +254,11 @@ def main(args):
     stride = 2.0
     umbral_defecto = 0.75
     logger.info(f"Usando umbrales de confianza por clase: {UMBRALES}")
-    
+
     t_start = time.time()
     raw_predictions = puente(frames_per_clip, ruta_video, stride, raw_predictions_json)
-    #raw_predictions = ut.leer_predicciones_json(raw_predictions_json)  # TODO solo para debug
-    
+    # raw_predictions = ut.leer_predicciones_json(raw_predictions_json)  # TODO solo para debug
+
     final_events = post_process_predictions(
         raw_predictions=raw_predictions,
         confidence_thresholds=UMBRALES,

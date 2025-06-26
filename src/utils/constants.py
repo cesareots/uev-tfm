@@ -45,6 +45,12 @@ MAS_MENOS_CLIPS = 1.5
 DURACION_MIN_EVENTO = 3.5
 # DURACION_MIN_EVENTO=4.0
 # DURACION_MIN_EVENTO=4.5
+"""UMBRALES = {
+    "Goal": 0.9334,
+    "Yellow card": 0.8934,
+    "Substitution": 0.8534,
+    "Corner": 0.9434,
+}"""
 UMBRALES = {
     "Goal": 0.9034,
     "Yellow card": 0.9334,

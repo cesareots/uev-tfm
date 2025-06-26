@@ -2,6 +2,7 @@ import argparse
 import logging
 import random
 import sys
+from pathlib import Path
 
 import numpy as np
 import torch
@@ -12,6 +13,7 @@ from torchvision.models.video import r2plus1d_18, R2Plus1D_18_Weights
 
 from src.models.engine_training import train_model, evaluate_model, extras
 from src.models.transforms import get_transforms_resnet
+from src.postprocess.load_models import load_model_and_transforms
 from src.preprocess.dataset_soccernet import NUM_CLASSES, CLIP_DURATION_SEC, get_output_size_from_transforms, \
     crear_dividir_dataset_t_v_t
 from src.utils import utils as ut
@@ -20,8 +22,8 @@ from src.utils.constants import *
 logger = logging.getLogger(__name__)
 
 # según VRAM (en cuda)
-#BATCH_SIZE = 16
-#BATCH_SIZE = 32
+# BATCH_SIZE = 16
+# BATCH_SIZE = 32
 BATCH_SIZE = 64
 
 # Configurar Optimizador con Tasa de Aprendizaje Diferencial
@@ -179,7 +181,7 @@ def main(args):
         lr_scheduler_factor=LR_SCHEDULER_FACTOR,
         lr_scheduler_patience=LR_SCHEDULER_PATIENCE,
     )"""
-    
+
     start_epoch = 0
     initial_best_val_metric = None
 
@@ -257,9 +259,67 @@ def main(args):
         criterion=criterion,
         device=device,
         per_epoch_eval=False,
+        class_names=SOCCERNET_LABELS.keys(),
     )
 
     logger.info(f"Proceso total finalizado... Checkpoints se encuentran en '{checkpoint_dir_run}'")
+
+
+def main_evaluar(args):
+    logger.info("Iniciando arquitectura  de modelo RESNET - Transfer Learning con R(2+1)D_18.")
+    logger.info(f"Usando dispositivo: {device}")
+    logger.info(f"Frames por clip: {TRANSFER_MODEL_FRAMES_PER_CLIP}, Duración clip: {CLIP_DURATION_SEC}s")
+    logger.info("Iniciando modo de SÓLO EVALUACIÓN para el modelo RESNET.")
+
+    if not args.resume_checkpoint_file:
+        logger.error(
+            "Para la evaluación, es obligatorio proporcionar la ruta al checkpoint con '--resume_checkpoint_file'.")
+        sys.exit(1)
+
+    #
+    model, transforms = load_model_and_transforms(
+        checkpoint_path=Path(args.resume_checkpoint_file),
+        model_type="RESNET",
+        num_classes=len(SOCCERNET_LABELS),
+        device=device,
+        frames_per_clip=TRANSFER_MODEL_FRAMES_PER_CLIP,
+    )
+    model = model.to(device)
+    logger.info("Modelo cargado para evaluación.")
+
+    expected_size = get_output_size_from_transforms(transforms)
+
+    if expected_size is None:
+        # logger.warning("No se pudo determinar el tamaño de salida de las transformaciones. En este modelo 'r2plus1d_18' se conoce el tamaño esperado (112, 112)")
+        # expected_size=(112, 112)
+        logger.error("No se pudo determinar el tamaño de salida de las transformaciones. Saliendo.")
+        sys.exit(1)
+
+    # Crear dataloaders. Solo necesitamos el de 'test'. Usamos las mismas transformaciones de validación/test para la evaluación.
+    train_dataloader, val_dataloader, test_dataloader = crear_dividir_dataset_t_v_t(
+        frames_per_clip=TRANSFER_MODEL_FRAMES_PER_CLIP,
+        target_fps=TARGET_FPS,
+        train_transforms=None,  # No es necesario para evaluar
+        validation_test_transforms=transforms,
+        expected_output_size=expected_size,
+        batch_size=BATCH_SIZE,
+        # Estos splits deben ser los mismos que en el entrenamiento
+        train_split=0.7,
+        val_split=0.15,
+        test_split=0.15,
+    )
+
+    # Definir el criterio de pérdida para la evaluación
+    criterion = nn.CrossEntropyLoss()
+    logger.info("Iniciando evaluación final, en 'TEST' (datos no vistos)")
+    evaluate_model(
+        model=model,
+        dataloader=test_dataloader,
+        criterion=criterion,
+        device=device,
+        per_epoch_eval=False,
+        class_names=SOCCERNET_LABELS.keys(),  # Pasar los nombres de las clases para un informe detallado
+    )
 
 
 def parse_arguments():
@@ -276,7 +336,8 @@ def parse_arguments():
     parser.add_argument(
         "--resume_checkpoint_file",
         default=None,  # empezará un nuevo entrenamiento
-        # default="20250607-032043/model_RESNET_best.pth",  # TODO
+        # default="20250617-184706/model_RESNET_best.pth",  # TODO para reanudar entrenamiento
+        # default="models/RESNET/20250617-184706/model_RESNET_best.pth",  # TODO para evaluacion
         type=str,
         help="Ruta relativa o absoluta para reanudar entrenamiento desde un .pth.",
     )
@@ -289,3 +350,4 @@ if __name__ == "__main__":
     config_log()
     ut.verify_system()
     main(args)
+    # main_evaluar(args)
