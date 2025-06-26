@@ -1,3 +1,0 @@
-TODO:
-- llevarlo a docker
-- 

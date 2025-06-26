@@ -4,7 +4,8 @@ dataset/soccernet_actions/
 dataset/soccernet_actions_2/
 #results/
 #log/
-models/
+models/CNN3D
+models/RESNET
 inference/*
 !inference/SoccerNet_list_games_for_inference.txt
 
