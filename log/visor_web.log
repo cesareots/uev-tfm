@@ -1,0 +1,4 @@
+2025-07-01 16:44:51 - src.utils.utils - INFO - Verificación completada, iniciando sistema 🚀🚀🚀
+2025-07-01 16:44:51 - __main__ - INFO - Iniciando generación de visor web en 'inference\spain_laliga\2016-2017\2017-04-26 - 20-30 Barcelona 7 - 1 Osasuna\11 minutos\resumen_interactivo.html'
+2025-07-01 16:44:51 - __main__ - INFO - Visor web generado exitosamente en: 'inference\spain_laliga\2016-2017\2017-04-26 - 20-30 Barcelona 7 - 1 Osasuna\11 minutos\resumen_interactivo.html'
+2025-07-01 16:44:51 - __main__ - INFO - Abre ese archivo en tu navegador. Asegúrate de que los vídeos estén en la misma carpeta que el HTML.

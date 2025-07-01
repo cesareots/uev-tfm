@@ -4,6 +4,7 @@ dataset/soccernet_actions/
 dataset/soccernet_actions_2/
 #results/
 #log/
+pocs/
 models/CNN3D
 models/RESNET
 inference/*

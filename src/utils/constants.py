@@ -103,6 +103,7 @@ LOG_MODEL_CNN3D = f"{LOG_DIR}model_cnn3d.log"
 LOG_MODEL_RESNET = f"{LOG_DIR}model_resnet.log"
 LOG_INFERENCE = f"{LOG_DIR}inference.log"
 LOG_TRANSFORMS_VISUALIZE = f"{LOG_DIR}transforms_visualize.log"
+LOG_VISOR_WEB = f"{LOG_DIR}visor_web.log"
 
 #
 EXT_TXT = ".txt"

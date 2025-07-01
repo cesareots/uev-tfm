@@ -143,8 +143,9 @@ def visualizar_cada_clase(
         save_path=output_path,
         mean=mean,
         std=std,
-        num_frames_to_show=6,
-        title=f"Muestra de '{label_name}' después de transformaciones '{mod}'\n{Path(video_path).name}"
+        num_frames_to_show=4,
+        #title=f"Muestra de '{label_name}' después de transformaciones '{mod}'\n{Path(video_path).name}"
+        title=f"Transformaciones '{mod}'\n{Path(video_path).name}"
     )
 
 
@@ -166,7 +167,7 @@ def parse_arguments():
         "--nada",
         default=None,
         type=str,
-        help="..",
+        help="...",
     )
 
     return parser.parse_args()
